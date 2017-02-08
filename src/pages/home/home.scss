@@ -1,0 +1,54 @@
+page-home {
+  ion-content {
+    background-image: url("../assets/img/flag_ru.png");
+    background-size: contain;
+    background-repeat-y: no-repeat;
+  }
+
+  .footer {
+    background-image: url("../assets/img/buttons_img.png");
+    // background-size: co;
+  }
+
+  .no-scroll .scroll-content {
+    overflow: hidden;
+  }
+
+  ion-footer {
+    padding: 30px;
+  }
+
+  .footer-md::before {
+    background: none;
+  }
+
+  .toolbar-background {
+    background: none;
+    border: none;
+  }
+
+  button {
+    box-shadow: none!important;
+    margin: 0.4rem 0.2rem!important;
+    padding: 0 1em!important;
+    height: 2.8em!important;
+    /* border-radius: 4px; */
+    font-size: 1.6rem!important;
+    font-weight: 300!important;
+    text-transform: none!important;
+  }
+}
+
+#city_logo {
+  width: 70%;
+  margin: 0 auto;
+}
+
+#city_logo img {
+  border-radius: 115px;
+  -moz-border-radius: 115px;
+  -webkit-border-radius: 115px;
+  -webkit-box-shadow: 0 0 30px 0 rgba(0,0,0,0.80);
+  -moz-box-shadow: 0 0 30px 0 rgba(0,0,0,0.80);
+  box-shadow: 0 0 30px 0 rgba(0,0,0,0.80);
+}

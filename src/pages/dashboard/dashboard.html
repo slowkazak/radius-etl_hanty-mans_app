@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-searchbar (input)="getItems($event)" placeholder="Поиск" [(ngModel)]="searchBar"></ion-searchbar>
+    <div class="header-title">
+      <p>{{auth.user.city}}</p>
+    </div>
+  </ion-toolbar>
+  <div class="filters">
+    <button ion-button outline color="dark" icon-left (click)="this.navCtrl.pop()" style="float: left;">
+      <ion-icon name="md-arrow-back"></ion-icon>
+      Назад
+    </button>
+    <button ion-button round color="primary" icon-left (click)="this.navCtrl.push(UserObjectsPage)" [disabled]="!auth.user.access_token">
+      <ion-icon name="ios-contact-outline"></ion-icon>
+      Моё
+    </button>
+  </div>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let item of data" (click)=openObject(item)>
+    <div class="card-img">
+      <img src="http://admhmansy.ru/map/serviceimage/{{item.User_Image}}"/>
+      <div class="card-date">
+        <ion-icon color="primary" name="ios-calendar-outline"></ion-icon>
+        {{item.Date_Change | convertDate}}
+      </div>
+    </div>
+    <ion-card-content>
+      <p>
+        {{item.User_Message}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+<ion-footer>
+  <span></span>
+  <ion-toolbar color="white">
+    <!-- <p>Ash, Misty, Brock</p> -->
+    <button ion-button icon-only color="dark-red" (click)="addObject()" [disabled]="!auth.user.access_token">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-buttons end>
+      <button ion-button icon-right color="royal" (click)=openStatusChange()>
+        Фильтры
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

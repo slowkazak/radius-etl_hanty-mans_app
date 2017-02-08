@@ -1,0 +1,38 @@
+<!--
+  Generated template for the ObjectDetail page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>{{data.Type_Name}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <div class="card-img">
+      <img src="http://admhmansy.ru/map/serviceimage/{{data.User_Image}}"/>
+      <div class="card-status">
+        {{data.Status_Name}}
+      </div>
+    </div>
+    <div class="card-date">
+      <ion-icon color="primary" name="ios-calendar-outline"></ion-icon>
+      {{data.Date_Change | convertDate}}
+    </div>
+    <div class="card-location">
+      <ion-icon name="pin" color="pinky"></ion-icon>
+      {{street}}
+    </div>
+    <ion-card-content>
+      <p>
+        {{data.User_Message}}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

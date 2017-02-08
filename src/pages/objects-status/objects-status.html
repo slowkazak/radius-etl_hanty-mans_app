@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-toolbar>
+      <ion-title>
+        Фильтры
+      </ion-title>
+      <ion-buttons start>
+        <button ion-button (click)="dismiss()">
+          <span color="positive" showWhen="ios">Закрыть</span>
+          <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-item-group>
+    <ion-item-divider color="light">Статус заявок</ion-item-divider>
+    <ion-item>
+      <ion-label>Решён</ion-label>
+      <ion-checkbox [(ngModel)]=filter?.status.solved></ion-checkbox>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Предложение принято</ion-label>
+      <ion-checkbox [(ngModel)]=filter?.status.accepted></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>В работе</ion-label>
+      <ion-checkbox [(ngModel)]=filter?.status.processing></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Не решён</ion-label>
+      <ion-checkbox [(ngModel)]=filter?.status.not_solved></ion-checkbox>
+    </ion-item>
+  </ion-item-group>
+  <ion-item-group>
+    <ion-item-divider color="light">Отображать на карте</ion-item-divider>
+    <ion-item>
+      <ion-label>Несанкционированные свалки</ion-label>
+      <ion-checkbox [(ngModel)]=filter?.display.dumps></ion-checkbox>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Дефекты дорожного покрытия</ion-label>
+      <ion-checkbox [(ngModel)]=filter?.display.roads></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Правонарушения</ion-label>
+      <ion-checkbox [(ngModel)]=filter?.display.offense></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Улучшим наш город</ion-label>
+      <ion-checkbox [(ngModel)]=filter?.display.improve></ion-checkbox>
+    </ion-item>
+  </ion-item-group>
+</ion-content>

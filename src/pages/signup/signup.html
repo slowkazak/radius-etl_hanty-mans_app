@@ -1,0 +1,35 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>Создать аккаунт</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <form [formGroup]="signup_form" (ngSubmit)="signUp()">
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Фамилия</ion-label>
+      <ion-input type="text" formControlName="second_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Имя</ion-label>
+      <ion-input type="text" formControlName="first_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Мобильный телефон или почта</ion-label>
+      <ion-input type="text" formControlName="login"></ion-input>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-input type="text" placeholder="Или электронная почта" formControlName="email"></ion-input>
+    </ion-item> -->
+    <ion-item>
+      <ion-label floating>Пароль</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button ion-button block type="submit" [disabled]="!signup_form.valid">Зарегистрироваться</button>
+</form>
+</ion-content>

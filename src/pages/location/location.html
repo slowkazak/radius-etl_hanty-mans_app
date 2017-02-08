@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Местоположение</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Поиск" (input)="getItems($event)" showCancelButton="true"></ion-searchbar>
+  </ion-toolbar>
+  <ion-list>
+    <button ion-item (click)=getPosition()>
+      <ion-icon name="ios-navigate" color="pinky" item-left></ion-icon>
+      Текущее местоположение
+    </button>
+    <button ion-item *ngFor="let item of items" (click)="goToMenu(item.name)">
+      <ion-icon name="pin" color="pinky" item-left></ion-icon>
+      {{ item.name }}
+      <p>{{item.state}}</p>
+    </button>
+  </ion-list>
+</ion-content>

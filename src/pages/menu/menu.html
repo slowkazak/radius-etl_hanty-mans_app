@@ -1,0 +1,66 @@
+<ion-header>
+
+  <ion-toolbar>
+    <button ion-button round color="light" [hidden]="!auth.user.access_token">
+      {{auth.user.points}}
+      {{auth.user.second_name}}
+      <!-- <ion-icon name="exit"></ion-icon> -->
+    </button>
+    <button ion-button round class="exit_button" (click)="exit()">
+      Выйти
+      <!-- <ion-icon name="exit"></ion-icon> -->
+    </button>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <div class="cards">
+    <ion-card>
+      <img src="assets/img/city_view.png"/>
+      <!-- <div class="card-title">Новости</div> -->
+      <!-- <div class="card-subtitle">Все службы Ханты-Мансийска готовы к новогодним праздникам</div> -->
+    </ion-card>
+  </div>
+  <ion-list>
+    <button ion-item (click)=openPage(DashboardPage)>
+      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
+      Улучшим наш город
+    </button>
+    <button ion-item (click)=openPage(PoolsPage) [disabled]="!auth.user.access_token">
+      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
+      Опросы
+    </button>
+    <button ion-item (click)=navCtrl.push(OmsPage)>
+      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
+      Запись на приём в ОМС
+    </button>
+    <button ion-item (click)=navCtrl.push(ServicesPage)>
+      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
+      Услуги МФЦ
+    </button>
+  </ion-list>
+
+</ion-content>
+
+<!-- <ion-footer>
+  <ion-toolbar>
+    <div class="img_list">
+      <div class="item">
+        <ion-thumbnail item-left>
+          <img src="assets/img/card-saopaolo.png">
+        </ion-thumbnail>
+      </div>
+      <div class="item">
+        <ion-thumbnail item-left>
+          <img src="assets/img/card-saopaolo.png">
+        </ion-thumbnail>
+      </div>
+      <div class="item">
+        <ion-thumbnail item-left>
+          <img src="assets/img/card-saopaolo.png">
+        </ion-thumbnail>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer> -->

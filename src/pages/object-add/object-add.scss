@@ -1,0 +1,27 @@
+page-object-add {
+  input {
+    margin: 0!important;
+  }
+
+  .user_image .image{
+    position: relative;
+    height: 64px;
+    width: 64px;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .user_image img{
+    height: 64px;
+    width: 64px;
+  }
+
+  .user_image .delete {
+    position: absolute;
+    right: -4px;
+    top: -4px;
+  }
+
+  .action-sheet {
+
+  }
+}

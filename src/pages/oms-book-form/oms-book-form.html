@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Запись на приём</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="book_form" (ngSubmit)="book()">
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Фамилия</ion-label>
+      <ion-input type="text" formControlName="second_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Имя</ion-label>
+      <ion-input type="text" formControlName="first_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Отчество</ion-label>
+      <ion-input type="text" formControlName="patronymic"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Серия и номер паспорта</ion-label>
+      <ion-input type="text" formControlName="passport"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button ion-button block type="submit" [disabled]="!book_form.valid">Записаться</button>
+</form>
+</ion-content>
