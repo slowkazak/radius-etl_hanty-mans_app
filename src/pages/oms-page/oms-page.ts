@@ -21,7 +21,9 @@ export class OmsPage {
       })
       loader.present()
       this.oms.get(this.navParams.data.item.id).subscribe(res => {
-        this.data = res.json()
+
+        this.data = res.json();
+        console.log("OMS",this.data)
         loader.dismiss()
       }, err => {
         loader.dismiss()

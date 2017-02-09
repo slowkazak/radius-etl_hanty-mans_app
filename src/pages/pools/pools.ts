@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController, LoadingController, NavParams, ToastController } from 'ionic-angular';
-import { PoolsProvider } from '../../providers/pools-provider'
+import {Component} from '@angular/core';
+import {NavController, LoadingController, NavParams, ToastController} from 'ionic-angular';
+import {PoolsProvider} from '../../providers/pools-provider'
+import {LengProvider} from "../../providers/leng-provider";
+import _ from "lodash";
 
 @Component({
   selector: 'page-pools',
@@ -9,43 +11,59 @@ import { PoolsProvider } from '../../providers/pools-provider'
 })
 export class PoolsPage {
   data: any
-  title: string = 'Опросы'
-  stats: Array<any> = []
+  title: string = 'Опросы';
+  stats: Array<any> = [];
+  _leng: any = {};
 
-  constructor(public navCtrl: NavController, public poolsProvider: PoolsProvider, public loadingCtrl: LoadingController, public navParams: NavParams, public toastCtrl: ToastController) {}
+  constructor(public navCtrl: NavController,
+              public poolsProvider: PoolsProvider,
+              public loadingCtrl: LoadingController,
+              public navParams: NavParams,
+              public toastCtrl: ToastController,
+              private leng: LengProvider) {
+  }
 
   ionViewDidLoad() {
+    this.leng.GetLeng("polls").then(res => {
+      this._leng = _.assign({}, res);
+      console.log(this._leng)
+    }).catch(err => {
+      this._leng = _.assign({}, err);
+    });
+
+
+    //TODO Переделать
     let loader = this.loadingCtrl.create({
       content: 'Пожалуйста, подождите'
     })
     loader.present()
     if (this.navParams.data.question) {
       this.poolsProvider.getAnswers(this.navParams.data.question).subscribe(res => {
-        console.log(res.json())
-        this.data = res.json()
-        this.title = this.navParams.data.question.label
+        console.log(res.json());
+        this.data = res.json();
+        this.title = this.navParams.data.question.label;
         loader.dismiss()
       }, err => {
-        console.log(err.json())
+        console.log(err.json());
         loader.dismiss()
       })
     } else if (this.navParams.data.pool) {
       this.poolsProvider.getQuestions(this.navParams.data.pool).subscribe(res => {
-        console.log(res.json())
-        this.data = res.json()
+        console.log(res.json());
+        this.data = res.json();
         this.title = this.navParams.data.pool.label
         loader.dismiss()
       }, err => {
-        console.log(err.json())
+        console.log(err.json());
         loader.dismiss()
       })
     } else {
       this.poolsProvider.get().subscribe(res => {
-        console.log(res.json())
-        this.data = res.json()
+        console.log(res.json());
+        this.data = res.json();
         loader.dismiss()
       }, err => {
-        console.log(err.json())
+        console.log(err.json());
         loader.dismiss()
       })
     }
@@ -53,7 +71,7 @@ export class PoolsPage {
   }
 
   openItem(item: any) {
-    if (item.answer_id) this.answer(item)
+    if (item.answer_id) this.answer(item);
     else if (this.navParams.data.pool) {
       this.navCtrl.push(PoolsPage, {question: item})
     } else {

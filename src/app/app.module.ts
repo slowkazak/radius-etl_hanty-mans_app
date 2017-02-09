@@ -1,15 +1,15 @@
 import { NgModule, ErrorHandler, enableProdMode } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { Storage } from '@ionic/storage'
+import { Storage } from '@ionic/storage';
 import { MyApp } from './app.component';
-import { PagesModule } from './modules/pages.module'
-import { ServicesModule } from './modules/services.module'
-import { DashboardModule } from './modules/dashboard.module'
-import { AuthModule } from './modules/auth.module'
-import { Filter } from '../models/filters'
-import { location } from '../models/location'
-import { AuthProvider } from '../providers/auth-provider'
-
+import { PagesModule } from './modules/pages.module';
+import { ServicesModule } from './modules/services.module';
+import { DashboardModule } from './modules/dashboard.module';
+import { AuthModule } from './modules/auth.module';
+import { Filter } from '../models/filters';
+import { location } from '../models/location';
+import { AuthProvider } from '../providers/auth-provider';
+import {LengProvider} from "../providers/leng-provider"
 
 enableProdMode();
 
@@ -30,6 +30,6 @@ enableProdMode();
   entryComponents: [
     MyApp
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Filter, AuthProvider, location, Storage]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Filter, AuthProvider, LengProvider, location, Storage]
 })
 export class AppModule {}
