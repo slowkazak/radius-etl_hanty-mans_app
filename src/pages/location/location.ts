@@ -1,34 +1,121 @@
-import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
-import { Geolocation, Dialogs, Toast } from 'ionic-native';
-import { MenuPage } from '../menu/menu'
-import { AuthProvider } from '../../providers/auth-provider'
+import {Component} from '@angular/core';
+import {NavController, LoadingController, ToastController} from 'ionic-angular';
+import {Geolocation, Dialogs, Toast} from 'ionic-native';
+import {MenuPage} from '../menu/menu'
+import {AuthProvider} from '../../providers/auth-provider'
+
+
+import {GeolocationProvider} from "../../providers/geolocation-provider";
+import {LocationData} from "../../app/interfaces/location.interface";
+import {settings} from "../../app/settings/settings"
+import {LengProvider} from "../../providers/leng-provider";
 declare var ymaps: any;
 
 /*
-  Generated class for the Location page.
+ Generated class for the Location page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+ See http://ionicframework.com/docs/v2/components/#navigation for more info on
+ Ionic pages and navigation.
+ */
 @Component({
   selector: 'page-location',
   templateUrl: 'location.html'
 })
 export class LocationPage {
-  items: any
+  items: any = settings.citylist
   searchQuery: string = ''
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public auth: AuthProvider) {
+
+
+  private _leng: any = {};
+
+  constructor(private locationprov: GeolocationProvider,
+              private leng: LengProvider,
+              public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public auth: AuthProvider) {
     this.initializeItems()
   }
 
 
   ionViewDidLoad() {
+    this.leng.GetLeng("getlocation").then(res => {
+      this._leng = _.assign({}, res);
+    }).catch(err => {
+      this._leng = _.assign({}, err);
+    });
+
+
     // Geolocation.getCurrentPosition().then((res) => {
     //   console.log(res)
     // })
     console.log('Hello LocationPage Page');
   }
+
+  /**
+   * инициализация и отображение тоста
+   * @param msg
+   * @private
+   */
+  private _ToastPresent(msg: string = null) {
+    if (msg) {
+      let toast = this.toastCtrl.create({
+        message: msg,
+        duration: 2000,
+      });
+      toast.present();
+    }
+  }
+
+  /**
+   * Определение города по геопозиции
+   * @private
+   */
+  private _GetLocation() {
+    let _callback = (lat: number, lng: number) => {
+      ymaps.ready()
+        .then(() => ymaps.geocode([lat, lng], {kind: 'locality'}))
+        .then(res => {
+            res = res.geoObjects.get(0).getLocalities().pop();
+            let city = this._FindCity(res);
+            city ?
+              this.goToMenu(city) : this._ToastPresent(this._leng.city_not_found)
+          }
+        )
+        .catch(err => {
+            this._ToastPresent(this._leng.city_not_found);
+          }
+        )
+    };
+    this.locationprov.GetLocation()
+      .then((res: LocationData) => {
+        _callback(res.lat, res.lng);
+      })
+      .catch((err: LocationData) => {
+        _callback(err.lat, err.lng);
+      });
+  }
+
+
+  /**
+   * Поиск города из настроек
+   * @param city
+   * @returns {null}
+   * @private
+   */
+  private _FindCity(city: string) {
+    let _city = null;
+    try {
+      _city = settings.citylist.filter(item => item.name === city).pop();
+    }
+    catch (err) {
+      console.error("Невозможно найти город, критическая ошибка", err)
+    }
+    return _city;
+  }
+
+
+
+
+
+  //todo рефактор, затем удалить
 
 
   getItems(event: any) {
@@ -71,16 +158,18 @@ export class LocationPage {
       content: "Пожалуйста, подождите"
     })
     loader.present()
+
+
     ymaps.ready().then(() => Geolocation.getCurrentPosition())
       .then((res) => [res.coords.latitude, res.coords.longitude])
-      .then((ll) => ymaps.geocode(ll, { kind: 'locality' }))
+      .then((ll) => ymaps.geocode(ll, {kind: 'locality'}))
       .then(res =>
         // Выведем в консоль данные, полученные в результате геокодирования объекта.
         res.geoObjects.get(0).getLocalities()
       ).then(city => {
-        this.findCity(city[0])
-        loader.dismiss()
-      })
+      this.findCity(city[0])
+      loader.dismiss()
+    })
       .catch(err => {
         Dialogs.alert('Не удалось определить местоположение', 'Ошибка')
         this.toastCtrl.create({

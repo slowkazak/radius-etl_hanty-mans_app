@@ -1,3 +1,4 @@
+//todo удалить это говно
 export class location {
   coords: Array<number>
 

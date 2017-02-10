@@ -10,6 +10,7 @@ import { Filter } from '../models/filters';
 import { location } from '../models/location';
 import { AuthProvider } from '../providers/auth-provider';
 import {LengProvider} from "../providers/leng-provider"
+import {GeolocationProvider} from "../providers/geolocation-provider";
 
 enableProdMode();
 
@@ -30,6 +31,6 @@ enableProdMode();
   entryComponents: [
     MyApp
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Filter, AuthProvider, LengProvider, location, Storage]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Filter, AuthProvider, location, Storage, LengProvider, GeolocationProvider]
 })
 export class AppModule {}
