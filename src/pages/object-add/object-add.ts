@@ -238,7 +238,7 @@ export class ObjectAddPage {
   }
 
   openMap() {
-    this.navCtrl.push(LocationSelectPage)
+    this.navCtrl.push(LocationSelectPage, {title: this.form.value})
   }
 
 

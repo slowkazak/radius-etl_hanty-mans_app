@@ -3,6 +3,7 @@ import {NavController, ViewController, NavParams} from 'ionic-angular';
 import {ObjectsService} from '../../providers/objects-service'
 import {location} from '../../models/location'
 import {GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, CameraPosition} from 'ionic-native'
+
 import {GeolocationProvider} from "../../providers/geolocation-provider";
 import {LocationData} from "../../app/interfaces/location.interface";
 
@@ -19,14 +20,19 @@ export class LocationSelectPage {
   map: any
 
   constructor(private locationprov: GeolocationProvider,
-              public navCtrl: NavController, private service: ObjectsService, private viewCtrl: ViewController, private navParams: NavParams, public location: location) {
+              private navParams: NavParams,
+
+              public navCtrl: NavController, private service: ObjectsService, private viewCtrl: ViewController, public location: location) {
   }
 
-  ionViewDidLoad() {
-    console.log('Hello LocationSelectPage Page');
+  ngAfterViewInit() {
+    console.log('Hello description LocationSelectPage Page');
     this.locationprov.GetLocation()
-      .then((res: LocationData) => this._InitMap(res.lat, res.lng))
-      .catch((err: LocationData) => this._InitMap(err.lat, err.lng));
+      .then((res: LocationData) => {
+      this._InitMap(res.lat, res.lng)})
+      .catch((err: LocationData) => {
+      this._InitMap(err.lat, err.lng)}
+      );
     // this.loadMap()
   }
 
@@ -40,15 +46,14 @@ export class LocationSelectPage {
 
   private _InitMap(lat: number, lng: number) {
     let init = () => {
-      "use strict";
-      this._ymaps = new ymaps.Map("map", {
+      this._ymaps = new ymaps.Map("map_", {
         center: [lat, lng],
         zoom: 13,
         controls: []
       });
 
       this._ymaps.events.add('click', (e) => {
-        this._marker_placeable ? this._SetMarker(e) : false
+        this._marker_placeable ? this._SetMarker(e,this.navParams.get("title").description) : false
       });
     };
     ymaps.ready(init);
@@ -65,9 +70,16 @@ export class LocationSelectPage {
     let coords = [];
     try {
       let _callback = (lat: number, lng: number) => {
+
         let myPlacemark = new ymaps.Placemark(
-          [lat, lat], {iconContent: title}
+          [lat, lng], {
+            balloonContent: '',
+            iconCaption: title
+          }, {
+            preset: 'islands#greenDotIconWithCaption'
+          }
         );
+        this._ymaps.geoObjects.removeAll();
         this._ymaps.geoObjects.add(myPlacemark);
       };
       coords.push(...ev.get('coords'));
@@ -125,14 +137,14 @@ export class LocationSelectPage {
   }
 
   selectPoint() {
-    let map = this.map
-    map.getCameraPosition().then(camera => {
-      this.location.set(camera.target.lat, camera.target.lng)
-      console.log(this.location.get())
-      this.navCtrl.pop()
-    }, err => {
-
-    })
+    // let map = this.map
+    // map.getCameraPosition().then(camera => {
+    //   this.location.set(camera.target.lat, camera.target.lng)
+    //   console.log(this.location.get())
+    //   this.navCtrl.pop()
+    // }, err => {
+    //
+    // })
   }
 
 }

@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
-import {NavController, LoadingController, ToastController} from 'ionic-angular';
-import {Geolocation, Dialogs, Toast} from 'ionic-native';
+import {NavController, LoadingController, } from 'ionic-angular';
+// import {Geolocation, Dialogs, Toast} from 'ionic-native';
+import { Toast } from 'ionic-native';
 import {MenuPage} from '../menu/menu'
 import {AuthProvider} from '../../providers/auth-provider'
 
-
+import _ from "lodash";
 import {GeolocationProvider} from "../../providers/geolocation-provider";
 import {LocationData} from "../../app/interfaces/location.interface";
 import {settings} from "../../app/settings/settings"
@@ -30,12 +31,15 @@ export class LocationPage {
 
   constructor(private locationprov: GeolocationProvider,
               private leng: LengProvider,
-              public navCtrl: NavController, public loadingCtrl: LoadingController, public toastCtrl: ToastController, public auth: AuthProvider) {
+              public navCtrl: NavController, public loadingCtrl: LoadingController, public auth: AuthProvider) {
     this.initializeItems()
   }
 
 
   ionViewDidLoad() {
+
+
+
     this.leng.GetLeng("getlocation").then(res => {
       this._leng = _.assign({}, res);
     }).catch(err => {
@@ -56,11 +60,11 @@ export class LocationPage {
    */
   private _ToastPresent(msg: string = null) {
     if (msg) {
-      let toast = this.toastCtrl.create({
-        message: msg,
-        duration: 2000,
-      });
-      toast.present();
+      Toast.show(msg, '2000', 'bottom').subscribe(
+        toast => {
+          console.log(toast);
+        }
+      );
     }
   }
 
@@ -73,6 +77,7 @@ export class LocationPage {
       ymaps.ready()
         .then(() => ymaps.geocode([lat, lng], {kind: 'locality'}))
         .then(res => {
+          console.info(res.geoObjects.get(0).getLocalities().pop());
             res = res.geoObjects.get(0).getLocalities().pop();
             let city = this._FindCity(res);
             city ?
@@ -80,6 +85,7 @@ export class LocationPage {
           }
         )
         .catch(err => {
+          console.error(err)
             this._ToastPresent(this._leng.city_not_found);
           }
         )
@@ -141,11 +147,11 @@ export class LocationPage {
     let res = this.items.filter(item => {
       return item.name.indexOf(city) > -1
     })[0]
-    if (!res)
-      this.toastCtrl.create({
-        message: 'Не удалось определить город. Пожалуйста, выберете вручную',
-        duration: 3000
-      }).present()
+    if (!res) {}
+      // this.toastCtrl.create({
+      //   message: 'Не удалось определить город. Пожалуйста, выберете вручную',
+      //   duration: 3000
+      // }).present()
     else {
       this.goToMenu(res.name)
     }
@@ -153,33 +159,33 @@ export class LocationPage {
     return res
   }
 
-  public getPosition() {
-    let loader = this.loadingCtrl.create({
-      content: "Пожалуйста, подождите"
-    })
-    loader.present()
-
-
-    ymaps.ready().then(() => Geolocation.getCurrentPosition())
-      .then((res) => [res.coords.latitude, res.coords.longitude])
-      .then((ll) => ymaps.geocode(ll, {kind: 'locality'}))
-      .then(res =>
-        // Выведем в консоль данные, полученные в результате геокодирования объекта.
-        res.geoObjects.get(0).getLocalities()
-      ).then(city => {
-      this.findCity(city[0])
-      loader.dismiss()
-    })
-      .catch(err => {
-        Dialogs.alert('Не удалось определить местоположение', 'Ошибка')
-        this.toastCtrl.create({
-          message: 'Не удалось определить местоположение. Пожалуйста, выберете город вручную',
-          duration: 3000
-        }).present()
-        loader.dismiss()
-        console.log(err)
-      })
-  }
+  // public getPosition() {
+  //   let loader = this.loadingCtrl.create({
+  //     content: "Пожалуйста, подождите"
+  //   })
+  //   loader.present()
+  //
+  //
+  //   ymaps.ready().then(() => Geolocation.getCurrentPosition())
+  //     .then((res) => [res.coords.latitude, res.coords.longitude])
+  //     .then((ll) => ymaps.geocode(ll, {kind: 'locality'}))
+  //     .then(res =>
+  //       // Выведем в консоль данные, полученные в результате геокодирования объекта.
+  //       res.geoObjects.get(0).getLocalities()
+  //     ).then(city => {
+  //     this.findCity(city[0])
+  //     loader.dismiss()
+  //   })
+  //     .catch(err => {
+  //       Dialogs.alert('Не удалось определить местоположение', 'Ошибка')
+  //       this.toastCtrl.create({
+  //         message: 'Не удалось определить местоположение. Пожалуйста, выберете город вручную',
+  //         duration: 3000
+  //       }).present()
+  //       loader.dismiss()
+  //       console.log(err)
+  //     })
+  // }
 
   initializeItems() {
     this.items = [{
