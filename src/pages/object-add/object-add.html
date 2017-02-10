@@ -15,11 +15,11 @@
   <form [formGroup]="form" (ngSubmit)="addObject()">
     <ion-list>
       <ion-item>
-        <ion-label floating>Описание</ion-label>
+        <ion-label floating>Опишите проблему</ion-label>
         <ion-textarea formControlName="description"></ion-textarea>
       </ion-item>
       <ion-item padding>
-        <ion-label>Категория</ion-label>
+        <ion-label>Выберите категорию</ion-label>
         <ion-select formControlName="category">
           <ion-option value="1">Несанкционированная свалка</ion-option>
           <ion-option value="2">Дефекты дорожного покрытия</ion-option>

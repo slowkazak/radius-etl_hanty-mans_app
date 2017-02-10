@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import {
+  NavController, NavParams, LoadingController, ToastController, AlertController,
+  PopoverController
+} from 'ionic-angular';
 import { OmsProvider } from '../../providers/oms-provider'
 import { OmsBookFormPage } from '../oms-book-form/oms-book-form'
+import {PopoverPage} from "../popover-page/popover-page";
 
 @Component({
   selector: 'page-oms-time',
@@ -19,6 +23,7 @@ export class OmsTimePage {
     public navParams: NavParams,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
+    private popoverCtrl:PopoverController,
     private alertCtrl: AlertController
   ) {}
 
@@ -74,14 +79,19 @@ export class OmsTimePage {
       loader.present()
       let data = res.json()[0]
       this.oms.getDocuments(serviceId).then(documents => {
-        let alert = this.alertCtrl.create({
-          title: 'Вы записались!',
-          subTitle: 'Номер в очереди: ' + data.seq_pos + '.<br>Не забудьте документы:' + documents,
-          buttons: ['OK']
-        });
+
+        let popover = this.popoverCtrl.create(PopoverPage, {seq:data.seq_pos, docs:documents});
+
+
+        // let alert = this.alertCtrl.create({
+        //   title: 'Вы записались!',
+        //   subTitle: 'Номер в очереди: ' + data.seq_pos + '.<br>Не забудьте документы:' + documents,
+        //   buttons: ['OK']
+        // });
         this.navCtrl.popToRoot()
-        loader.dismiss()
-        alert.present();
+        loader.dismiss();
+        popover.present();
+        // alert.present();
       }, err => {
         loader.dismiss()
         let toast = this.toastCtrl.create({

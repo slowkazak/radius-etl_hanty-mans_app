@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms'
-import { NavController, NavParams, LoadingController, ToastController, AlertController } from 'ionic-angular';
+import {
+  NavController, NavParams, LoadingController, ToastController, AlertController,
+  PopoverController
+} from 'ionic-angular';
 import { OmsProvider } from '../../providers/oms-provider'
+import {PopoverPage} from "../popover-page/popover-page";
 
 @Component({
   selector: 'page-oms-book-form',
@@ -18,7 +22,8 @@ export class OmsBookFormPage {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     public alertCtrl: AlertController,
-    private oms: OmsProvider
+    private oms: OmsProvider,
+    private popoverCtrl:PopoverController
   ) {
     this.book_form = this.formBuilder.group({
       first_name: ['', Validators.required],
@@ -42,14 +47,23 @@ export class OmsBookFormPage {
       loader.setContent('Получение документов...')
       loader.present()
       this.oms.getDocuments(this.navParams.data.item.id).then(documents => {
-        let alert = this.alertCtrl.create({
-          title: 'Вы записались!',
-          subTitle: 'Ждём вас ' + this.navParams.data.datetimeObj.date + ' в ' + this.navParams.data.datetimeObj.selectedTime + '.<br>Не забудьте документы:' + documents,
-          buttons: ['OK']
-        });
+        let popover = this.popoverCtrl.create(
+          PopoverPage,
+          {
+          date: this.navParams.data.datetimeObj.date,
+          time:this.navParams.data.datetimeObj.selectedTime,
+          docs:documents
+          }
+          );
+        // let alert = this.alertCtrl.create({
+        //   title: 'Вы записались!',
+        //   subTitle: 'Ждём вас ' + this.navParams.data.datetimeObj.date + ' в ' + this.navParams.data.datetimeObj.selectedTime + '.<br>Не забудьте документы:' + documents,
+        //   buttons: ['OK']
+        // });
         this.navCtrl.popToRoot()
         loader.dismiss()
-        alert.present();
+        popover.present();
+        // alert.present();
       }, err => {
         loader.dismiss()
         let toast = this.toastCtrl.create({

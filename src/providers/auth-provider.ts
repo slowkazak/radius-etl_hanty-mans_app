@@ -16,7 +16,7 @@ export class AuthProvider {
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
     let params = new URLSearchParams()
-    params.set('login', login)
+    params.set('login', login) 
     params.set('password', password)
     let body = params.toString()
     return this.http.post(this.server + "/user/auth", body, {headers: headers})
