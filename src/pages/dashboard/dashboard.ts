@@ -78,7 +78,10 @@ export class DashboardPage {
 
   loadData() {
     this.loading.present()
-    this.ObjectsService.load(this.checkbox).subscribe(res => { // получаем результаты запросы по объектам
+    this.ObjectsService.load(this.checkbox).subscribe(res => {
+
+
+      // получаем результаты запросы по объектам
       this.full_data = this.ObjectsService.transform(res ? res.json() : {})
       this.cutItems(this.full_data)
       this.loading.dismiss()

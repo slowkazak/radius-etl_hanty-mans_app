@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 import {NavController, LoadingController, } from 'ionic-angular';
 // import {Geolocation, Dialogs, Toast} from 'ionic-native';
-import { Toast } from 'ionic-native';
 import {MenuPage} from '../menu/menu'
 import {AuthProvider} from '../../providers/auth-provider'
 
 import _ from "lodash";
 import {GeolocationProvider} from "../../providers/geolocation-provider";
 import {LocationData} from "../../app/interfaces/location.interface";
-import {settings} from "../../app/settings/settings"
+import {settings} from "../../app/settings/settings";
+import { Toast } from 'ionic-native';
 import {LengProvider} from "../../providers/leng-provider";
 declare var ymaps: any;
 
@@ -23,7 +23,7 @@ declare var ymaps: any;
   templateUrl: 'location.html'
 })
 export class LocationPage {
-  items: any = settings.citylist
+  items: any = settings.citylist;
   searchQuery: string = ''
 
 
@@ -77,7 +77,6 @@ export class LocationPage {
       ymaps.ready()
         .then(() => ymaps.geocode([lat, lng], {kind: 'locality'}))
         .then(res => {
-          console.info(res.geoObjects.get(0).getLocalities().pop());
             res = res.geoObjects.get(0).getLocalities().pop();
             let city = this._FindCity(res);
             city ?
@@ -171,7 +170,7 @@ export class LocationPage {
   //     .then((ll) => ymaps.geocode(ll, {kind: 'locality'}))
   //     .then(res =>
   //       // Выведем в консоль данные, полученные в результате геокодирования объекта.
-  //       res.geoObjects.get(0).getLocalities()
+  //       res.geoObjects.Get(0).getLocalities()
   //     ).then(city => {
   //     this.findCity(city[0])
   //     loader.dismiss()

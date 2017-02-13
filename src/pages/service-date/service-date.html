@@ -10,12 +10,25 @@
   <ion-item-group *ngFor="let obj of data">
     <div *ngFor="let month of obj.Months">
       <ion-item-divider color="light" class="year">{{ obj.Year | getMonthName:month.Month }} {{ obj.Year }}</ion-item-divider>
-      <button ion-item *ngFor="let day of month.Days" (click)="day.Free && selectHours(day.Day, month.Month, obj.Year)" [disabled]="!day.Free">
-        <ion-icon *ngIf="day.Free" color="primary" name="ios-checkmark-circle" item-left></ion-icon>
-        <ion-icon *ngIf="!day.Free" color="danger" name="ios-close-circle-outline" item-left></ion-icon>
-        {{ day.Day | getDateTime: month.Month: obj.Year }}
-      </button>
+      <template ngFor let-day [ngForOf]="month.Days">
+        <template [ngIf]="day.Free">
+          <button ion-item (click)="day.Free && selectHours(day.Day, month.Month, obj.Year)">
+            <ion-icon *ngIf="day.Free" color="primary" name="ios-checkmark-circle" item-left></ion-icon>
+            <ion-icon *ngIf="!day.Free" color="danger" name="ios-close-circle-outline" item-left></ion-icon>
+            {{ day.Day | getDateTime: month.Month: obj.Year }}
+          </button>
+        </template>
+      </template>
+      <!--<button ion-item *ngFor="let day of month.Days" (click)="day.Free && selectHours(day.Day, month.Month, obj.Year)" [disabled]="!day.Free">-->
+        <!--<ion-icon *ngIf="day.Free" color="primary" name="ios-checkmark-circle" item-left></ion-icon>-->
+        <!--<ion-icon *ngIf="!day.Free" color="danger" name="ios-close-circle-outline" item-left></ion-icon>-->
+        <!--{{ day.Day | getDateTime: month.Month: obj.Year }}-->
+      <!--</button>-->
+
     </div>
+
+
+
   </ion-item-group>
 </ion-content>
 

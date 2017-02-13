@@ -67,12 +67,13 @@ page-dashboard {
 
   ion-card img {
     height: auto;
+    border: 1px solid #eee;
   }
 
   ion-card .card-date {
     position: absolute;
     bottom: 20px;
-    width: 120px;
+    //width: 120px;
     // padding: 10px;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -84,7 +85,11 @@ page-dashboard {
     border-radius: 20px;
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
+    border: 1px solid #eee;
   }
+
+
+
 
   ion-card ion-icon {
     margin-right: 5px;

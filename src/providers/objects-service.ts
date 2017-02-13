@@ -44,6 +44,8 @@ export class ObjectsService {
   }
 
   transform(data: any) { // превращаем всё в массив объектов
+    console.info(data,"DATA")
+
     let mas = data
     let arr: Array<any> = []
     for (var i=0; i<data['Total']; i++) {

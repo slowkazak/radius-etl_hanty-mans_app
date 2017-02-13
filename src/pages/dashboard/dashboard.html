@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-searchbar (input)="getItems($event)" placeholder="Поиск" [(ngModel)]="searchBar"></ion-searchbar>
     <div class="header-title">
-      <p>{{auth.user.city}}</p>
+      <p>{{auth?.user?.city?.name}}</p>
     </div>
   </ion-toolbar>
   <div class="filters">
@@ -23,12 +23,13 @@
       <img src="http://admhmansy.ru/map/serviceimage/{{item.User_Image}}"/>
       <div class="card-date">
         <ion-icon color="primary" name="ios-calendar-outline"></ion-icon>
-        {{item.Date_Change | convertDate}}
+        {{item?.Date_Change | convertDate}} {{item?.Status_Name}}
       </div>
+
     </div>
     <ion-card-content>
       <p>
-        {{item.User_Message}}
+        {{item?.User_Message}}
       </p>
     </ion-card-content>
   </ion-card>

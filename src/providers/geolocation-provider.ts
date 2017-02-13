@@ -13,8 +13,6 @@ import {settings} from "../app/settings/settings"
 export class GeolocationProvider {
 
   constructor() {
-
-this.GetLocation()
   }
 
   /**
@@ -25,7 +23,6 @@ this.GetLocation()
   public GetLocation() {
     return new Promise((resolve, reject) => {
       Geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then((resp) => {
-        console.info("RES", resp)
         resolve({lat: resp.coords.latitude, lng: resp.coords.longitude, default: false});
       }).catch((error) => {
         console.log('Error getting location', error);

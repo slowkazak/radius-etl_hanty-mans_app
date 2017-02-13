@@ -1,15 +1,28 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http, Headers, URLSearchParams} from '@angular/http';
 import 'rxjs/add/operator/map';
-import { AuthProvider } from './auth-provider'
+import {AuthProvider} from './auth-provider'
 
+
+import {common_msg} from "../app/settings/common.msg";
+import {LengProvider} from "./leng-provider";
+import _ from "lodash";
+import "rxjs/add/operator/toPromise";
+
+
+//todo рефактор, затем удалить
 @Injectable()
 export class OmsProvider {
   services: Array<Object>
-  server: String = 'http://217.115.185.188:6449/'
+  server: String = 'http://217.115.185.188:6449/';
 
-  constructor(public http: Http, private auth: AuthProvider) {
-    console.log('Hello OmsProvider Provider');
+
+  private _headers = new Headers();
+  private _leng: any = {};
+
+  constructor(private lengprovider: LengProvider,
+              public http: Http, private auth: AuthProvider) {
+    this._Init();
     this.services = [
       {
         id: 1,
@@ -33,6 +46,117 @@ export class OmsProvider {
       }
     ]
   }
+
+  /**
+   * Инициализация провайдера
+   * @private
+   */
+  private _Init() {
+    this._headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    this.lengprovider.GetLeng("http_queries").then(res => {
+      this._leng = _.assign({}, res);
+    }).catch(err => {
+      this._leng = _.assign({}, err);
+    });
+  }
+
+  public GetDocuments(serviceId: any) {
+    let result = null;
+    try {
+      result = this.http.get(this.server + "index.php/controller_index/serviceContentJSON?serviceId=" + serviceId)
+        .toPromise()
+        .then(res => this._SuccessCallback(res))
+        .catch(err => this._ErrorCallback(err))
+    }
+    catch (err) {
+      console.error("Произошла ошибка", err);
+      result = Promise.reject(null);
+    }
+    return result;
+  }
+
+
+
+  GetTime(serviceId: number) {
+    // let data = [
+    //   {
+    //     "date": "04.01.2017",
+    //     "maxTime": "11:15",
+    //     "minTime": "09:15",
+    //     "nowTime": "10:06",
+    //     "time": ["09:15", "09:55", "10:35", "11:15"],
+    //     "today": "30.12.2016",
+    //     "visitLength": "40"
+    //   },
+    //   {
+    //     "date": "11.01.2017",
+    //     "maxTime": "11:15",
+    //     "minTime": "09:15",
+    //     "nowTime": "10:14",
+    //     "time": ["09:15", "09:55", "10:35", "11:15"],
+    //     "today": "30.12.2016",
+    //     "visitLength": "40"
+    //   }
+    // ]
+
+    let result = null;
+    try {
+      result = this.http.get(this.server + "index.php/controller_index/recordingJSON?serviceId=" + serviceId, {headers: this._headers})
+        .toPromise()
+        .then(res => this._SuccessCallback(res))
+        .catch(err => this._ErrorCallback(err))
+    }
+    catch (err) {
+      console.error("Произошла ошибка", err);
+      result = Promise.reject(null);
+    }
+    return result;
+  }
+
+
+
+
+
+
+
+  /**
+   * Коллбэк для успешного выполнения запроса
+   * @param data
+   * @returns {any}
+   * @private
+   */
+  private _SuccessCallback(data) {
+    return data.json()
+  }
+
+  /**
+   * Коллбэк для ошибки
+   * @param data
+   * @returns {null}
+   * @private
+   */
+  private _ErrorCallback(data) {
+    console.error(common_msg.query_execute_err, data);
+    let result = null;
+    try {
+      switch (data.status) {
+        case 0:
+          result = this._leng.domain_not_resolve;
+          break;
+        case 404:
+          result = this._leng.page_not_found;
+          break;
+        case 500:
+          result = this._leng.internal_error;
+          break;
+      }
+    }
+    catch (err) {
+      console.error("Произошла ошибка", err);
+    }
+    return result;
+  }
+
 
   get(serviceId: number) {
     let headers = new Headers();
@@ -101,14 +225,19 @@ export class OmsProvider {
     return new Promise((resolve, reject) => {
       this.http.get(this.server + "index.php/controller_index/serviceContentJSON?serviceId=" + serviceId).subscribe(res => {
         let data: String = ''
+        console.info(res.json());
         res.json().forEach(document => {
-          data+='<br>-' + document.name
+          data += '<br>-' + document.name
         })
         console.log(data)
-        resolve (data)
+        resolve(data)
       }, err => {
         reject()
       })
     })
   }
+
+
 }
+
+

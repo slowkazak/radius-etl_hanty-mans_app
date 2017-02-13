@@ -16,20 +16,25 @@
     </div>
   </ion-item-group>
   <ion-item-group [hidden]="notEmpty">
-      <button ion-item disabled>
-        <!-- <ion-icon color="primary" name="ios-checkmark-circle" item-left></ion-icon> -->
-        <ion-icon color="danger" name="ios-close-circle-outline" item-left></ion-icon>
-        Нет времени для записи
-      </button>
+    <button ion-item disabled>
+      <!-- <ion-icon color="primary" name="ios-checkmark-circle" item-left></ion-icon> -->
+      <ion-icon color="danger" name="ios-close-circle-outline" item-left></ion-icon>
+      Нет времени для записи
+    </button>
   </ion-item-group>
 </ion-content>
 
 <ion-footer>
+  <ion-fab center bottom (click)="navCtrl.popToRoot()">
+    <button ion-fab color="danger">
+      <ion-icon name="home"></ion-icon>
+    </button>
+  </ion-fab>
   <ion-toolbar color="primary">
     <!--<ion-title class="footer-title">-->
-      <!--Живая очередь-->
+    <!--Живая очередь-->
     <!--</ion-title>-->
-    <ion-buttons end>
+    <ion-buttons end *ngIf="notEmpty">
       <button ion-button icon-right (click)="bookLive()">
         Записаться
         <ion-icon name="send"></ion-icon>
@@ -37,3 +42,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
+
+
+
+

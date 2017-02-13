@@ -1,8 +1,18 @@
-import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
-import { Http, URLSearchParams, Headers } from '@angular/http';
-import { AuthProvider } from '../../providers/auth-provider'
-import { GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, CameraPosition, GoogleMapsMarkerOptions, GoogleMapsMarker } from 'ionic-native'
+import {Component} from '@angular/core';
+import {NavController, LoadingController} from 'ionic-angular';
+import {Http, URLSearchParams, Headers} from '@angular/http';
+import {AuthProvider} from '../../providers/auth-provider'
+
+import _ from "lodash";
+
+import {
+  GoogleMap,
+  GoogleMapsEvent,
+  GoogleMapsLatLng,
+  CameraPosition,
+  GoogleMapsMarkerOptions,
+  GoogleMapsMarker
+} from 'ionic-native'
 
 @Component({
   selector: 'page-user-objects',
@@ -10,8 +20,10 @@ import { GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, CameraPosition, GoogleMap
 })
 export class UserObjectsPage {
   user_object: any = null
+  _ymaps = null;
 
-  constructor(public navCtrl: NavController, public http: Http, public auth: AuthProvider, public loadingCtrl: LoadingController) { }
+  constructor(public navCtrl: NavController, public http: Http, public auth: AuthProvider, public loadingCtrl: LoadingController) {
+  }
 
   ionViewDidLoad() {
     let loader = this.loadingCtrl.create({
@@ -25,9 +37,21 @@ export class UserObjectsPage {
     params.set('access_token', this.auth.user.access_token)
     params.set('user_id', this.auth.user.user_id)
     let body = params.toString()
-    this.http.post('http://api.admhmansy.ru/place/plist', body, { headers: headers }).subscribe(res => {
+    this.http.post('http://api.admhmansy.ru/place/plist', body, {headers: headers}).subscribe(res => {
       this.user_object = res.json()
-      this.loadMap()
+      // this.loadMap()
+      this.user_object.length > 0 ? _.forEach(this.user_object, (item) => {
+          try {
+            item.coordinates ?  (item.coordinates = JSON.parse(item.coordinates),
+              this._InitMap(item.coordinates[0],item.coordinates[1],item.placemark_id,item.description))
+          :
+            false
+          }
+          catch (err) {
+            console.info("cant iterate coords", item.coordinates)
+          }
+        }) : false;
+console.info(this.user_object)
       loader.dismiss()
     }, err => {
       console.log(err.json())
@@ -35,6 +59,46 @@ export class UserObjectsPage {
     })
   }
 
+
+  private _InitMap(lat: number, lng: number, id, marker_title) {
+    let init = () => {
+      this._ymaps = new ymaps.Map(id, {
+        center: [lat, lng],
+        zoom: 13,
+        controls: []
+      });
+
+
+    };
+    ymaps.ready(init).then(()=>this._SetMarker(lat,lng, marker_title));
+  }
+
+  private _SetMarker(lat: number, lng: number, title: string = '') {
+
+    try {
+      let _callback = (lat: number, lng: number) => {
+
+        let myPlacemark = new ymaps.Placemark(
+          [lat, lng], {
+            balloonContent: '',
+            iconCaption: title
+          }, {
+            preset: 'islands#greenDotIconWithCaption'
+          }
+        );
+        this._ymaps.geoObjects.removeAll();
+        this._ymaps.geoObjects.add(myPlacemark);
+      };
+
+      _callback(lat, lng);
+    }
+    catch (err) {
+      console.info("Невозможно установить метку", err);
+    }
+  }
+
+
+//TODO рефактор
   loadMap() {
     let element: HTMLElement = document.getElementById('map')
     let map = new GoogleMap(element)

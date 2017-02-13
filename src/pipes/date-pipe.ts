@@ -1,11 +1,14 @@
-import { Pipe, PipeTransform, Injectable } from '@angular/core';
+import {Pipe, PipeTransform, Injectable} from '@angular/core';
 
-@Pipe({ name: 'convertDate'})
+@Pipe({name: 'convertDate'})
 @Injectable()
 export class ConvertDatePipe implements PipeTransform {
   transform(datetime: any) {
-    console.log('getting date')
     let date = new Date(datetime.replace(/-/g, "/"));
-    return [date.getDay(), date.getMonth() + 1, date.getFullYear()].join('.')
+    let d: any = date.getDay();
+    let m:any = date.getMonth() + 1;
+    d < 10 ? d = '0' + d : false;
+    m < 10 ? m = '0' + m : false;
+    return [d, m, date.getFullYear()].join('.')
   }
 }

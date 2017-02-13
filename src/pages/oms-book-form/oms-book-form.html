@@ -27,3 +27,12 @@
   <button ion-button block type="submit" [disabled]="!book_form.valid">Записаться</button>
 </form>
 </ion-content>
+<ion-footer>
+  <ion-fab center bottom (click)="navCtrl.popToRoot()">
+    <button ion-fab color="danger">
+      <ion-icon name="home"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-toolbar color="primary">
+  </ion-toolbar>
+</ion-footer>

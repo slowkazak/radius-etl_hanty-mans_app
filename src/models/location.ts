@@ -1,15 +1,23 @@
-//todo удалить это говно
 export class location {
-  coords: Array<number>
+  coords: Array<number> = [];
 
-  public set(lat: number, lng: number) {
-    let arr = []
-    arr[0] = lat
-    arr[1] = lng
-    this.coords = arr
+  /**
+   * Сеттер для координат пользователя
+   * @param lat
+   * @param lng
+   * @constructor
+   */
+  public Set(lat: number, lng: number) {
+    this.coords = [lat, lng];
   }
 
-  get() {
+  /**
+   * Геттер для координат пользователя
+   * @returns {Array<number>}
+   * @constructor
+   */
+  Get() {
     return this.coords
   }
+
 }

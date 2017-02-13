@@ -26,7 +26,6 @@ export class LocationSelectPage {
   }
 
   ngAfterViewInit() {
-    console.log('Hello description LocationSelectPage Page');
     this.locationprov.GetLocation()
       .then((res: LocationData) => {
       this._InitMap(res.lat, res.lng)})
@@ -81,6 +80,8 @@ export class LocationSelectPage {
         );
         this._ymaps.geoObjects.removeAll();
         this._ymaps.geoObjects.add(myPlacemark);
+        this.location.Set(coords[0], coords[1]);
+        this.navCtrl.pop();
       };
       coords.push(...ev.get('coords'));
       _callback(coords[0], coords[1]);
@@ -111,9 +112,9 @@ export class LocationSelectPage {
       console.log('Map is ready!')
       let pos: GoogleMapsLatLng
 
-      if (this.location.get()) {
+      if (this.location.Get()) {
         console.log('location found')
-        pos = new GoogleMapsLatLng(this.location.get()[0], this.location.get()[1])
+        pos = new GoogleMapsLatLng(this.location.Get()[0], this.location.Get()[1])
       } else {
         console.log('location not found')
         pos = new GoogleMapsLatLng(61.008038, 69.035848)
@@ -139,8 +140,8 @@ export class LocationSelectPage {
   selectPoint() {
     // let map = this.map
     // map.getCameraPosition().then(camera => {
-    //   this.location.set(camera.target.lat, camera.target.lng)
-    //   console.log(this.location.get())
+    //   this.location.Set(camera.target.lat, camera.target.lng)
+    //   console.log(this.location.Get())
     //   this.navCtrl.pop()
     // }, err => {
     //

@@ -2,12 +2,12 @@
 
   <ion-navbar color="primary">
     <ion-title>Добавить заявку</ion-title>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span color="positive" showWhen="ios">Закрыть</span>
-        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
-      </button>
-    </ion-buttons>
+    <!--<ion-buttons start>-->
+      <!--<button ion-button (click)="dismiss()">-->
+        <!--<span color="positive" showWhen="ios">Закрыть</span>-->
+        <!--<ion-icon name="md-close" showWhen="android,windows"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
 </ion-header>
 
@@ -61,7 +61,12 @@
 </ion-content>
 
 <ion-footer>
+  <ion-fab center bottom (click)="navCtrl.popToRoot()">
+    <button ion-fab color="danger">
+      <ion-icon name="home"></ion-icon>
+    </button>
+  </ion-fab>
   <ion-toolbar>
-    <button ion-button block color="danger" type="submit" [disabled]="!(form.valid && location.coords)">Подать заявку</button>
+    <button ion-button block color="danger" type="submit" [disabled]="!(form.valid && location.coords)" (click)="addObject()">Подать заявку</button>
   </ion-toolbar>
 </ion-footer>

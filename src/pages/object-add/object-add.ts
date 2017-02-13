@@ -215,8 +215,8 @@ export class ObjectAddPage {
       content: "Пожалуйста, подождите"
     })
     loader.present()
-    console.log(this.media, `(${this.media.map(item => item.placemarkId).join(',')})`)
-    this.service.add(this.form, this.media, this.location.get()).then(res => {
+    // console.log(this.media, `(${this.media.map(item => item.placemarkId).join(',')})`)
+    this.service.add(this.form, this.media, this.location.Get()).then(res => {
       console.log(res)
       loader.dismiss();
       let toast = this.toastCtrl.create({
