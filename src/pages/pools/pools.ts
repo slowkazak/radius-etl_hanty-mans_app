@@ -13,7 +13,7 @@ export class PoolsPage {
   data: any
   title: string = 'Опросы';
   stats: Array<any> = [];
-  _leng: any = {};
+ private _leng: any = {};
 
   constructor(public navCtrl: NavController,
               public poolsProvider: PoolsProvider,
@@ -26,7 +26,6 @@ export class PoolsPage {
   ionViewDidLoad() {
     this.leng.GetLeng("polls").then(res => {
       this._leng = _.assign({}, res);
-      console.log(this._leng)
     }).catch(err => {
       this._leng = _.assign({}, err);
     });

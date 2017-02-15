@@ -5,6 +5,7 @@ import { LocationPage } from '../../pages/location/location'
 import { MenuPage } from '../../pages/menu/menu'
 import { PoolsPage } from '../../pages/pools/pools'
 import {PopoverPage} from "../../pages/popover-page/popover-page";
+import {NewsFeedPage} from "../../pages/news-feed/news-feed";
 
 @NgModule({
   imports: [
@@ -14,21 +15,24 @@ import {PopoverPage} from "../../pages/popover-page/popover-page";
       mode: 'ios'
     }),
     IonicModule.forRoot(PoolsPage),
-    IonicModule.forRoot(PopoverPage)
+    IonicModule.forRoot(PopoverPage),
+    IonicModule.forRoot(NewsFeedPage)
   ],
   declarations: [
     LocationPage,
     MenuPage,
     HomePage,
     PoolsPage,
-    PopoverPage
+    PopoverPage,
+    NewsFeedPage
   ],
   exports: [
     LocationPage,
     MenuPage,
     HomePage,
     PoolsPage,
-    PopoverPage
+    PopoverPage,
+    NewsFeedPage
   ]
 })
 export class PagesModule {}

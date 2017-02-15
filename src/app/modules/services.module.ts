@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
-import { ServicesPage } from '../../pages/services/services'
-import { ServiceDatePage } from '../../pages/service-date/service-date'
-import { ServiceHoursPage } from '../../pages/service-hours/service-hours'
-import { OmsPage } from '../../pages/oms-page/oms-page'
-import { OmsTimePage } from '../../pages/oms-time/oms-time'
-import { OmsBookPage } from '../../pages/oms-book/oms-book'
-import{ OmsBookFormPage } from '../../pages/oms-book-form/oms-book-form'
-import { getDatePipe, getMonthPipe } from '../../pipes/get-date'
+import { ServicesPage } from '../../pages/services/services';
+import { ServiceDatePage } from '../../pages/service-date/service-date';
+import { ServiceHoursPage } from '../../pages/service-hours/service-hours';
+import { OmsPage } from '../../pages/oms-page/oms-page';
+import { OmsTimePage } from '../../pages/oms-time/oms-time';
+import { OmsBookPage } from '../../pages/oms-book/oms-book';
+import{ OmsBookFormPage } from '../../pages/oms-book-form/oms-book-form';
+import { getDatePipe, getMonthPipe } from '../../pipes/get-date';
 
 
 @NgModule({
@@ -29,7 +29,7 @@ import { getDatePipe, getMonthPipe } from '../../pipes/get-date'
     OmsPage,
     OmsTimePage,
     OmsBookPage,
-    OmsBookFormPage
+    OmsBookFormPage,
   ],
   exports: [
     ServicesPage,

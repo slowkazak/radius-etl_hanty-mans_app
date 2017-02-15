@@ -12,8 +12,12 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="form" (ngSubmit)="addObject()">
+  <form [formGroup]="form" (ngSubmit)="AddObject()">
     <ion-list>
+      <ion-item>
+        <ion-label floating>{{_leng?.input_title}}</ion-label>
+        <ion-textarea formControlName="title"></ion-textarea>
+      </ion-item>
       <ion-item>
         <ion-label floating>Опишите проблему</ion-label>
         <ion-textarea formControlName="description"></ion-textarea>
@@ -61,12 +65,8 @@
 </ion-content>
 
 <ion-footer>
-  <ion-fab center bottom (click)="navCtrl.popToRoot()">
-    <button ion-fab color="danger">
-      <ion-icon name="home"></ion-icon>
-    </button>
-  </ion-fab>
+
   <ion-toolbar>
-    <button ion-button block color="danger" type="submit" [disabled]="!(form.valid && location.coords)" (click)="addObject()">Подать заявку</button>
+    <button ion-button block color="danger" type="submit" [disabled]="!(form.valid && location.coords)" (click)="AddObject()">Подать заявку</button>
   </ion-toolbar>
 </ion-footer>

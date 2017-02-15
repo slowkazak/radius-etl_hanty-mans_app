@@ -1,6 +1,6 @@
 {
   "name": "city_app_v2",
-  "author": "Viacheslav Osadchiyk",
+  "author": "Stanislav Sidoryuk",
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
@@ -45,7 +45,9 @@
     "cordova-plugin-statusbar",
     "ionic-plugin-keyboard",
     "cordova-plugin-splashscreen",
-    "cordova-plugin-device"
+    "cordova-plugin-device",
+    "cordova-plugin-safariviewcontroller",
+    "cordova-plugin-inappbrowser"
       ],
   "cordovaPlatforms": [],
   "description": "city_app_v2: An Ionic project"

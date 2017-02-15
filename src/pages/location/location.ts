@@ -10,6 +10,8 @@ import {LocationData} from "../../app/interfaces/location.interface";
 import {settings} from "../../app/settings/settings";
 import { Toast } from 'ionic-native';
 import {LengProvider} from "../../providers/leng-provider";
+
+import {NewsFeedPage} from "../news-feed/news-feed";
 declare var ymaps: any;
 
 /*
@@ -139,7 +141,7 @@ export class LocationPage {
   goToMenu(city: string) {
     this.auth.set('city', city)
     this.auth.updateStorage()
-    this.navCtrl.setRoot(MenuPage, {}, {animate: true, direction: 'forward'})
+    this.navCtrl.setRoot(NewsFeedPage, {}, {animate: true, direction: 'forward'})
   }
 
   private findCity(city: String) {

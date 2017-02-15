@@ -39,6 +39,7 @@ export class UserObjectsPage {
     let body = params.toString()
     this.http.post('http://api.admhmansy.ru/place/plist', body, {headers: headers}).subscribe(res => {
       this.user_object = res.json()
+      console.info(this.user_object);
       // this.loadMap()
       this.user_object.length > 0 ? _.forEach(this.user_object, (item) => {
           try {
@@ -61,8 +62,9 @@ console.info(this.user_object)
 
 
   private _InitMap(lat: number, lng: number, id, marker_title) {
+    let maps = null;
     let init = () => {
-      this._ymaps = new ymaps.Map(id, {
+      maps = new ymaps.Map(id, {
         center: [lat, lng],
         zoom: 13,
         controls: []
@@ -70,10 +72,10 @@ console.info(this.user_object)
 
 
     };
-    ymaps.ready(init).then(()=>this._SetMarker(lat,lng, marker_title));
+    ymaps.ready(init).then(()=>this._SetMarker(lat,lng, marker_title, maps));
   }
 
-  private _SetMarker(lat: number, lng: number, title: string = '') {
+  private _SetMarker(lat: number, lng: number, title: string = '',instanse) {
 
     try {
       let _callback = (lat: number, lng: number) => {
@@ -86,8 +88,8 @@ console.info(this.user_object)
             preset: 'islands#greenDotIconWithCaption'
           }
         );
-        this._ymaps.geoObjects.removeAll();
-        this._ymaps.geoObjects.add(myPlacemark);
+        // this._ymaps.geoObjects.removeAll();
+        instanse.geoObjects.add(myPlacemark);
       };
 
       _callback(lat, lng);

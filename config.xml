@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.cityappv2130703" version="0.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.cityappv2130703" version="0.1.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
   <name>Ханты-Мансийск</name>
   <description>Администрация города Ханты-Мансийск</description>
-  <author email="wavemeup1@gmail.com" href="http://wavemeup.me">Viacheslav Osadchiy</author>
+  <author email="staskuban@ya.ru" href="">slowkazak</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-intent href="http://*/*"/>

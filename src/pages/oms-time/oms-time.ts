@@ -71,6 +71,7 @@ export class OmsTimePage {
     return new Promise((resolve, reject) => {
       try {
         this.oms.GetTime(this.navParams.data.item.id).then(res => {
+          console.info(res, "RES OMS TIME");
           res && !_.isObject(res) ?
             (this._ToastPresent(res),this.notEmpty = false) :
             _.has(res, "time") && res.time.length > 0 ?

@@ -1,6 +1,9 @@
 export const settings = {
   default_lat: 61.008038,
   default_lng: 69.035848,
+  adm_api_path: "http://api.admhmansy.ru",
+  adm_domain_path: "http://admhmansy.ru",
+  image_file_extentions:[".png",".bmp",".jpg",".jpg",".jpeg",".pcx",".gif"],
   citylist: [
     {
       name: 'Белоярский',

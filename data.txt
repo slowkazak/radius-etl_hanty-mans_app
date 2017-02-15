@@ -2,3 +2,5 @@ hm_app
 qwerty123
 
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore hm_key.keystore android-release-unsigned.apk hm_app
+
+zipalign -v 4 android-release-unsigned.apk cityapp.apk

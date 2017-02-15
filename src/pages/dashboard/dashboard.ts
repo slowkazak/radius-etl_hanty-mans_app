@@ -10,6 +10,12 @@ import { Filter } from '../../models/filters'
 import { ConvertDatePipe } from '../../pipes/date-pipe'
 import { AuthProvider } from '../../providers/auth-provider'
 
+
+
+import {LengProvider} from "../../providers/leng-provider";
+import _ from "lodash";
+
+
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',
@@ -17,14 +23,18 @@ import { AuthProvider } from '../../providers/auth-provider'
 })
 
 export class DashboardPage {
-  data: Array<any>
-  full_data: Array<any> = []
-  loading: any
-  checkbox: Filter
-  UserObjectsPage = UserObjectsPage
-  searchBar: string = ''
-  processed_data: any
+  data: Array<any>;
+  full_data: Array<any> = [];
+  loading: any;
+  checkbox: Filter;
+  UserObjectsPage = UserObjectsPage;
+  searchBar: string = '';
+  processed_data: any;
+
+  private _leng:any = {};
   constructor(
+    private leng:LengProvider,
+
     public navCtrl: NavController,
     public ObjectsService: ObjectsService,
     public loadingCtrl: LoadingController,
@@ -159,6 +169,13 @@ export class DashboardPage {
   }
 
   ionViewDidLoad() {
-    this.loadData()
+    this.loadData();
+    this.leng.GetLeng("dashboard").then(res => {
+      this._leng = _.assign({}, res);
+    }).catch(err => {
+      this._leng = _.assign({}, err);
+    });
+
+
   }
 }

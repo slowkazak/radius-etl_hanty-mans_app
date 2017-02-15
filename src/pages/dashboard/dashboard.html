@@ -1,22 +1,32 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-searchbar (input)="getItems($event)" placeholder="Поиск" [(ngModel)]="searchBar"></ion-searchbar>
-    <div class="header-title">
-      <p>{{auth?.user?.city?.name}}</p>
-    </div>
-  </ion-toolbar>
-  <div class="filters">
-    <button ion-button outline color="dark" icon-left (click)="this.navCtrl.pop()" style="float: left;">
-      <ion-icon name="md-arrow-back"></ion-icon>
-      Назад
-    </button>
-    <button ion-button round color="primary" icon-left (click)="this.navCtrl.push(UserObjectsPage)" [disabled]="!auth.user.access_token">
-      <ion-icon name="ios-contact-outline"></ion-icon>
-      Мое
-    </button>
-  </div>
-</ion-header>
+<!--<ion-header>-->
+<!--<ion-toolbar color="primary">-->
+<!--<ion-searchbar (input)="getItems($event)" placeholder="Поиск" [(ngModel)]="searchBar"></ion-searchbar>-->
+<!--<div class="header-title">-->
+<!--<p>{{auth?.user?.city?.name}}</p>-->
+<!--</div>-->
+<!--</ion-toolbar>-->
+<!--<div class="filters">-->
+<!--<button ion-button outline color="dark" icon-left (click)="this.navCtrl.pop()" style="float: left;">-->
+<!--<ion-icon name="md-arrow-back"></ion-icon>-->
+<!--Назад-->
+<!--</button>-->
+<!--<button ion-button round color="primary" icon-left (click)="this.navCtrl.push(UserObjectsPage)" [disabled]="!auth.user.access_token">-->
+<!--<ion-icon name="ios-contact-outline"></ion-icon>-->
+<!--Мое-->
+<!--</button>-->
+<!--</div>-->
+<!--</ion-header>-->
 
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Улучшим наш город {{auth?.user?.city?.name}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
 <ion-content>
   <ion-card *ngFor="let item of data" (click)=openObject(item)>
     <div class="card-img">
@@ -37,17 +47,23 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
-
 <ion-footer>
   <span></span>
   <ion-toolbar color="white">
-    <!-- <p>Ash, Misty, Brock</p> -->
-    <button ion-button icon-only color="dark-red" (click)="addObject()" [disabled]="!auth.user.access_token">
-      <ion-icon name="add"></ion-icon>
+    <ion-buttons start>
+      <button ion-button icon-left color="royal" (click)="addObject()" [disabled]="!auth.user.access_token">
+        <ion-icon name="checkbox-outline"></ion-icon>
+        {{_leng?.dashboard_add_btn}}
+      </button>
+    </ion-buttons>
+    <button ion-button clear icon-left color="royal" (click)="this.navCtrl.push(UserObjectsPage)"
+            [disabled]="!auth.user.access_token">
+      <ion-icon name="ios-contact-outline"></ion-icon>
+      {{_leng?.dashboard_myobj_btn}}
     </button>
     <ion-buttons end>
       <button ion-button icon-right color="royal" (click)=openStatusChange()>
-        Фильтры
+        {{_leng?.dashboard_filters_btn}}
         <ion-icon name="settings"></ion-icon>
       </button>
     </ion-buttons>

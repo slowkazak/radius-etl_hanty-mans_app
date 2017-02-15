@@ -1,11 +1,29 @@
-import { Component } from '@angular/core';
-import { NavController, ViewController, ActionSheetController, ModalController, LoadingController, ToastController } from 'ionic-angular';
-import { Validators, FormBuilder } from '@angular/forms'
-import { Camera, FilePath, MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions } from 'ionic-native';
-import { ObjectsService } from '../../providers/objects-service'
-import { location } from '../../models/location'
-import { LocationSelectPage } from '../location-select/location-select'
+import {Component} from '@angular/core';
+import {
+  NavController,
+  ViewController,
+  ActionSheetController,
+  LoadingController
+} from 'ionic-angular';
 
+import {Validators, FormBuilder} from '@angular/forms'
+import {
+  Camera,
+  FilePath,
+  MediaCapture,
+  MediaFile,
+  CaptureError,
+  CaptureImageOptions,
+  CaptureVideoOptions,
+  Toast
+} from 'ionic-native';
+
+
+import {ObjectsService} from '../../providers/objects-service'
+import {location} from '../../models/location'
+import {LocationSelectPage} from '../location-select/location-select'
+import _ from "lodash";
+import {LengProvider} from "../../providers/leng-provider";
 @Component({
   selector: 'page-object-add',
   templateUrl: 'object-add.html',
@@ -14,29 +32,48 @@ import { LocationSelectPage } from '../location-select/location-select'
 export class ObjectAddPage {
   form: any
   mapPage: any = LocationSelectPage
-  coords: any = this.location.coords
-  media: Array<any> = []
+  coords: any = this.location.coords;
+
+
+  media: Array<{url: any, placemarkId: any, type: any}> = [];
+  private _leng: any = {};
+  private _loader: any = this.loadingCtrl.create({
+    content: this._leng.add_load_loader
+  });
 
   constructor(
-    public navCtrl: NavController,
-    public viewCtrl: ViewController,
-    public actionSheetCtrl: ActionSheetController,
-    private formBuilder: FormBuilder,
-    private modalCtrl: ModalController,
-    private service: ObjectsService,
-    public location: location,
-    public loadingCtrl: LoadingController,
-    public toastCtrl: ToastController
+              public navCtrl: NavController,
+              public viewCtrl: ViewController,
+              public actionSheetCtrl: ActionSheetController,
+              private formBuilder: FormBuilder,
+              private service: ObjectsService,
+              public location: location,
+              public loadingCtrl: LoadingController,
+              private leng: LengProvider
   ) {
     this.form = this.formBuilder.group({
+      title: ['', Validators.required],
       description: ['', Validators.required],
       category: ['', Validators.required]
     })
   }
 
+  private _ToastPresent(msg: string = null) {
+    if (msg) {
+      Toast.show(msg, '2000', 'bottom').subscribe(
+        toast => {
+          console.log(toast);
+        }
+      );
+    }
+  }
+
   ionViewDidLoad() {
-    console.log(this.location.coords)
-    console.log('Hello ObjectAddPage Page');
+    this.leng.GetLeng("object_add").then(res => {
+      this._leng = _.assign({}, res);
+    }).catch(err => {
+      this._leng = _.assign({}, err);
+    });
   }
 
 
@@ -44,87 +81,125 @@ export class ObjectAddPage {
     this.navCtrl.pop()
   }
 
-  addValue() {
-    this.form.picture = 'kek'
-    console.log(this.form)
+  /**
+   * Добавлление заявки
+   * @constructor
+   */
+  AddObject() {
+    this.service.AddObject(this.form.value, this.media, this.location.Get())
   }
-
   takePhoto() {
     Camera.getPicture({
       quality: 70,
       destinationType: Camera.DestinationType.FILE_URI
     }).then((imageData) => {
-      console.log('got image data', imageData)
-      let loader = this.loadingCtrl.create({
-        content: "Загрузка фотографии"
-      })
-      loader.present()
-      FilePath.resolveNativePath(imageData).then(result => {
-        this.service.uploadPhoto(result).then((data) => {
-          this.media.push({
-            'type': 'photo',
-            'url': result,
-            'placemarkId': JSON.parse(data.toString())['placemark_id']
-          })
-          loader.dismiss()
-        }, err => {
-          if (err.http_status === 413) {
-            let toast = this.toastCtrl.create({
-              message: 'Ошибка, файл слишком большой',
-              duration: 3000
-            })
-            toast.present()
-          }
-          loader.dismiss()
-          console.log(err)
-        })
-      }, err => {
-        loader.dismiss()
-      })
+      this._loader.present();
+      this.service.Upload(imageData).then(res => {
+        this._loader.dismiss();
+        res ? this._RenderMedia(imageData, res) : this._ToastPresent(this._leng.add_err_file_load_err)
+      }).catch(err => {
+        this._loader.dismiss();
+        this._ToastPresent(this._leng.add_err_file_load_err);
+        console.error(err);
+      });
+      // this.service.Upload(imageData);
+      // let loader = this.loadingCtrl.create({
+      //   content: "Загрузка фотографии"
+      // }).
+      // loader.present()
+      // FilePath.resolveNativePath(imageData).then(result => {
+      //   this.service.uploadPhoto(result).then((data) => {
+      //     this.media.push({
+      //       'type': 'photo',
+      //       'url': result,
+      //       'placemarkId': JSON.parse(data.toString())['placemark_id']
+      //     })
+      //     // loader.dismiss()
+      //   }, err => {
+      //     if (err.http_status === 413) {
+      //       let toast = this.toastCtrl.create({
+      //         message: 'Ошибка, файл слишком большой',
+      //         duration: 3000
+      //       })
+      //       toast.present()
+      //     }
+      //     // loader.dismiss()
+      //     console.log(err)
+      //   })
+      // }, err => {
+      //   // loader.dismiss()
+      // })
       // this.form.picture = imageData
       // console.log(imageData)
     })
   }
 
   deleteMedia(index: number) {
-    console.log(index, this.media)
     let placemarkId = this.media[index].placemarkId
     this.service.deleteMedia(placemarkId)
-    this.media.splice(index,1)
+    this.media.splice(index, 1)
   }
 
   captureVideo() {
-    let options: CaptureVideoOptions = { duration: 120 }
+    let options: CaptureVideoOptions = {duration: 10, limit: 1};
     MediaCapture.captureVideo(options)
       .then((data: MediaFile[]) => {
-        let loader = this.loadingCtrl.create({
-          content: "Загрузка видео"
-        })
-        loader.present()
-        console.log(data)
-          this.service.uploadPhoto(data[0].fullPath).then((data) => {
-            this.media.push({
-              'type': 'video',
-              'url': data[0].fullPath,
-              'placemarkId': JSON.parse(data.toString())['placemark_id']
-            })
-            loader.dismiss()
-          }, err => {
-            if (err.http_status === 413) {
-              let toast = this.toastCtrl.create({
-                message: 'Ошибка, файл слишком большой',
-                duration: 3000
-              })
-              toast.present()
-            }
-            loader.dismiss()
-          })
-      },
-      (err: CaptureError) => console.error(err)
-    )
+          this._loader.present();
+          this.service.Upload(data[0].fullPath).then(res => {
+            this._loader.dismiss();
+            res ? this._RenderMedia(data[0].fullPath, res) : this._ToastPresent(this._leng.add_err_file_load_err);
+          }).catch(err => {
+            this._loader.dismiss();
+            this._ToastPresent(this._leng.add_err_file_load_err);
+            console.error(err)
+          });
+          // let pattern = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/;
+          // var ma1 = fl.match(pattern)
+          // console.log(ma1);
+          // this.service.Upload(fl.fullPath);
+
+          // console.log(data)
+          //   this.service.uploadPhoto(data[0].fullPath).then((data) => {
+          //     this.media.push({
+          //       'type': 'video',
+          //       'url': data[0].fullPath,
+          //       'placemarkId': JSON.parse(data.toString())['placemark_id']
+          //     })
+          //     loader.dismiss()
+          //   }, err => {
+          //     if (err.http_status === 413) {
+          //       let toast = this.toastCtrl.create({
+          //         message: 'Ошибка, файл слишком большой',
+          //         duration: 3000
+          //       })
+          //       toast.present()
+          //     }
+          //     loader.dismiss()
+          //   })
+        },
+        (err: CaptureError) => {
+          this._loader.dismiss();
+          console.error(err);
+        }
+      )
   }
 
-  loadPhoto(photo_uri: any) {
+  private _RenderMedia(filepath: string, filedata: any) {
+    FilePath.resolveNativePath(filepath)
+      .then(_filePath => {
+        this.media.push(
+          {
+            type: filedata.fileKey,
+            url: _filePath,
+            placemarkId: filedata.placemark_id
+          }
+        );
+        console.info(this.media, filepath)
+      })
+      .catch(err => {
+        this._loader.dismiss();
+        console.log(err)
+      });
 
   }
 
@@ -133,37 +208,40 @@ export class ObjectAddPage {
       sourceType: 0,
       destinationType: Camera.DestinationType.FILE_URI
     }).then((imageData) => {
-      console.log('got image data', imageData)
-      let loader = this.loadingCtrl.create({
-        content: "Загрузка фотографии"
-      })
-      loader.present()
+      this._loader.present();
       FilePath.resolveNativePath(imageData).then(result => {
-        this.service.uploadPhoto(result).then((data) => {
-          console.log(JSON.parse(data.toString()))
-          this.media.push({
-            'type': 'photo',
-            'url': result,
-            'placemarkId': JSON.parse(data.toString())['placemark_id']
-          })
-          loader.dismiss()
-        }, err => {
-          console.log(err.http_status)
-          if (err.http_status === 413) {
-            let toast = this.toastCtrl.create({
-              message: 'Ошибка, файл слишком большой',
-              duration: 3000
-            })
-            toast.present()
-          }
-          loader.dismiss()
-        })
+        this.service.Upload(imageData).then(res => {
+          this._loader.dismiss();
+          res ? this._RenderMedia(imageData, res) : this._ToastPresent(this._leng.add_err_file_load_err);
+        }).catch(err => {
+          this._loader.dismiss();
+          this._ToastPresent(this._leng.add_err_file_load_err);
+          console.error(err)
+        });
+
+        // this.service.uploadPhoto(result).then((data) => {
+        //   console.log(JSON.parse(data.toString()))
+        //   this.media.push({
+        //     'type': 'photo',
+        //     'url': result,
+        //     'placemarkId': JSON.parse(data.toString())['placemark_id']
+        //   })
+        //   loader.dismiss()
+        // }, err => {
+        //   console.log(err.http_status)
+        //   if (err.http_status === 413) {
+        //     let toast = this.toastCtrl.create({
+        //       message: 'Ошибка, файл слишком большой',
+        //       duration: 3000
+        //     })
+        //     toast.present()
+        //   }
+        //   loader.dismiss()
+        // })
       }, err => {
-        console.log(err)
-        loader.dismiss()
+        this._loader.dismiss();
+        console.log(err);
       })
-      // this.form.picture = imageData
-      // console.log(imageData)
     })
   }
 
@@ -209,33 +287,22 @@ export class ObjectAddPage {
     actionSheet.present()
   }
 
-  addObject() {
-    // if (!this.form.valid) return false
-    let loader = this.loadingCtrl.create({
-      content: "Пожалуйста, подождите"
-    })
-    loader.present()
-    // console.log(this.media, `(${this.media.map(item => item.placemarkId).join(',')})`)
-    this.service.add(this.form, this.media, this.location.Get()).then(res => {
-      console.log(res)
-      loader.dismiss();
-      let toast = this.toastCtrl.create({
-        message: 'Объект добавлен',
-        duration: 3000
-      })
-      toast.present()
-      this.navCtrl.popToRoot()
-    }, err => {
-      console.log(err)
-      loader.dismiss()
-      let toast = this.toastCtrl.create({
-        message: 'Произошла ошибка. Повторите попытку позже',
-        duration: 3000
-      })
-      toast.present()
-      this.navCtrl.popToRoot()
-    })
-  }
+  // addObject() {
+  //   // if (!this.form.valid) return false
+  //   this._loader.present();
+  //
+  //   this.service.add(this.form, this.media, this.location.Get()).then(res => {
+  //     console.log(res);
+  //     this._loader.dismiss();
+  //     this._ToastPresent(this._leng.add_success);
+  //     this.navCtrl.popToRoot()
+  //   }, err => {
+  //     console.log(err);
+  //     this._loader.dismiss();
+  //     this._ToastPresent(this._leng.add_err_common);
+  //     this.navCtrl.popToRoot()
+  //   })
+  // }
 
   openMap() {
     this.navCtrl.push(LocationSelectPage, {title: this.form.value})
