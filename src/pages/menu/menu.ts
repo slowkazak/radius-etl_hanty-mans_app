@@ -29,7 +29,6 @@ export class MenuPage {
 
   ionViewDidLoad() {
     console.log(this.auth.user)
-    console.log('Hello MenuPage Page');
   }
 
   exit() {
