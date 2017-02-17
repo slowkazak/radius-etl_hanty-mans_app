@@ -1,0 +1,57 @@
+<!--
+  Generated template for the OmsDate page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Выберите дату</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+
+  <template [ngIf]="_data.length">
+
+    <ion-item-group *ngFor="let item of _data">
+      <ion-item-divider color="light"  class="year">{{ item?.year | getMonthName:item?.month }} {{ item?.year }}</ion-item-divider>
+      <template  ngFor let-day [ngForOf]="item?.day">
+        <button ion-item (click)="GetTimeOMS(day?.time, item?.date, item?.visitLength)">
+          <!--<ion-icon color="primary" name="ios-checkmark-circle" item-left></ion-icon>-->
+          <!--<ion-icon *ngIf="day.Free" color="primary" name="ios-checkmark-circle" item-left></ion-icon>-->
+          <!--<ion-icon *ngIf="!day.Free" color="danger" name="ios-close-circle-outline" item-left></ion-icon>-->
+          {{ day?.day | getDateTime: item?.month: item?.year }}
+        </button>
+      </template>
+    </ion-item-group>
+  </template>
+  <template [ngIf]="_data.length==0">
+    <ion-item>
+      <p>Нет времени для записи</p>
+    </ion-item>
+  </template>
+
+</ion-content>
+<ion-footer>
+  <ion-fab center bottom (click)="navCtrl.popToRoot()">
+    <button ion-fab color="danger">
+      <ion-icon name="home"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-toolbar color="primary">
+    <!--<ion-title class="footer-title">-->
+    <!--Живая очередь-->
+    <!--</ion-title>-->
+    <!--<ion-buttons end *ngIf="notEmpty">-->
+    <!--<button ion-button icon-right (click)="bookLive()">-->
+    <!--Записаться-->
+    <!--<ion-icon name="send"></ion-icon>-->
+    <!--</button>-->
+    <!--</ion-buttons>-->
+  </ion-toolbar>
+</ion-footer>

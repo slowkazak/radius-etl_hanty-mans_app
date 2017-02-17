@@ -13,10 +13,11 @@ import { AuthProvider } from '../../providers/auth-provider'
   templateUrl: 'menu.html'
 })
 export class MenuPage {
-  DashboardPage: any = DashboardPage
-  ServicesPage: any = ServicesPage
-  PoolsPage: any = PoolsPage
-  OmsPage: any = OmsPage
+  DashboardPage: any = DashboardPage;
+  ServicesPage: any = ServicesPage;
+  PoolsPage: any = PoolsPage;
+  OmsPage: any = OmsPage;
+  HomePage: any = HomePage;
 
   constructor(public navCtrl: NavController, public auth: AuthProvider) {
     this.navCtrl = navCtrl

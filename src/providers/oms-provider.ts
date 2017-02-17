@@ -74,31 +74,35 @@ export class OmsProvider {
     }
     return result;
   }
+  public Book(item: any, formData: any) {
+    let result = null;
+    try {
+      let params = new URLSearchParams();
+      params.set('serviceId', item.serviceId);
+      params.set('date', item.date);
+      params.set('time', item.time);
+      params.set('firstName', formData.first_name);
+      params.set('lastName', formData.second_name);
+      params.set('patronymic', formData.patronymic);
+      params.set('passport', formData.passport);
+      params.set('visitLength', item.visitLength);
+console.info(params.toString());
+
+      result = this.http.post(this.server + "index.php/controller_index/recordByDate", params.toString(), {headers: this._headers})
+        .toPromise()
+        .then(res => this._SuccessCallback(res))
+        .catch(err => this._ErrorCallback(err))
+    }
+    catch (err) {
+      console.error("Произошла ошибка", err);
+      result = Promise.reject(null);
+    }
+    return result;
+  }
 
 
 
   GetTime(serviceId: number) {
-    // let data = [
-    //   {
-    //     "date": "04.01.2017",
-    //     "maxTime": "11:15",
-    //     "minTime": "09:15",
-    //     "nowTime": "10:06",
-    //     "time": ["09:15", "09:55", "10:35", "11:15"],
-    //     "today": "30.12.2016",
-    //     "visitLength": "40"
-    //   },
-    //   {
-    //     "date": "11.01.2017",
-    //     "maxTime": "11:15",
-    //     "minTime": "09:15",
-    //     "nowTime": "10:14",
-    //     "time": ["09:15", "09:55", "10:35", "11:15"],
-    //     "today": "30.12.2016",
-    //     "visitLength": "40"
-    //   }
-    // ]
-
     let result = null;
     try {
       result = this.http.get(this.server + "index.php/controller_index/recordingJSON?serviceId=" + serviceId, {headers: this._headers})
@@ -164,78 +168,79 @@ export class OmsProvider {
     return this.http.get(this.server + "index.php/controller_index/getServiceByDepIdJSON/" + serviceId, {headers: headers})
   }
 
-  getTime(serviceId: number) {
-    // let data = [
-    //   {
-    //     "date": "04.01.2017",
-    //     "maxTime": "11:15",
-    //     "minTime": "09:15",
-    //     "nowTime": "10:06",
-    //     "time": ["09:15", "09:55", "10:35", "11:15"],
-    //     "today": "30.12.2016",
-    //     "visitLength": "40"
-    //   },
-    //   {
-    //     "date": "11.01.2017",
-    //     "maxTime": "11:15",
-    //     "minTime": "09:15",
-    //     "nowTime": "10:14",
-    //     "time": ["09:15", "09:55", "10:35", "11:15"],
-    //     "today": "30.12.2016",
-    //     "visitLength": "40"
-    //   }
-    // ]
+  // getTime(serviceId: number) {
+  //   // let data = [
+  //   //   {
+  //   //     "date": "04.01.2017",
+  //   //     "maxTime": "11:15",
+  //   //     "minTime": "09:15",
+  //   //     "nowTime": "10:06",
+  //   //     "time": ["09:15", "09:55", "10:35", "11:15"],
+  //   //     "today": "30.12.2016",
+  //   //     "visitLength": "40"
+  //   //   },
+  //   //   {
+  //   //     "date": "11.01.2017",
+  //   //     "maxTime": "11:15",
+  //   //     "minTime": "09:15",
+  //   //     "nowTime": "10:14",
+  //   //     "time": ["09:15", "09:55", "10:35", "11:15"],
+  //   //     "today": "30.12.2016",
+  //   //     "visitLength": "40"
+  //   //   }
+  //   // ]
+  //
+  //   let headers = new Headers();
+  //   headers.set('Content-Type', 'application/x-www-form-urlencoded');
+  //   return this.http.get(this.server + "index.php/controller_index/recordingJSON?serviceId=" + serviceId, {headers: headers})
+  //
+  // }
 
-    let headers = new Headers();
-    headers.set('Content-Type', 'application/x-www-form-urlencoded');
-    return this.http.get(this.server + "index.php/controller_index/recordingJSON?serviceId=" + serviceId, {headers: headers})
+  // bookLive(serviceId: number, item: any) { // Запись в живую очередь
+  //   let headers = new Headers();
+  //   headers.set('Content-Type', 'application/x-www-form-urlencoded');
+  //   let params = new URLSearchParams()
+  //   params.set('serviceId', serviceId.toString())
+  //   params.set('date', item.date)
+  //   params.set('time', item.time)
+  //   let body = params.toString()
+  //   return this.http.post(this.server + "index.php/controller_index/recordNow", body, {headers: headers})
+  // }
 
-  }
+  // book(item: any, formData: any, ) { // Запись по дате
+  //  console.info(item, formData, "DATA_BOOK");
+  //   // let headers = new Headers();
+  //   // headers.set('Content-Type', 'application/x-www-form-urlencoded');
+  //   // let params = new URLSearchParams()
+  //   // params.set('serviceId', item.id)
+  //   // params.set('date', datetimeObj.date)
+  //   // params.set('time', datetimeObj.selectedTime)
+  //   // params.set('firstName', formData.first_name)
+  //   // params.set('lastName', formData.second_name)
+  //   // params.set('patronymic', formData.patronymic)
+  //   // params.set('passport', formData.passport)
+  //   // params.set('visitLength', datetimeObj.visitLength)
+  //   // let body = params.toString()
+  //   // return this.http.post(this.server + "index.php/controller_index/recordByDate", body, {headers: headers})
+  // }
 
-  bookLive(serviceId: number, item: any) { // Запись в живую очередь
-    let headers = new Headers();
-    headers.set('Content-Type', 'application/x-www-form-urlencoded');
-    let params = new URLSearchParams()
-    params.set('serviceId', serviceId.toString())
-    params.set('date', item.date)
-    params.set('time', item.time)
-    let body = params.toString()
-    return this.http.post(this.server + "index.php/controller_index/recordNow", body, {headers: headers})
-  }
-
-  book(item: any, formData: any, datetimeObj: any) { // Запись по дате
-    let headers = new Headers();
-    headers.set('Content-Type', 'application/x-www-form-urlencoded');
-    let params = new URLSearchParams()
-    params.set('serviceId', item.id)
-    params.set('date', datetimeObj.date)
-    params.set('time', datetimeObj.selectedTime)
-    params.set('firstName', formData.first_name)
-    params.set('lastName', formData.second_name)
-    params.set('patronymic', formData.patronymic)
-    params.set('passport', formData.passport)
-    params.set('visitLength', datetimeObj.visitLength)
-    let body = params.toString()
-    return this.http.post(this.server + "index.php/controller_index/recordByDate", body, {headers: headers})
-  }
-
-  getDocuments(serviceId: any) {
-    let headers = new Headers();
-    headers.set('Content-Type', 'application/x-www-form-urlencoded');
-    return new Promise((resolve, reject) => {
-      this.http.get(this.server + "index.php/controller_index/serviceContentJSON?serviceId=" + serviceId).subscribe(res => {
-        let data: String = ''
-        console.info(res.json());
-        res.json().forEach(document => {
-          data += '<br>-' + document.name
-        })
-        console.log(data)
-        resolve(data)
-      }, err => {
-        reject()
-      })
-    })
-  }
+  // getDocuments(serviceId: any) {
+  //   let headers = new Headers();
+  //   headers.set('Content-Type', 'application/x-www-form-urlencoded');
+  //   return new Promise((resolve, reject) => {
+  //     this.http.get(this.server + "index.php/controller_index/serviceContentJSON?serviceId=" + serviceId).subscribe(res => {
+  //       let data: String = ''
+  //       console.info(res.json());
+  //       res.json().forEach(document => {
+  //         data += '<br>-' + document.name
+  //       })
+  //       console.log(data)
+  //       resolve(data)
+  //     }, err => {
+  //       reject()
+  //     })
+  //   })
+  // }
 
 
 }

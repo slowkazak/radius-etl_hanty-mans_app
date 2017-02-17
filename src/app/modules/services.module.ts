@@ -8,6 +8,7 @@ import { OmsTimePage } from '../../pages/oms-time/oms-time';
 import { OmsBookPage } from '../../pages/oms-book/oms-book';
 import{ OmsBookFormPage } from '../../pages/oms-book-form/oms-book-form';
 import { getDatePipe, getMonthPipe } from '../../pipes/get-date';
+import {OmsDatePage} from "../../pages/oms-date/oms-date";
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { getDatePipe, getMonthPipe } from '../../pipes/get-date';
     IonicModule.forRoot(ServiceDatePage),
     IonicModule.forRoot(ServiceHoursPage),
     IonicModule.forRoot(OmsPage),
+    IonicModule.forRoot(OmsDatePage),
     IonicModule.forRoot(OmsTimePage),
     IonicModule.forRoot(OmsBookPage),
     IonicModule.forRoot(OmsBookFormPage)
@@ -27,6 +29,7 @@ import { getDatePipe, getMonthPipe } from '../../pipes/get-date';
     getDatePipe,
     getMonthPipe,
     OmsPage,
+    OmsDatePage,
     OmsTimePage,
     OmsBookPage,
     OmsBookFormPage,
@@ -36,6 +39,7 @@ import { getDatePipe, getMonthPipe } from '../../pipes/get-date';
     ServiceDatePage,
     ServiceHoursPage,
     OmsPage,
+    OmsDatePage,
     OmsTimePage,
     OmsBookPage,
     OmsBookFormPage

@@ -22,7 +22,7 @@ export class GeolocationProvider {
    */
   public GetLocation() {
     return new Promise((resolve, reject) => {
-      Geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }).then((resp) => {
+      Geolocation.getCurrentPosition({ maximumAge: 3000, timeout: 5000}).then((resp) => {
         resolve({lat: resp.coords.latitude, lng: resp.coords.longitude, default: false});
       }).catch((error) => {
         console.log('Error getting location', error);

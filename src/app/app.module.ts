@@ -11,12 +11,14 @@ import { location } from '../models/location';
 import { AuthProvider } from '../providers/auth-provider';
 import {LengProvider} from "../providers/leng-provider"
 import {GeolocationProvider} from "../providers/geolocation-provider";
+import {Disablebutton} from "../components/disablebutton/disablebutton";
 
 enableProdMode();
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
+    Disablebutton
   ],
   imports: [
     PagesModule,

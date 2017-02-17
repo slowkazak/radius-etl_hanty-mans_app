@@ -24,10 +24,10 @@ export class MyApp {
 
   constructor(platform: Platform, private auth: AuthProvider, private menu:MenuController) {
     this._menu_items = [
-      {title: "Улучшим наш город", component: DashboardPage},
-      {title: "Опросы", component: PoolsPage},
-      {title: "Запись на приём в ОМС", component: OmsPage},
-      {title: "Запись на приём в МФЦ Югры", component: ServicesPage}
+      {title: "Улучшим наш город", component: DashboardPage, onlywithtoken:true},
+      {title: "Опросы", component: PoolsPage, onlywithtoken:true},
+      {title: "Запись на приём в ОМС", component: OmsPage, onlywithtoken:false},
+      {title: "Запись на приём в МФЦ Югры", component: ServicesPage, onlywithtoken:false}
     ];
     platform.ready().then(() => {
 
@@ -35,7 +35,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.auth.checkAuth().then((user) => {
         if (user) {
-          this.auth.user = JSON.parse(user)
+          this.auth.user = JSON.parse(user);
           this.islogged = true;
           console.log('User found in storage',this.auth.user)
           this.rootPage = NewsFeedPage
@@ -56,6 +56,7 @@ export class MyApp {
   }
   exit() {
     this.auth.clearStorage();
+    this.menu.close();
     this.nav.setRoot(HomePage, {}, {animate: true, direction: 'backwards'})
   }
 

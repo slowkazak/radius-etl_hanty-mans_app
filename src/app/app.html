@@ -1,43 +1,45 @@
-<ion-menu [content]="mycontent">
+<ion-menu [content]="mycontent" [enabled]="auth?.user?.access_token">
   <ion-header>
     <ion-toolbar color="primary">
       <!--<ion-title>-->
-      <div style="margin-left:5px" *ngIf="auth.user">
-        <h4 style="margin-top: 23px!important; color: #fff !important;">{{auth?.user?.first_name}} {{auth?.user?.second_name}}</h4>
-        <p style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">{{auth?.user?.city?.name}}</p>
-        <p *ngIf="auth?.user?.points>0" style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">{{auth?.user?.points}} баллов</p>
-        <p *ngIf="auth?.user?.points<1" style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">Баллов нет</p>
+      <div style="margin-left:5px" *ngIf="auth?.user?.access_token">
+        <h4 style="margin-top: 23px!important; color: #fff !important;">{{auth?.user?.first_name}}
+          {{auth?.user?.second_name}}</h4>
+        <p style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">
+          {{auth?.user?.city?.name}}</p>
+        <p *ngIf="auth?.user?.points>0"
+           style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">
+          {{auth?.user?.points}} баллов</p>
+        <p *ngIf="auth?.user?.points<1"
+           style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">Баллов нет</p>
 
         <!--<p class="p_header" style="margin-bottom: 10px;" *ngIf="!app.lastused?.user_is_courier">{{leng?.admin}}</p>-->
       </div>
+
       <!--</ion-title>-->
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list no-lines no-border style="margin-top: 5px;">
-      <button style="
-  padding-left: 10px !important;
-  padding-bottom: 5px !important;
-  border-bottom: 1px solid #DADADA !important;
-  padding-top: 5px !important;
-" ion-item
-              *ngFor="let p of _menu_items" (click)="openPage(p)">
-       {{p.title}}
-      </button>
+      <template ngFor let-p [ngForOf]="_menu_items">
+        <button disablebutton style="
+  padding-left: 10px !important;  padding-bottom: 5px !important;
+  border-bottom: 1px solid #DADADA !important;  padding-top: 5px !important;
+" ion-item (click)="openPage(p)">
+          {{p.title}} {{auth?.user?.access_token}}
+        </button>
+      </template>
     </ion-list>
   </ion-content>
-  <ion-footer>
-    <ion-toolbar>
-      <button style="
+  <ion-footer *ngIf="auth?.user?.access_token">
+
+    <button style="
   padding-left: 10px !important;
-  padding-bottom: 5px !important;
-  border-bottom: 1px solid #DADADA !important;
-  padding-top: 5px !important;
-" ion-item  (click)="exit()" ion-text="danger">
-        Выйти
-      </button>
-    </ion-toolbar>
+  padding-bottom: 5px !important; padding-top: 5px !important;
+" ion-item (click)="exit()" ion-text="danger">
+      Выйти
+    </button>
   </ion-footer>
 </ion-menu>
 

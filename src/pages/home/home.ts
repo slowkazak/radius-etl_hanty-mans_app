@@ -5,6 +5,7 @@ import { DashboardPage } from '../dashboard/dashboard'
 import { SigninPage } from '../signin/signin'
 import { SignupPage } from '../signup/signup'
 import { MenuPage } from '../menu/menu'
+import {NewsFeedPage} from "../news-feed/news-feed";
 
 @Component({
   selector: 'page-home',

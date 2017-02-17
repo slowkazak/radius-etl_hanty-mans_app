@@ -16,7 +16,10 @@ import _ from "lodash";
   providers: [OmsProvider]
 })
 export class OmsTimePage {
-  title: string = this.navParams.data.item.name
+  private title: string = "Выберите время";
+  private _timearray: Array<any> = [];
+  private bookobject: any = {};
+
   notEmpty: boolean = true;
   data: any
 
@@ -30,11 +33,22 @@ export class OmsTimePage {
   }
 
   ionViewDidLoad() {
+      let date = new Date();
+      let datetime = date.getDate() + "." + date.getMonth() + 1 + "." + date.getFullYear();
+
+    this.bookobject = {
+      serviceId: this.navParams.get('serviceId'),
+      date: datetime,
+      visitLength: this.navParams.get('visitLength'),
+      time: ''
+    };
+    this._timearray.push(...this.navParams.get('time'));
     let loader = this.loadingCtrl.create({
       content: 'Загрузка...'
-    })
-    loader.present();
-    this._GetTime().then(()=>{loader.dismiss();});
+    });
+
+    // loader.present();
+    // this._GetTime().then(()=>{loader.dismiss();});
     // this.oms.getTime(this.navParams.data.item.id).subscribe(res => {
     //   console.info(res.json());
     //   if (res.json()[0].date == "Нет времени для записи") {
@@ -54,7 +68,6 @@ export class OmsTimePage {
     //   toast.present()
     //   this.navCtrl.pop()
     // })
-    console.log('Hello OmsTimePage Page');
   }
 
   private _ToastPresent(msg: string = null) {
@@ -67,92 +80,95 @@ export class OmsTimePage {
     }
   }
 
-  private _GetTime() {
-    return new Promise((resolve, reject) => {
-      try {
-        this.oms.GetTime(this.navParams.data.item.id).then(res => {
-          console.info(res, "RES OMS TIME");
-          res && !_.isObject(res) ?
-            (this._ToastPresent(res),this.notEmpty = false) :
-            _.has(res, "time") && res.time.length > 0 ?
-              (this.data = res, this.notEmpty = true) : this.notEmpty = false;
-          resolve()
-        }).catch(err => {
-          this.notEmpty = false;
-          resolve();
-          console.error("Произошла ошибка", err);
-        })
-      }
-      catch (err) {
-        this.notEmpty = false;
-        resolve();
-        console.error("Произошла ошибка", err);
-      }
-    })
-  }
+  // private _GetTime() {
+  //   return new Promise((resolve, reject) => {
+  //     try {
+  //       this.oms.GetTime(this.navParams.data.item.id).then(res => {
+  //         console.info(res, "RES OMS TIME",_.isObject(res));
+  //         // res && _.isObject(res) ?
+  //           _.has(res, "time") && res.time.length > 0 ?
+  //             (this.data = res, this.notEmpty = true):
+  //           (this._ToastPresent(res),this.notEmpty = false)
+  //           // (this._ToastPresent(res),this.notEmpty = false) :
+  //           // ?
+  //           //   (this.data = res, this.notEmpty = false) : this.notEmpty = true;
+  //         resolve()
+  //       }).catch(err => {
+  //         this.notEmpty = false;
+  //         resolve();
+  //         console.error("Произошла ошибка", err);
+  //       })
+  //     }
+  //     catch (err) {
+  //       this.notEmpty = false;
+  //       resolve();
+  //       console.error("Произошла ошибка", err);
+  //     }
+  //   })
+  // }
 
 
-  bookTime(datetimeObj: Object, time: any) { // Запись по времени
+  bookTime(time: any) { // Запись по времени
     // TODO Переход на страницу с формой (oms-book-form), оттуда отправка данных
-    datetimeObj['selectedTime'] = time
-    this.navCtrl.push(OmsBookFormPage, {item: this.navParams.data.item, datetimeObj})
+    this.bookobject.time = time;
+    this.navCtrl.push(OmsBookFormPage, {data: this.bookobject})
   }
 
-  bookLive() { // Живая очередь
-    let serviceId = this.navParams.data.item.id
-    let loader = this.loadingCtrl.create({
-      content: 'Запись...'
-    })
-    loader.present()
-    let date = new Date()
-    let datetimeObj = { // TODO текущая дата и время
-      date: date.getDate() + "." + date.getMonth() + 1 + "." + date.getFullYear(),
-      time: date.getHours() + ":" + date.getMinutes()
-    }
-    console.log(datetimeObj)
-    this.oms.bookLive(serviceId, datetimeObj).subscribe(res => {
-      loader.dismiss()
-      loader = this.loadingCtrl.create({
-        content: 'Запись...'
-      })
-      loader.present()
-      let data = res.json()[0]
-
-      this.oms.GetDocuments(serviceId).then(docs => {
-
-      }).catch(err => {
-      });
-
-
-      this.oms.getDocuments(serviceId).then(documents => {
-
-        let popover = this.popoverCtrl.create(PopoverPage);
-
-
-        // let alert = this.alertCtrl.create({
-        //   title: 'Вы записались!',
-        //   subTitle: 'Номер в очереди: ' + data.seq_pos + '.<br>Не забудьте документы:' + documents,
-        //   buttons: ['OK']
-        // });
-        this.navCtrl.popToRoot()
-        loader.dismiss();
-        popover.present();
-        // alert.present();
-      }, err => {
-        loader.dismiss()
-        let toast = this.toastCtrl.create({
-          message: 'Произошла ошибка про записи',
-          duration: 3000
-        })
-        toast.present()
-      })
-    }, err => {
-      loader.dismiss()
-      let toast = this.toastCtrl.create({
-        message: 'Произошла ошибка про записи',
-        duration: 3000
-      })
-    })
-  }
+  // bookLive() { // Живая очередь
+  //   let serviceId = this.navParams.data.item.id
+  //   let loader = this.loadingCtrl.create({
+  //     content: 'Запись...'
+  //   })
+  //   loader.present()
+  //   let date = new Date()
+  //   let datetimeObj = { // TODO текущая дата и время
+  //     date: date.getDate() + "." + date.getMonth() + 1 + "." + date.getFullYear(),
+  //     time: date.getHours() + ":" + date.getMinutes()
+  //   }
+  //   console.log(datetimeObj)
+  //   this.oms.bookLive(serviceId, datetimeObj).subscribe(res => {
+  //     loader.dismiss()
+  //     loader = this.loadingCtrl.create({
+  //       content: 'Запись...'
+  //     })
+  //     loader.present()
+  //     let data = res.json()[0]
+  //
+  //     this.oms.GetDocuments(serviceId).then(docs => {
+  //
+  //     }).catch(err => {
+  //     });
+  //
+  //
+  //     this.oms.getDocuments(serviceId).then(documents => {
+  //
+  //       let popover = this.popoverCtrl.create(PopoverPage);
+  //
+  //
+  //       // let alert = this.alertCtrl.create({
+  //       //   title: 'Вы записались!',
+  //       //   subTitle: 'Номер в очереди: ' + data.seq_pos + '.<br>Не забудьте документы:' + documents,
+  //       //   buttons: ['OK']
+  //       // });
+  //       this.navCtrl.popToRoot()
+  //       loader.dismiss();
+  //       popover.present();
+  //       // alert.present();
+  //     }, err => {
+  //       loader.dismiss()
+  //       let toast = this.toastCtrl.create({
+  //         message: 'Произошла ошибка про записи',
+  //         duration: 3000
+  //       })
+  //       toast.present()
+  //     })
+  //   }, err => {
+  //     loader.dismiss()
+  //     let toast = this.toastCtrl.create({
+  //       message: 'Произошла ошибка про записи',
+  //       duration: 3000
+  //     })
+  //   })
+  // }
 
 }

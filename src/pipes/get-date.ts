@@ -5,9 +5,9 @@ import moment from 'moment'
 @Injectable()
 export class getDatePipe implements PipeTransform {
   transform(day: any, month: any, year: any) {
-    moment.locale('ru')
-    let date = moment(year+ '/' + month + '/' + day, "YYYY/MM/DD")
-    return date.format('DD MMMM')
+    moment.locale('ru');
+    let date = moment(year+ '/' + month + '/' + day, "YYYY/MM/DD");
+    return date.format('DD MMMM');
   }
 }
 
@@ -15,7 +15,8 @@ export class getDatePipe implements PipeTransform {
 @Injectable()
 export class getMonthPipe implements PipeTransform {
   transform(year: any, month: any) {
-    moment.locale('ru')
+    console.info(year, month)
+    moment.locale('ru');
     // let test = moment(year + "-" + month, "YYYY-MM")
     // console.log(test.format('MMMM YYYY'))
     // let date = new Date(year + '/' + month)
@@ -25,6 +26,6 @@ export class getMonthPipe implements PipeTransform {
     // date.toLocaleString('ru', options)
     // let name = date.toLocaleString('ru', options)
     // name = name[0].toUpperCase() + name.slice(1)
-    return moment(year + "-" + month, "YYYY-MM").format('MMMM')
+    return moment(year + "-" + month, "YYYY-MM").format('MMMM');
   }
 }

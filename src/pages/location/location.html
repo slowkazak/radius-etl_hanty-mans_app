@@ -12,7 +12,7 @@
       <ion-icon name="ios-navigate" color="pinky" item-left></ion-icon>
       Текущее местоположение
     </button>
-    <button ion-item *ngFor="let item of items" (click)="goToMenu(item.name)">
+    <button ion-item *ngFor="let item of items" (click)="goToMenu(item)">
       <ion-icon name="pin" color="pinky" item-left></ion-icon>
       {{ item.name }}
       <p>{{item.state}}</p>

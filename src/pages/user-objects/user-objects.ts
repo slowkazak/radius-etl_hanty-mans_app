@@ -44,7 +44,7 @@ export class UserObjectsPage {
       this.user_object.length > 0 ? _.forEach(this.user_object, (item) => {
           try {
             item.coordinates ?  (item.coordinates = JSON.parse(item.coordinates),
-              this._InitMap(item.coordinates[0],item.coordinates[1],item.placemark_id,item.description))
+              this._InitMap(item.coordinates[0],item.coordinates[1],item.placemark_id,item.title))
           :
             false
           }
@@ -69,6 +69,9 @@ console.info(this.user_object)
         zoom: 13,
         controls: []
       });
+      maps.behaviors.disable('drag');
+      // maps.behaviors.disable('scrollZoom');
+      maps.behaviors.disable('scrollZoom');
 
 
     };

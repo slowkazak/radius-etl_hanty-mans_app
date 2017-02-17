@@ -67,6 +67,6 @@
 <ion-footer>
 
   <ion-toolbar>
-    <button ion-button block color="danger" type="submit" [disabled]="!(form.valid && location.coords)" (click)="AddObject()">Подать заявку</button>
+    <button ion-button block color="danger" type="submit" [disabled]="!(form.valid && location.coords.length>0)" (click)="AddObject()">Подать заявку</button>
   </ion-toolbar>
 </ion-footer>

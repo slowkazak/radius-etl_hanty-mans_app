@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, LoadingController, } from 'ionic-angular';
+import {NavController, LoadingController,} from 'ionic-angular';
 // import {Geolocation, Dialogs, Toast} from 'ionic-native';
 import {MenuPage} from '../menu/menu'
 import {AuthProvider} from '../../providers/auth-provider'
@@ -8,7 +8,7 @@ import _ from "lodash";
 import {GeolocationProvider} from "../../providers/geolocation-provider";
 import {LocationData} from "../../app/interfaces/location.interface";
 import {settings} from "../../app/settings/settings";
-import { Toast } from 'ionic-native';
+import {Toast} from 'ionic-native';
 import {LengProvider} from "../../providers/leng-provider";
 
 import {NewsFeedPage} from "../news-feed/news-feed";
@@ -41,18 +41,11 @@ export class LocationPage {
   ionViewDidLoad() {
 
 
-
     this.leng.GetLeng("getlocation").then(res => {
       this._leng = _.assign({}, res);
     }).catch(err => {
       this._leng = _.assign({}, err);
     });
-
-
-    // Geolocation.getCurrentPosition().then((res) => {
-    //   console.log(res)
-    // })
-    console.log('Hello LocationPage Page');
   }
 
   /**
@@ -76,6 +69,7 @@ export class LocationPage {
    */
   private _GetLocation() {
     let _callback = (lat: number, lng: number) => {
+      console.info(lat, lng);
       ymaps.ready()
         .then(() => ymaps.geocode([lat, lng], {kind: 'locality'}))
         .then(res => {
@@ -86,17 +80,25 @@ export class LocationPage {
           }
         )
         .catch(err => {
-          console.error(err)
+            console.error(err)
             this._ToastPresent(this._leng.city_not_found);
           }
         )
     };
+    let loader = this.loadingCtrl.create({
+      content: "Загрузка..."
+    })
+    loader.present();
     this.locationprov.GetLocation()
       .then((res: LocationData) => {
+
         _callback(res.lat, res.lng);
+        loader.dismiss();
       })
       .catch((err: LocationData) => {
+        this._ToastPresent(this._leng.city_default);
         _callback(err.lat, err.lng);
+        loader.dismiss();
       });
   }
 
@@ -108,6 +110,7 @@ export class LocationPage {
    * @private
    */
   private _FindCity(city: string) {
+
     let _city = null;
     try {
       _city = settings.citylist.filter(item => item.name === city).pop();
@@ -117,9 +120,6 @@ export class LocationPage {
     }
     return _city;
   }
-
-
-
 
 
   //todo рефактор, затем удалить
@@ -139,8 +139,8 @@ export class LocationPage {
   test = 1
 
   goToMenu(city: string) {
-    this.auth.set('city', city)
-    this.auth.updateStorage()
+    this.auth.set('city', city);
+    this.auth.updateStorage();
     this.navCtrl.setRoot(NewsFeedPage, {}, {animate: true, direction: 'forward'})
   }
 
@@ -148,11 +148,12 @@ export class LocationPage {
     let res = this.items.filter(item => {
       return item.name.indexOf(city) > -1
     })[0]
-    if (!res) {}
-      // this.toastCtrl.create({
-      //   message: 'Не удалось определить город. Пожалуйста, выберете вручную',
-      //   duration: 3000
-      // }).present()
+    if (!res) {
+    }
+    // this.toastCtrl.create({
+    //   message: 'Не удалось определить город. Пожалуйста, выберете вручную',
+    //   duration: 3000
+    // }).present()
     else {
       this.goToMenu(res.name)
     }
