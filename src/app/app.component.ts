@@ -36,7 +36,7 @@ export class MyApp {
       this.auth.checkAuth().then((user) => {
         if (user) {
           this.auth.user = JSON.parse(user);
-          this.islogged = true;
+          this.auth.islogged = true;
           console.log('User found in storage',this.auth.user)
           this.rootPage = NewsFeedPage
         } else {
@@ -57,6 +57,7 @@ export class MyApp {
   exit() {
     this.auth.clearStorage();
     this.menu.close();
+    this.auth.islogged = false;
     this.nav.setRoot(HomePage, {}, {animate: true, direction: 'backwards'})
   }
 

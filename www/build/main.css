@@ -15762,48 +15762,6 @@ ion-input[disabled] .input-cover {
   padding: 6.5px 8px 6.5px 8px;
 }
 
-.item-md.item-input.input-has-focus .item-inner {
-  border-bottom-color: #0094de;
-  box-shadow: inset 0 -1px 0 0 #0094de;
-}
-
-.list-md .item-input.input-has-focus:last-child {
-  border-bottom-color: #0094de;
-  box-shadow: inset 0 -1px 0 0 #0094de;
-}
-
-.list-md .item-input.input-has-focus:last-child .item-inner {
-  box-shadow: none;
-}
-
-.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
-  border-bottom-color: #32db64;
-  box-shadow: inset 0 -1px 0 0 #32db64;
-}
-
-.list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child {
-  border-bottom-color: #32db64;
-  box-shadow: inset 0 -1px 0 0 #32db64;
-}
-
-.list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child .item-inner {
-  box-shadow: none;
-}
-
-.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
-  border-bottom-color: #f53d3d;
-  box-shadow: inset 0 -1px 0 0 #f53d3d;
-}
-
-.list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child {
-  border-bottom-color: #f53d3d;
-  box-shadow: inset 0 -1px 0 0 #f53d3d;
-}
-
-.list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child .item-inner {
-  box-shadow: none;
-}
-
 .item-label-stacked .text-input-md,
 .item-label-floating .text-input-md {
   margin-top: 8px;
@@ -19437,7 +19395,7 @@ ion-popover {
 }
 
 .popover-ios .popover-content {
-  width: 200px;
+  width: 90%;
   min-width: 0;
   min-height: 0;
   max-height: 90%;
@@ -19478,7 +19436,7 @@ ion-popover {
 }
 
 .popover-md .popover-content {
-  width: 250px;
+  width: 90%;
   min-width: 0;
   min-height: 0;
   max-height: 90%;
@@ -48005,10 +47963,6 @@ page-dashboard .filters button {
   float: right;
 }
 
-page-dashboard .scroll-content {
-  margin-top: 185px !important;
-}
-
 page-dashboard ion-card {
   margin: 0 !important;
   width: 100% !important;
@@ -48022,12 +47976,12 @@ page-dashboard ion-card .card-img {
 
 page-dashboard ion-card img {
   height: auto;
+  border: 1px solid #eee;
 }
 
 page-dashboard ion-card .card-date {
   position: absolute;
   bottom: 20px;
-  width: 120px;
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 10px;
@@ -48038,6 +47992,7 @@ page-dashboard ion-card .card-date {
   border-radius: 20px;
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
+  border: 1px solid #eee;
 }
 
 page-dashboard ion-card ion-icon {
@@ -48280,8 +48235,19 @@ page-object-detail ion-card .card-location {
   font-size: 18px;
 }
 
+page-oms-date .year .label:first-letter {
+  text-transform: uppercase;
+}
+
 page-service-date .year .label:first-letter {
   text-transform: uppercase;
+}
+
+page-user-objects .date-layer {
+  width: 100%;
+  margin: 0;
+  margin-top: 6px;
+  border-bottom: 1px solid #fafafa;
 }
 
 page-user-objects #map {

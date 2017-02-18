@@ -73,7 +73,13 @@ export class LocationPage {
       ymaps.ready()
         .then(() => ymaps.geocode([lat, lng], {kind: 'locality'}))
         .then(res => {
+        console.info(res.geoObjects.get(0))
+        try {
             res = res.geoObjects.get(0).getLocalities().pop();
+            }
+        catch(err){
+        res = [12,12];
+        }
             let city = this._FindCity(res);
             city ?
               this.goToMenu(city) : this._ToastPresent(this._leng.city_not_found)

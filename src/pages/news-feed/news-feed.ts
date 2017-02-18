@@ -5,6 +5,7 @@ import _ from "lodash";
 import {LengProvider} from "../../providers/leng-provider";
 import {NewsFeed} from "../../app/interfaces/newsfeed.interface";
 import {SafariViewController, InAppBrowser} from 'ionic-native';
+import {AuthProvider} from "../../providers/auth-provider";
 /*
  Generated class for the NewsFeed page.
 
@@ -23,7 +24,7 @@ export class NewsFeedPage {
   private _error: boolean = false;
   private _nomessagetext: string = '';
 
-  constructor(public navCtrl: NavController, private leng: LengProvider, private rss: RssProvider) {
+  constructor(public navCtrl: NavController, private leng: LengProvider, private rss: RssProvider, private auth:AuthProvider) {
   }
 
 

@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map';
 export class AuthProvider {
   server: string = 'http://api.admhmansy.ru'
   user: any = {}
-
+islogged:boolean = false;
   constructor(public http: Http, public storage: Storage) {
     console.log('Hello AuthProvider Provider');
   }
