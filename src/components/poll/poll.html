@@ -1,10 +1,9 @@
-<!--
-  Generated template for the Poll component.
-
-  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
-  for more info on Angular 2 Components.
--->
-
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Опросы</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
 <ion-spinner name="crescent" *ngIf="!_isready"></ion-spinner>
 <template ngFor let-question [ngForOf]="_questions">
 
@@ -40,3 +39,4 @@
   <!--</template>-->
 </template>
 <button (click)="_Answer()" ion-button>Ответить</button>
+</ion-content>

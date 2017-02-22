@@ -3,6 +3,7 @@ import {NavController, LoadingController, NavParams, ToastController} from 'ioni
 import {PoolsProvider} from '../../providers/pools-provider'
 import {LengProvider} from "../../providers/leng-provider";
 import _ from "lodash";
+import {PollComponent} from "../../components/poll/poll";
 @Component({
   selector: 'page-pools',
   templateUrl: 'pools.html',
@@ -39,12 +40,17 @@ export class PoolsPage {
     loader.present();
     let date = new Date().getTime();
     this.poolsProvider.GetPollsList().then(res => {
+
       !_.isEmpty(res) ? _.map(res, ((item: any) => {
           try {
             // преобразование даты к mm-dd-yyy hh:mm:ss
-            item.DATE_END = item.DATE_END.split(".");
-            item.DATE_END = new Date(item.DATE_END[1] + '-' + item.DATE_END[0] + '-' + item.DATE_END[2]).getTime();
+            let t = item.DATE_END.split(/[- : .]/);
+            // item.DATE_END = item.DATE_END.split(".");
+            item.DATE_END = Math.abs(new Date(t[0], t[1], t[2]).getTime());
             //текущай дата меньше Date_end - показывать голосование
+
+            console.log(item.DATE_END, date);
+
             item.DATE_END > date ? this._pollslist.push(item) : false;
           }
           catch (err) {
@@ -60,16 +66,19 @@ export class PoolsPage {
   }
 
   private _ShowPoll(id,isvoted) {
-    !this._pollclicked ?
-      _.forEach(document.getElementsByClassName('poll_list'), (item: any) => {
-        _.indexOf(item.classList, 'activated') > -1 ? item.classList.remove('activated') : item.classList.add('hidden')
-      }) :
-      _.forEach(document.getElementsByClassName('poll_list'), (item: any) => {
-        item.classList.remove('hidden')
-      });
+    // !this._pollclicked ?
+    //   _.forEach(document.getElementsByClassName('poll_list'), (item: any) => {
+    //     _.indexOf(item.classList, 'activated') > -1 ? item.classList.remove('activated') : item.classList.add('hidden')
+    //   }) :
+    //   _.forEach(document.getElementsByClassName('poll_list'), (item: any) => {
+    //     item.classList.remove('hidden')
+    //   });
     this._pollclicked = !this._pollclicked;
     this._pollid = id;
 this._isvoted = isvoted;
+console.info(id, this._isvoted);
+this.navCtrl.push(PollComponent,{id:this._pollid,isvoted:this._isvoted})
+
   }
 
 

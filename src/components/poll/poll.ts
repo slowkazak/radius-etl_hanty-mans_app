@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {PoolsProvider} from "../../providers/pools-provider";
 import _ from "lodash";
+import {NavParams} from "ionic-angular";
 /*
  Generated class for the Poll component.
 
@@ -9,29 +10,33 @@ import _ from "lodash";
  */
 @Component({
   selector: 'poll',
-  templateUrl: 'poll.html'
+  templateUrl: 'poll.html',
+
+  providers: [PoolsProvider]
 })
 export class PollComponent implements OnChanges {
-  @Input() pollid = 0;
-  @Input() isvoted: string = '';
+  pollid = 0;
+  isvoted: string = '';
   text: string;
   private _isready: boolean = false;
   private _answersready:boolean = false;
   private _questions: any = [];
   private _answerdata: any = {answers: []};
 
-  constructor(private poolsProvider: PoolsProvider,) {
+  constructor(private poolsProvider: PoolsProvider, private navparams:NavParams) {
     this.text = 'Hello World';
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this._answerdata.id = this.pollid;
 
-    this._GetPoll();
   }
 
   ngAfterContentInit() {
-    // this._GetPoll();
+    this._answerdata.id = this.navparams.get('id');
+    this.pollid = this.navparams.get('id');
+    this.isvoted = this.navparams.get('isvoted');
+
+    this._GetPoll();
   }
 
   /**
@@ -41,6 +46,8 @@ export class PollComponent implements OnChanges {
   private _GetPoll() {
     this.poolsProvider.GetPoll(this.pollid)
       .then(res => {
+
+        console.log(res,this.pollid)
         this._answerdata.sessid = res.sessid;
         let regex = /(<([^>]+)>)/ig;
         res && _.has(res, "questions_id") && res.questions_id.length > 0 ?

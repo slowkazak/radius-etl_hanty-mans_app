@@ -13,10 +13,15 @@
   <!--<ion-list>-->
     <template [ngIf]="_pollslist.length>0">
 
-      <ion-item-group  *ngFor="let poll of _pollslist" class="poll_list" (click)="_ShowPoll(poll.ID, poll.USER_ALREADY_VOTE)">
-        <ion-item-divider color="white" text-wrap>{{poll?.TITLE}}</ion-item-divider>
-      </ion-item-group>
+      <!--<ion-item-group  *ngFor="let poll of _pollslist" class="poll_list" (click)="_ShowPoll(poll.ID, poll.USER_ALREADY_VOTE)">-->
+        <!--<ion-item-divider color="white" text-wrap>{{poll?.TITLE}}</ion-item-divider>-->
+      <!--</ion-item-group>-->
 
+      <button  ion-item *ngFor="let poll of _pollslist" text-wrap class="poll_list" (click)="_ShowPoll(poll.ID, poll.USER_ALREADY_VOTE)">
+        {{poll?.TITLE}}
+      </button>
+
+      <!--<poll *ngIf="_pollclicked" [pollid]="_pollid" [isvoted]="_isvoted"></poll>-->
       <!--<ion-item *ngFor="let poll of _pollslist" text-wrap>-->
         <!--<p>-->
           <!--{{poll?.TITLE}}-->
@@ -30,8 +35,10 @@
         {{_leng?.polls_empty}}
 
       </ion-item>
+
+
     </template>
-    <poll *ngIf="_pollclicked" [pollid]="_pollid" [isvoted]="_isvoted"></poll>
+
   <!--</ion-list>-->
 
   <!--</ion-content>-->
