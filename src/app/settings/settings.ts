@@ -3,7 +3,37 @@ export const settings = {
   default_lng: 69.035848,
   adm_api_path: "http://api.admhmansy.ru",
   adm_domain_path: "http://admhmansy.ru",
-  image_file_extentions:[".png",".bmp",".jpg",".jpg",".jpeg",".pcx",".gif"],
+  image_file_extentions: [".png", ".bmp", ".jpg", ".jpg", ".jpeg", ".pcx", ".gif"],
+  passport_validator_regexp: "\d{4}\s\d{6}",
+  error_codes: [{code: "form_no_reqirement_data", title: "Недостаточно данных для выполнения запроса"}],
+  polls_types: [
+    {"type": "radio", "id": 0},
+    {"type": "checkbox", "id": 1},
+    {"type": "dropdown", "id": 2},
+    {"type": "multiselect", "id": 3},
+    {"type": "text", "id": 4},
+    {"type": "memo", "id": 5}
+  ],
+  api_methods: {
+    user_update: {
+      domain: "adm_api_path",
+      method: "/user/update",
+      auth_param: "user_id",
+      data_param: "data"
+    },
+    votes_list: {
+      domain: "adm_domain_path",
+      method: "/vote/vote_api/vote_list.php",
+      auth_param: "",
+      data_param: ""
+    },
+    vote: {
+      domain: "adm_domain_path",
+      method: "/vote/vote_api/vote_form.php",
+      auth_param: "",
+      data_param: "VOTE_ID"
+    }
+  },
   citylist: [
     {
       name: 'Белоярский',

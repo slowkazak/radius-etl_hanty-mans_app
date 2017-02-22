@@ -3,7 +3,6 @@ import {NavController, LoadingController, NavParams, ToastController} from 'ioni
 import {PoolsProvider} from '../../providers/pools-provider'
 import {LengProvider} from "../../providers/leng-provider";
 import _ from "lodash";
-
 @Component({
   selector: 'page-pools',
   templateUrl: 'pools.html',
@@ -13,7 +12,12 @@ export class PoolsPage {
   data: any
   title: string = 'Опросы';
   stats: Array<any> = [];
- private _leng: any = {};
+
+  private _leng: any = {};
+  private _pollslist: any = [];
+  private _pollclicked = false;
+  private _pollid = 0;
+  private _isvoted = '';
 
   constructor(public navCtrl: NavController,
               public poolsProvider: PoolsProvider,
@@ -23,50 +27,98 @@ export class PoolsPage {
               private leng: LengProvider) {
   }
 
+
+  /**
+   * Получение списка опросов
+   * @private
+   */
+  private _GetPollsList() {
+    let loader = this.loadingCtrl.create({
+      content: 'Пожалуйста, подождите'
+    });
+    loader.present();
+    let date = new Date().getTime();
+    this.poolsProvider.GetPollsList().then(res => {
+      !_.isEmpty(res) ? _.map(res, ((item: any) => {
+          try {
+            // преобразование даты к mm-dd-yyy hh:mm:ss
+            item.DATE_END = item.DATE_END.split(".");
+            item.DATE_END = new Date(item.DATE_END[1] + '-' + item.DATE_END[0] + '-' + item.DATE_END[2]).getTime();
+            //текущай дата меньше Date_end - показывать голосование
+            item.DATE_END > date ? this._pollslist.push(item) : false;
+          }
+          catch (err) {
+            console.error("Произошла ошибка", err)
+          }
+
+        })) : false;
+
+      loader.dismiss();
+    }).catch(err => {
+      loader.dismiss();
+    })
+  }
+
+  private _ShowPoll(id,isvoted) {
+    !this._pollclicked ?
+      _.forEach(document.getElementsByClassName('poll_list'), (item: any) => {
+        _.indexOf(item.classList, 'activated') > -1 ? item.classList.remove('activated') : item.classList.add('hidden')
+      }) :
+      _.forEach(document.getElementsByClassName('poll_list'), (item: any) => {
+        item.classList.remove('hidden')
+      });
+    this._pollclicked = !this._pollclicked;
+    this._pollid = id;
+this._isvoted = isvoted;
+  }
+
+
   ionViewDidLoad() {
+    this._GetPollsList();
     this.leng.GetLeng("polls").then(res => {
       this._leng = _.assign({}, res);
     }).catch(err => {
       this._leng = _.assign({}, err);
     });
 
-
-    //TODO Переделать
-    let loader = this.loadingCtrl.create({
-      content: 'Пожалуйста, подождите'
-    })
-    loader.present()
-    if (this.navParams.data.question) {
-      this.poolsProvider.getAnswers(this.navParams.data.question).subscribe(res => {
-        console.log(res.json());
-        this.data = res.json();
-        this.title = this.navParams.data.question.label;
-        loader.dismiss()
-      }, err => {
-        console.log(err.json());
-        loader.dismiss()
-      })
-    } else if (this.navParams.data.pool) {
-      this.poolsProvider.getQuestions(this.navParams.data.pool).subscribe(res => {
-        console.log(res.json());
-        this.data = res.json();
-        this.title = this.navParams.data.pool.label
-        loader.dismiss()
-      }, err => {
-        console.log(err.json());
-        loader.dismiss()
-      })
-    } else {
-      this.poolsProvider.get().subscribe(res => {
-        console.log(res.json());
-        this.data = res.json();
-        loader.dismiss()
-      }, err => {
-        console.log(err.json());
-        loader.dismiss()
-      })
-    }
-    console.log('Hello PoolsPage Page');
+    //
+    //
+    // //TODO Переделать
+    // let loader = this.loadingCtrl.create({
+    //   content: 'Пожалуйста, подождите'
+    // })
+    // loader.present()
+    // if (this.navParams.data.question) {
+    //   this.poolsProvider.getAnswers(this.navParams.data.question).subscribe(res => {
+    //     console.log(res.json());
+    //     this.data = res.json();
+    //     this.title = this.navParams.data.question.label;
+    //     loader.dismiss()
+    //   }, err => {
+    //     console.log(err.json());
+    //     loader.dismiss()
+    //   })
+    // } else if (this.navParams.data.pool) {
+    //   this.poolsProvider.getQuestions(this.navParams.data.pool).subscribe(res => {
+    //     console.log(res.json());
+    //     this.data = res.json();
+    //     this.title = this.navParams.data.pool.label
+    //     loader.dismiss()
+    //   }, err => {
+    //     console.log(err.json());
+    //     loader.dismiss()
+    //   })
+    // } else {
+    //   this.poolsProvider.get().subscribe(res => {
+    //     console.log(res.json());
+    //     this.data = res.json();
+    //     loader.dismiss()
+    //   }, err => {
+    //     console.log(err.json());
+    //     loader.dismiss()
+    //   })
+    // }
+    // console.log('Hello PoolsPage Page');
   }
 
   openItem(item: any) {

@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage'
-import { Http, URLSearchParams, Headers } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Storage} from '@ionic/storage'
+import {Http, URLSearchParams, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AuthProvider {
   server: string = 'http://api.admhmansy.ru'
   user: any = {}
-islogged:boolean = false;
+  islogged: boolean = false;
+
   constructor(public http: Http, public storage: Storage) {
     console.log('Hello AuthProvider Provider');
   }
@@ -16,7 +17,7 @@ islogged:boolean = false;
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
     let params = new URLSearchParams()
-    params.set('login', login) 
+    params.set('login', login)
     params.set('password', password)
     let body = params.toString()
     return this.http.post(this.server + "/user/auth", body, {headers: headers})
@@ -38,8 +39,23 @@ islogged:boolean = false;
     return this.storage.get('user')
   }
 
+  /**
+   * Запрос объекта пользователя
+   * @returns {any|null}
+   * @constructor
+   */
+  public Get() {
+    return this.user || null;
+  }
+
   set(key: string, param: any) {
-    this.user[key] = param
+    try {
+      this.user[key] = param;
+      this.updateStorage()
+    }
+    catch (err) {
+      console.error("Произошла ошибка", err)
+    }
   }
 
   addPoints(points: number) {

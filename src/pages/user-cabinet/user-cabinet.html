@@ -1,0 +1,45 @@
+<!--
+  Generated template for the UserCabinet page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar  color="primary">
+    <ion-title>{{_leng.page_title}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <form [formGroup]="_user_cabinet" (ngSubmit)="_Change()">
+    <ion-list no-lines>
+      <ion-item class="brd">
+        <ion-label floating>{{_leng.form_first_name}}</ion-label>
+        <ion-input type="text" formControlName="first_name"></ion-input>
+      </ion-item>
+      <ion-item class="brd">
+        <ion-label floating>{{_leng.form_second_name}}</ion-label>
+        <ion-input type="text" formControlName="second_name"></ion-input>
+      </ion-item>
+      <ion-item class="brd">
+        <ion-label floating>{{_leng.form_login}}</ion-label>
+        <ion-input type="text" formControlName="login"></ion-input>
+      </ion-item>
+      <ion-item class="brd">
+        <ion-label floating>{{_leng.form_password}}</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <ion-item class="brd">
+        <ion-label floating>{{_leng.form_passport}}</ion-label>
+        <ion-input type="text" formControlName="passport"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button style="float: right;" ion-button clear type="submit" [disabled]="!_user_cabinet.valid">{{_leng.btn_update_title}}</button>
+    </div>
+  </form>
+
+</ion-content>

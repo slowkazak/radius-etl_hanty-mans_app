@@ -7,7 +7,8 @@ import { ObjectsStatusPage } from '../../pages/objects-status/objects-status';
 import { ObjectAddPage } from '../../pages/object-add/object-add'
 import { UserObjectsPage } from '../../pages/user-objects/user-objects'
 import { LocationSelectPage } from '../../pages/location-select/location-select'
-import { ConvertDatePipe } from '../../pipes/date-pipe'
+import { ConvertDatePipe } from '../../pipes/date-pipe';
+import {UserCabinetPage} from "../../pages/user-cabinet/user-cabinet"
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ConvertDatePipe } from '../../pipes/date-pipe'
     IonicModule.forRoot(ObjectsStatusPage),
     IonicModule.forRoot(ObjectAddPage),
     IonicModule.forRoot(UserObjectsPage),
-    IonicModule.forRoot(LocationSelectPage)
+    IonicModule.forRoot(LocationSelectPage),
+    IonicModule.forRoot(UserCabinetPage)
   ],
   declarations: [
     DashboardPage,
@@ -27,7 +29,8 @@ import { ConvertDatePipe } from '../../pipes/date-pipe'
     ObjectAddPage,
     UserObjectsPage,
     LocationSelectPage,
-    ConvertDatePipe
+    ConvertDatePipe,
+    UserCabinetPage,
   ],
   exports: [
     DashboardPage,
@@ -36,7 +39,8 @@ import { ConvertDatePipe } from '../../pipes/date-pipe'
     ObjectsStatusPage,
     ObjectAddPage,
     UserObjectsPage,
-    LocationSelectPage
+    LocationSelectPage,
+    UserCabinetPage
   ]
 })
 export class DashboardModule {}

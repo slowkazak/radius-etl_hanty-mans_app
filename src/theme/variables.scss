@@ -22,7 +22,7 @@
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #0094de,
+  primary:    #2c7dc1,
   secondary:  #06009e,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -65,7 +65,9 @@ $text-input-ios-show-focus-highlight:false;
 // --------------------------------------------------
 // Windows only Sass variables can go here
 
-
+.scroll-content {
+  overflow: hidden;
+}
 
 
 // App Theme

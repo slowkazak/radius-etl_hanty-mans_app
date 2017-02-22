@@ -2,7 +2,7 @@
   <ion-header>
     <ion-toolbar color="primary">
       <!--<ion-title>-->
-      <div style="margin-left:5px" *ngIf="auth.islogged">
+      <div style="margin-left:5px" *ngIf="auth.islogged" (click)="_OpenCabinet()">
         <h4 style="margin-top: 23px!important; color: #fff !important;">{{auth?.user?.first_name}}
           {{auth?.user?.second_name}}</h4>
         <p style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">
@@ -23,11 +23,8 @@
   <ion-content>
     <ion-list no-lines no-border style="margin-top: 5px;">
       <template ngFor let-p [ngForOf]="_menu_items">
-        <button disablebutton style="
-  padding-left: 10px !important;  padding-bottom: 5px !important;
-  border-bottom: 1px solid #DADADA !important;  padding-top: 5px !important;
-" ion-item (click)="openPage(p)">
-          {{p.title}} 
+        <button class="brd" ion-item (click)="openPage(p)">
+          {{p.title}}
         </button>
       </template>
     </ion-list>

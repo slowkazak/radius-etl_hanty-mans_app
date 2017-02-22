@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
-import { IonicModule } from 'ionic-angular';
-import { HomePage } from '../../pages/home/home';
-import { LocationPage } from '../../pages/location/location'
-import { MenuPage } from '../../pages/menu/menu'
-import { PoolsPage } from '../../pages/pools/pools'
+import {NgModule} from '@angular/core';
+import {IonicModule} from 'ionic-angular';
+import {HomePage} from '../../pages/home/home';
+import {LocationPage} from '../../pages/location/location'
+import {MenuPage} from '../../pages/menu/menu'
+import {PoolsPage} from '../../pages/pools/pools'
 import {PopoverPage} from "../../pages/popover-page/popover-page";
 import {NewsFeedPage} from "../../pages/news-feed/news-feed";
+import {PollComponent} from "../../components/poll/poll";
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import {NewsFeedPage} from "../../pages/news-feed/news-feed";
     }),
     IonicModule.forRoot(PoolsPage),
     IonicModule.forRoot(PopoverPage),
-    IonicModule.forRoot(NewsFeedPage)
+    IonicModule.forRoot(NewsFeedPage),
+    IonicModule.forRoot(PollComponent)
   ],
   declarations: [
     LocationPage,
@@ -24,7 +26,8 @@ import {NewsFeedPage} from "../../pages/news-feed/news-feed";
     HomePage,
     PoolsPage,
     PopoverPage,
-    NewsFeedPage
+    NewsFeedPage,
+    PollComponent
   ],
   exports: [
     LocationPage,
@@ -32,7 +35,9 @@ import {NewsFeedPage} from "../../pages/news-feed/news-feed";
     HomePage,
     PoolsPage,
     PopoverPage,
-    NewsFeedPage
+    NewsFeedPage,
+    PollComponent
   ]
 })
-export class PagesModule {}
+export class PagesModule {
+}

@@ -6,6 +6,8 @@ import {
 } from 'ionic-angular';
 import {OmsProvider} from '../../providers/oms-provider'
 import {PopoverPage} from "../popover-page/popover-page";
+import {AuthProvider} from "../../providers/auth-provider";
+import _ from "lodash"
 
 @Component({
   selector: 'page-oms-book-form',
@@ -13,25 +15,56 @@ import {PopoverPage} from "../popover-page/popover-page";
   providers: [OmsProvider]
 })
 export class OmsBookFormPage {
-  book_form: any;
+  private book_form: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private formBuilder: FormBuilder,
               public loadingCtrl: LoadingController,
               private oms: OmsProvider,
-              private popoverCtrl: PopoverController) {
+              private popoverCtrl: PopoverController,
+              private auth: AuthProvider) {
+    //
+    // this.book_form = this.formBuilder.group({
+    //   first_name: ['', Validators.required],
+    //   second_name: ['', Validators.required],
+    //   patronymic: ['', Validators.required],
+    //   passport: ['', Validators.required]
+    // })
+  }
+
+
+  ngAfterContentInit() {
+    this._InitPage();
+  }
+
+  private _InitPage() {
+
+    let userdata = {first_name: '', second_name: '', patronymic: '', passport: '', rawobject: null};
+    userdata.rawobject = this.auth.Get();
+    !_.isEmpty(userdata.rawobject) ? (
+        userdata.first_name = userdata.rawobject.first_name,
+          userdata.second_name = userdata.rawobject.second_name,
+          !_.isEmpty(userdata.rawobject.passport) ? userdata.passport = atob(userdata.rawobject.passport) : false
+      ) : false;
+
     this.book_form = this.formBuilder.group({
-      first_name: ['', Validators.required],
-      second_name: ['', Validators.required],
-      patronymic: ['', Validators.required],
-      passport: ['', Validators.required]
+      first_name: [userdata.first_name, Validators.required],
+      second_name: [userdata.second_name, Validators.required],
+      patronymic: [userdata.patronymic, Validators.required],
+      passport: [userdata.passport, Validators.required]
     })
   }
 
+
+  /*
+   access_token: "2ef6de4be7bf03034d2d519ec6d29a5c855370934266"city: Objectfirst_name: "stanislavov"login: "staskuban@ya.ru"passport: "MTIzNCAxMjM0NTY="password_hash: "784056f5e049c5766ed86569a36d592c"points: "40"role: "2"second_name: "stanislav"user_id: "3"
+   */
   ionViewDidLoad() {
+    this.auth.Get()
 
   }
+
   private _ToastPresent(msg: string = null) {
     if (msg) {
       Toast.show(msg, '2000', 'bottom').subscribe(
@@ -66,7 +99,11 @@ export class OmsBookFormPage {
           loader.dismiss();
           console.error(err)
         }) : false
-    }).catch(err => {this._ToastPresent("Произошла ошибка про записи");loader.dismiss();console.error(err)});
+    }).catch(err => {
+      this._ToastPresent("Произошла ошибка про записи");
+      loader.dismiss();
+      console.error(err)
+    });
     //
     //   .subscribe(res => {
     //   loader.dismiss()

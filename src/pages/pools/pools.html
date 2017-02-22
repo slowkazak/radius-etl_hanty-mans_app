@@ -10,31 +10,37 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <template [ngIf]="data">
-    <button ion-item *ngFor="let item of data; let i = index" (click)=openItem(item)>
-      <!-- <ion-icon name="menu" color="pinky" item-left></ion-icon> -->
-      {{item.label}}
-      <ion-note item-right [hidden]="!stats">
-        {{stats[i]?.quantity}}
-      </ion-note>
-    </button>
+  <!--<ion-list>-->
+    <template [ngIf]="_pollslist.length>0">
+
+      <ion-item-group  *ngFor="let poll of _pollslist" class="poll_list" (click)="_ShowPoll(poll.ID, poll.USER_ALREADY_VOTE)">
+        <ion-item-divider color="white" text-wrap>{{poll?.TITLE}}</ion-item-divider>
+      </ion-item-group>
+
+      <!--<ion-item *ngFor="let poll of _pollslist" text-wrap>-->
+        <!--<p>-->
+          <!--{{poll?.TITLE}}-->
+        <!--</p>-->
+        <!--<poll id="{{poll.ID}}" [pollid]="poll?.ID"></poll>-->
+      <!--</ion-item>-->
     </template>
-    <template [ngIf]="!data">
+
+    <template [ngIf]="_pollslist.length<1">
       <ion-item text-center>
-    {{_leng?.polls_empty}}
+        {{_leng?.polls_empty}}
+
       </ion-item>
     </template>
+    <poll *ngIf="_pollclicked" [pollid]="_pollid" [isvoted]="_isvoted"></poll>
+  <!--</ion-list>-->
 
-  </ion-list>
-
-</ion-content>
-<ion-footer>
-  <ion-fab center bottom (click)="navCtrl.popToRoot()">
-    <button ion-fab color="danger">
-      <ion-icon name="home"></ion-icon>
-    </button>
-  </ion-fab>
-  <ion-toolbar color="primary">
-  </ion-toolbar>
-</ion-footer>
+  <!--</ion-content>-->
+  <!--<ion-footer>-->
+  <!--<ion-fab center bottom (click)="navCtrl.popToRoot()">-->
+  <!--<button ion-fab color="danger">-->
+  <!--<ion-icon name="home"></ion-icon>-->
+  <!--</button>-->
+  <!--</ion-fab>-->
+  <!--<ion-toolbar color="primary">-->
+  <!--</ion-toolbar>-->
+  <!--</ion-footer>-->

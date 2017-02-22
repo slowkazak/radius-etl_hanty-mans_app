@@ -1,17 +1,107 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
-import 'rxjs/add/operator/map';
-import { AuthProvider } from './auth-provider'
+import {Injectable} from '@angular/core';
+import {Http, Headers, URLSearchParams} from '@angular/http';
 
+import {AuthProvider} from './auth-provider'
+
+import {settings} from "../app/settings/settings";
+import {CommonCallback} from "../helpers/common.callback.class";
+import _ from "lodash";
 @Injectable()
-export class PoolsProvider {
+export class PoolsProvider extends CommonCallback {
   server: string = 'http://api.admhmansy.ru'
   access_token: string = this.auth.user.access_token || null
 
+
   constructor(public http: Http, private auth: AuthProvider) {
-    console.log('Hello Pools Provider');
+    super();
   }
 
+  /** Получение списка опросов
+   * @constructor
+   */
+  public GetPollsList() {
+    let result = null;
+    result = this.http.get(
+      settings.adm_domain_path +
+      settings.api_methods.votes_list.method)
+      .toPromise()
+      .then(res => super._SuccessCallback(res))
+      .catch(err => super._ErrorCallback(err))
+    return result;
+  }
+
+  /**
+   * Получение опроса по id
+   * @param pollid
+   * @returns {null}
+   * @constructor
+   */
+  public GetPoll(pollid = 0) {
+    let result = null;
+    let urlsearch = null;
+    pollid ?
+
+      (() => {
+        try {
+          urlsearch = new URLSearchParams();
+          urlsearch.set(settings.api_methods.vote.data_param, pollid);
+          result = this.http.get(
+            settings.adm_domain_path +
+            settings.api_methods.vote.method, { search: urlsearch })
+            .toPromise()
+            .then(res => super._SuccessCallback(res))
+            .catch(err => super._ErrorCallback(err))
+        }
+        catch (err) {
+          console.error("Произошла ошибка", err);
+          result = Promise.reject(false);
+        }
+
+      })()
+      : result = Promise.reject(false);
+    return result
+  }
+
+  public Answer(answerdata){
+   let urlsearch = new URLSearchParams();
+   _.forEach(answerdata.answers,(item:any)=>{
+     try {
+     urlsearch.set('vote_'+item.type+'_'+item.q,item.val);
+     }
+     catch (err) {
+       console.error("Произошла ошибка", err)
+     }
+   });
+    urlsearch.set('AJAX_POST',"Y");
+    urlsearch.set('vote',"Y");
+    urlsearch.set('REVOTE_ID',answerdata.id);
+    urlsearch.set('PUBLIC_VOTE_ID',answerdata.id);
+    urlsearch.set('PUBLIC_VOTE_ID',answerdata.id);
+    urlsearch.set('sessid',answerdata.sessid);
+
+    console.warn(urlsearch.toString())
+    let headers = new Headers();
+    headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    // :Y
+    // vote:Y
+    // REVOTE_ID:49
+    // PUBLIC_VOTE_ID:49
+    // VOTE_ID:49
+    // sessid:a0d215f701b0b800fc86f601a4776b71
+    // vote_radio_116 549
+
+
+    // q: answer.QUESTION_ID,
+    //   a: answer.ANSWER_ID,
+    //   type:type,
+    //   val:val,
+    return this.http.post(settings.adm_domain_path,urlsearch.toString(), {headers: headers}).toPromise()
+      .then(res => super._SuccessCallback(res))
+      .catch(err => super._ErrorCallback(err))
+  }
+
+
+  //TODO рефактор
   get() {
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded')

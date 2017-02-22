@@ -9,6 +9,7 @@ import {DashboardPage} from "../pages/dashboard/dashboard";
 import {PoolsPage} from "../pages/pools/pools";
 import {OmsPage} from "../pages/oms-page/oms-page";
 import {ServicesPage} from "../pages/services/services";
+import {UserCabinetPage} from "../pages/user-cabinet/user-cabinet";
 
 
 @Component({
@@ -50,10 +51,19 @@ export class MyApp {
     });
   }
 
+  /**
+   * Открывает кабинет пользователя
+   * @private
+   */
+  private _OpenCabinet(){
+    this.menu.close();
+    this.nav.push(UserCabinetPage);
+  }
   openPage(page) {
     this.menu.close();
     this.nav.push(page.component);
   }
+
   exit() {
     this.auth.clearStorage();
     this.menu.close();

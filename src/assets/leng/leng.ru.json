@@ -30,6 +30,17 @@
       "docs_needed":"Не забудьте взять следующие документы",
       "closebtntext":"Закрыть"
     },
+    "user_cabinet":{
+      "page_title":"Личный кабинет",
+      "btn_update_title":"Обновить",
+      "form_first_name":"Имя",
+      "form_second_name":"Фамилия",
+      "form_login":"Мобильный телефон или почта",
+      "form_password":"Пароль",
+      "form_passport":"Серия и номер паспора",
+      "message_update_success":"Обновление данных выполнено",
+      "message_update_fail":"Ошибка обновления данных"
+    },
     "http_queries": {
       "domain_not_resolve": "Ошибка связи с сервером",
       "page_not_found": "Страница не найдена",

@@ -1,0 +1,42 @@
+<!--
+  Generated template for the Poll component.
+
+  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
+  for more info on Angular 2 Components.
+-->
+
+<ion-spinner name="crescent" *ngIf="!_isready"></ion-spinner>
+<template ngFor let-question [ngForOf]="_questions">
+
+  <!--{{question?._answers | json}}-->
+  <!--<p>-->
+  <!--{{question |json}}-->
+  <!--</p>-->
+  <!--<template [ngIf]="question?._answers.length>0">-->
+  <ion-item *ngFor="let answer of question?._answers">
+    {{answer | json}}
+    <ion-row item-content *ngIf="answer?.FIELD_TYPE == 0" (click)="_PrepareAnswer(answer)">
+      <ion-col>
+        {{answer?.MESSAGE}}
+      </ion-col>
+      <ion-col width-15>
+        {{answer?.COUNTER}}
+      </ion-col>
+    </ion-row>
+    <ion-textarea *ngIf="answer?.FIELD_TYPE == 5"
+                  [(ngModel)]="answer.value"
+                  placeholder="{{answer?.MESSAGE}}"
+
+                  (blur)="_PrepareAnswer(answer)"></ion-textarea>
+
+  </ion-item>
+
+  <!--<template ngFor let-answer [ngForOf]="question?._answers">-->
+  <!--<ion-item>-->
+  <!--<pre>{{answer?.MESSAGE}}</pre>-->
+  <!--{{answer.MESSAGE}}-->
+  <!--</ion-item>-->
+  <!--</template>-->
+  <!--</template>-->
+</template>
+<button (click)="_Answer()" ion-button>Ответить</button>
