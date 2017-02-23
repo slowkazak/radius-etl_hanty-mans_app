@@ -24,6 +24,7 @@ import {location} from '../../models/location'
 import {LocationSelectPage} from '../location-select/location-select'
 import _ from "lodash";
 import {LengProvider} from "../../providers/leng-provider";
+import {settings} from "../../app/settings/settings";
 @Component({
   selector: 'page-object-add',
   templateUrl: 'object-add.html',
@@ -35,7 +36,8 @@ export class ObjectAddPage {
   coords: any = this.location.coords;
 
 
-  media: Array<{url: any, placemarkId: any, type: any}> = [];
+  private _pattern = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/;
+  media: Array<{url: any, type: any}> = [];
   private _leng: any = {};
   private _loader: any = this.loadingCtrl.create({
     content: this._leng.add_load_loader
@@ -58,6 +60,13 @@ export class ObjectAddPage {
     })
   }
 
+
+  private _SetPlaceholder(){
+    while (this.media.length < settings.object_media_placeholder_count) {
+      this.media.push({url: null, type: null})
+    }
+  }
+
   private _ToastPresent(msg: string = null) {
     if (msg) {
       Toast.show(msg, '2000', 'bottom').subscribe(
@@ -74,6 +83,7 @@ export class ObjectAddPage {
     }).catch(err => {
       this._leng = _.assign({}, err);
     });
+    this._SetPlaceholder();
   }
 
 
@@ -88,20 +98,29 @@ export class ObjectAddPage {
   AddObject() {
     this.service.AddObject(this.form.value, this.media, this.location.Get())
   }
-  takePhoto() {
+  takePhoto(idx:number) {
     Camera.getPicture({
       quality: 70,
       destinationType: Camera.DestinationType.FILE_URI
     }).then((imageData) => {
-      this._loader.present();
-      this.service.Upload(imageData).then(res => {
-        this._loader.dismiss();
-        res ? this._RenderMedia(imageData, res) : this._ToastPresent(this._leng.add_err_file_load_err)
-      }).catch(err => {
-        this._loader.dismiss();
-        this._ToastPresent(this._leng.add_err_file_load_err);
-        console.error(err);
-      });
+
+      this._RenderMedia(imageData,idx);
+
+
+
+
+      // this._loader.present();
+      // this.service.Upload(imageData).then(res => {
+      //   this._loader.dismiss();
+      //   res ? this._RenderMedia(imageData, res) : this._ToastPresent(this._leng.add_err_file_load_err)
+      // }).catch(err => {
+      //   this._loader.dismiss();
+      //   this._ToastPresent(this._leng.add_err_file_load_err);
+      //   console.error(err);
+      // });
+
+
+
       // this.service.Upload(imageData);
       // let loader = this.loadingCtrl.create({
       //   content: "Загрузка фотографии"
@@ -135,24 +154,27 @@ export class ObjectAddPage {
   }
 
   deleteMedia(index: number) {
-    let placemarkId = this.media[index].placemarkId
-    this.service.deleteMedia(placemarkId)
-    this.media.splice(index, 1)
+ this.media[index].url= null;
+ this.media[index].type= null;
+    // let placemarkId = this.media[index].placemarkId
+    // this.service.deleteMedia(placemarkId)
+    // this.media.splice(index, 1)
   }
 
-  captureVideo() {
+  captureVideo(idx:number) {
     let options: CaptureVideoOptions = {duration: 10, limit: 1};
     MediaCapture.captureVideo(options)
       .then((data: MediaFile[]) => {
-          this._loader.present();
-          this.service.Upload(data[0].fullPath).then(res => {
-            this._loader.dismiss();
-            res ? this._RenderMedia(data[0].fullPath, res) : this._ToastPresent(this._leng.add_err_file_load_err);
-          }).catch(err => {
-            this._loader.dismiss();
-            this._ToastPresent(this._leng.add_err_file_load_err);
-            console.error(err)
-          });
+          this._RenderMedia(data[0].fullPath,idx);
+          // this._loader.present();
+          // this.service.Upload(data[0].fullPath).then(res => {
+          //   this._loader.dismiss();
+          //   res ? this._RenderMedia(data[0].fullPath, res) : this._ToastPresent(this._leng.add_err_file_load_err);
+          // }).catch(err => {
+          //   this._loader.dismiss();
+          //   this._ToastPresent(this._leng.add_err_file_load_err);
+          //   console.error(err)
+          // });
           // let pattern = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/;
           // var ma1 = fl.match(pattern)
           // console.log(ma1);
@@ -184,40 +206,53 @@ export class ObjectAddPage {
       )
   }
 
-  private _RenderMedia(filepath: string, filedata: any) {
+  private _RenderMedia(filepath: string,idx:number) {
     FilePath.resolveNativePath(filepath)
       .then(_filePath => {
-        this.media.push(
-          {
-            type: filedata.fileKey,
-            url: _filePath,
-            placemarkId: filedata.placemark_id
-          }
-        );
+        let ext = filepath.match(this._pattern)[0];
+        let index = _.indexOf(settings.image_file_extentions, ext);
+
+        index > -1 ? this.media[idx].type = "photo" : this.media[idx].type = "video";
+
+        this.media[idx].url =_filePath;
+
+        // this.media[idx].type =filedata.fileKey;
+
+        // this.media.push(
+        //   {
+        //     type: filedata.fileKey,
+        //     url: _filePath,
+        //     placemarkId: filedata.placemark_id
+        //   }
+        // );
         console.info(this.media, filepath)
       })
       .catch(err => {
         this._loader.dismiss();
-        console.log(err)
+        console.log(err, filepath)
       });
 
   }
 
-  getPhotoFromGallery() {
+  getPhotoFromGallery(idx:number) {
     Camera.getPicture({
       sourceType: 0,
       destinationType: Camera.DestinationType.FILE_URI
     }).then((imageData) => {
-      this._loader.present();
+      // this._loader.present();
       FilePath.resolveNativePath(imageData).then(result => {
-        this.service.Upload(imageData).then(res => {
-          this._loader.dismiss();
-          res ? this._RenderMedia(imageData, res) : this._ToastPresent(this._leng.add_err_file_load_err);
-        }).catch(err => {
-          this._loader.dismiss();
-          this._ToastPresent(this._leng.add_err_file_load_err);
-          console.error(err)
-        });
+        this._RenderMedia(result,idx);
+
+
+
+        // this.service.Upload(imageData).then(res => {
+        //   this._loader.dismiss();
+        //   res ? this._RenderMedia(imageData, res) : this._ToastPresent(this._leng.add_err_file_load_err);
+        // }).catch(err => {
+        //   this._loader.dismiss();
+        //   this._ToastPresent(this._leng.add_err_file_load_err);
+        //   console.error(err)
+        // });
 
         // this.service.uploadPhoto(result).then((data) => {
         //   console.log(JSON.parse(data.toString()))
@@ -245,7 +280,8 @@ export class ObjectAddPage {
     })
   }
 
-  presentActionSheet() {
+  presentActionSheet(idx:number) {
+    console.info(idx);
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Загрузить фотографию',
       cssClass: 'action-sheet',
@@ -254,7 +290,7 @@ export class ObjectAddPage {
           text: 'Сделать фото',
           icon: 'camera',
           handler: () => {
-            this.takePhoto()
+            this.takePhoto(idx)
             console.log('Take a photo clicked')
           }
         },
@@ -262,7 +298,7 @@ export class ObjectAddPage {
           text: 'Выбрать из галлереи',
           icon: 'images',
           handler: () => {
-            this.getPhotoFromGallery()
+            this.getPhotoFromGallery(idx)
             console.log('Choose photo clicked')
           }
         },
@@ -270,7 +306,7 @@ export class ObjectAddPage {
           text: 'Записать видео',
           icon: 'videocam',
           handler: () => {
-            this.captureVideo()
+            this.captureVideo(idx)
             console.log('Choose photo clicked')
           }
         },

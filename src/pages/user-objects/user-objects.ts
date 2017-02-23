@@ -41,17 +41,17 @@ export class UserObjectsPage {
       this.user_object = res.json()
       console.info(this.user_object);
       // this.loadMap()
-      this.user_object.length > 0 ? _.forEach(this.user_object, (item) => {
-          try {
-            item.coordinates ?  (item.coordinates = JSON.parse(item.coordinates),
-              this._InitMap(item.coordinates[0],item.coordinates[1],item.placemark_id,item.title))
-          :
-            false
-          }
-          catch (err) {
-            console.info("cant iterate coords", item.coordinates)
-          }
-        }) : false;
+      // this.user_object.length > 0 ? _.forEach(this.user_object, (item) => {
+      //     try {
+      //       item.coordinates ?  (item.coordinates = JSON.parse(item.coordinates),
+      //         this._InitMap(item.coordinates[0],item.coordinates[1],item.placemark_id,item.title))
+      //     :
+      //       false
+      //     }
+      //     catch (err) {
+      //       console.info("cant iterate coords", item.coordinates)
+      //     }
+      //   }) : false;
 console.info(this.user_object)
       loader.dismiss()
     }, err => {

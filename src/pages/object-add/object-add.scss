@@ -1,25 +1,54 @@
 page-object-add {
   input {
-    margin: 0!important;
+    margin: 0 !important;
+  }
+  ion-content {
+    .scroll-content {
+      overflow: hidden;
+    }
   }
 
-  .user_image .image{
-    position: relative;
-    height: 64px;
-    width: 64px;
-    display: inline-block;
-    margin-right: 10px;
+  .user_image {
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    justify-content: space-around;
+    .image_placeholder {
+      width: 80px;
+      height: 80px;
+      background: #fff;
+      border: 1px solid;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      color: #B1B1B1;
+      border-radius: 6px;
+    }
   }
-  .user_image img{
-    height: 64px;
-    width: 64px;
+  .delete {
+    float: right;
+    margin-top: -9px;
+    margin-right: -6px;
+    color: #FF3D00;
   }
 
-  .user_image .delete {
-    position: absolute;
-    right: -4px;
-    top: -4px;
-  }
+  //.user_image .image{
+  //  position: relative;
+  //  height: 64px;
+  //  width: 64px;
+  //  display: inline-block;
+  //  margin-right: 10px;
+  //}
+  //.user_image img{
+  //  height: 64px;
+  //  width: 64px;
+  //}
+  //
+  //.user_image .delete {
+  //  position: absolute;
+  //  right: -4px;
+  //  top: -4px;
+  //}
 
   .action-sheet {
 

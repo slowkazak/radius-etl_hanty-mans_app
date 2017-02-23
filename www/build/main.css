@@ -48167,23 +48167,44 @@ page-object-add input {
   margin: 0 !important;
 }
 
-page-object-add .user_image .image {
-  position: relative;
-  height: 64px;
-  width: 64px;
-  display: inline-block;
-  margin-right: 10px;
+page-object-add ion-content .scroll-content {
+  overflow: hidden;
 }
 
-page-object-add .user_image img {
-  height: 64px;
-  width: 64px;
+page-object-add .user_image {
+  width: 100%;
+  min-height: 100px;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
 }
 
-page-object-add .user_image .delete {
-  position: absolute;
-  right: -4px;
-  top: -4px;
+page-object-add .user_image .image_placeholder {
+  width: 80px;
+  height: 80px;
+  background: #fff;
+  border: 1px solid;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  color: #B1B1B1;
+  border-radius: 6px;
+}
+
+page-object-add .delete {
+  float: right;
+  margin-top: -9px;
+  margin-right: -6px;
+  color: #FF3D00;
 }
 
 page-object-detail ion-card {

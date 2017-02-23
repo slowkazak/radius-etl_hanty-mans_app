@@ -5,6 +5,7 @@ export const settings = {
   adm_domain_path: "http://admhmansy.ru",
   image_file_extentions: [".png", ".bmp", ".jpg", ".jpg", ".jpeg", ".pcx", ".gif"],
   passport_validator_regexp: "\d{4}\s\d{6}",
+  object_media_placeholder_count:4,
   error_codes: [{code: "form_no_reqirement_data", title: "Недостаточно данных для выполнения запроса"}],
   polls_types: [
     {"type": "radio", "id": 0},
