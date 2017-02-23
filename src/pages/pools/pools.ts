@@ -18,7 +18,7 @@ export class PoolsPage {
   private _pollslist: any = [];
   private _pollclicked = false;
   private _pollid = 0;
-  private _isvoted = '';
+  private _isvoted:boolean = false;
 
   constructor(public navCtrl: NavController,
               public poolsProvider: PoolsProvider,
@@ -43,15 +43,8 @@ export class PoolsPage {
 
       !_.isEmpty(res) ? _.map(res, ((item: any) => {
           try {
-            // преобразование даты к mm-dd-yyy hh:mm:ss
-            let t = item.DATE_END.split(/[- : .]/);
-            // item.DATE_END = item.DATE_END.split(".");
-            item.DATE_END = Math.abs(new Date(t[0], t[1], t[2]).getTime());
-            //текущай дата меньше Date_end - показывать голосование
-
-            console.log(item.DATE_END, date);
-
-            item.DATE_END > date ? this._pollslist.push(item) : false;
+            item.LAMP == "green"?item.LAMP=true:item.LAMP=false;
+            item.LAMP ? this._pollslist.push(item) : false;
           }
           catch (err) {
             console.error("Произошла ошибка", err)
@@ -75,8 +68,8 @@ export class PoolsPage {
     //   });
     this._pollclicked = !this._pollclicked;
     this._pollid = id;
-this._isvoted = isvoted;
-console.info(id, this._isvoted);
+isvoted === "N"? this._isvoted = false:this._isvoted = true
+    console.info(id, this._isvoted);
 this.navCtrl.push(PollComponent,{id:this._pollid,isvoted:this._isvoted})
 
   }
@@ -130,38 +123,38 @@ this.navCtrl.push(PollComponent,{id:this._pollid,isvoted:this._isvoted})
     // console.log('Hello PoolsPage Page');
   }
 
-  openItem(item: any) {
-    if (item.answer_id) this.answer(item);
-    else if (this.navParams.data.pool) {
-      this.navCtrl.push(PoolsPage, {question: item})
-    } else {
-      this.navCtrl.push(PoolsPage, {pool: item})
-    }
-  }
-
-  answer(item: any) {
-    let loader = this.loadingCtrl.create({
-      content: 'Пожалуйста, подождите'
-    })
-    loader.present()
-    this.poolsProvider.sendAnswer(item).subscribe(res => {
-      console.log(res.json())
-      this.stats = res.json().stats
-      loader.dismiss()
-      let toast = this.toastCtrl.create({
-        message: 'Ответ отправлен',
-        duration: 3000
-      })
-      toast.present()
-      // this.navCtrl.popToRoot()
-    }, err => {
-      loader.dismiss()
-      let toast = this.toastCtrl.create({
-        message: 'Произошла ошибка',
-        duration: 3000
-      })
-      toast.present()
-    })
-  }
+  // openItem(item: any) {
+  //   if (item.answer_id) this.answer(item);
+  //   else if (this.navParams.data.pool) {
+  //     this.navCtrl.push(PoolsPage, {question: item})
+  //   } else {
+  //     this.navCtrl.push(PoolsPage, {pool: item})
+  //   }
+  // }
+  //
+  // answer(item: any) {
+  //   let loader = this.loadingCtrl.create({
+  //     content: 'Пожалуйста, подождите'
+  //   })
+  //   loader.present()
+  //   this.poolsProvider.sendAnswer(item).subscribe(res => {
+  //     console.log(res.json())
+  //     this.stats = res.json().stats
+  //     loader.dismiss()
+  //     let toast = this.toastCtrl.create({
+  //       message: 'Ответ отправлен',
+  //       duration: 3000
+  //     })
+  //     toast.present()
+  //     // this.navCtrl.popToRoot()
+  //   }, err => {
+  //     loader.dismiss()
+  //     let toast = this.toastCtrl.create({
+  //       message: 'Произошла ошибка',
+  //       duration: 3000
+  //     })
+  //     toast.present()
+  //   })
+  // }
 
 }

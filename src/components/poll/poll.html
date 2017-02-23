@@ -4,39 +4,46 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-<ion-spinner name="crescent" *ngIf="!_isready"></ion-spinner>
-<template ngFor let-question [ngForOf]="_questions">
+  <ion-spinner name="crescent" *ngIf="!_isready"></ion-spinner>
+  <template ngFor let-question [ngForOf]="_questions">
 
-  <!--{{question?._answers | json}}-->
-  <!--<p>-->
-  <!--{{question |json}}-->
-  <!--</p>-->
-  <!--<template [ngIf]="question?._answers.length>0">-->
-  <ion-item *ngFor="let answer of question?._answers">
-    {{answer | json}}
-    <ion-row item-content *ngIf="answer?.FIELD_TYPE == 0" (click)="_PrepareAnswer(answer)">
-      <ion-col>
-        {{answer?.MESSAGE}}
-      </ion-col>
-      <ion-col width-15>
-        {{answer?.COUNTER}}
-      </ion-col>
-    </ion-row>
-    <ion-textarea *ngIf="answer?.FIELD_TYPE == 5"
-                  [(ngModel)]="answer.value"
-                  placeholder="{{answer?.MESSAGE}}"
+    <ion-list radio-group>
+      <ion-list-header>
+        {{question?.QUESTION}}
+      </ion-list-header>
+      <template ngFor let-answer [ngForOf]="question?._answers">
+        <template [ngIf]="!isvoted">
+          <ion-item item-content *ngIf="answer?.FIELD_TYPE == 0">
+            <template></template>
+            <ion-label> {{answer?.MESSAGE}}</ion-label>
+            <ion-radio value="{{answer.ANSWER_ID}}" (ionSelect)="_PrepareAnswer(answer, 'radio')"></ion-radio>
+          </ion-item>
 
-                  (blur)="_PrepareAnswer(answer)"></ion-textarea>
+          <ion-item item-content *ngIf="answer?.FIELD_TYPE == 1">
+            <ion-label>{{answer?.FIELD_TYPE}} {{answer?.MESSAGE}}</ion-label>
 
-  </ion-item>
-
-  <!--<template ngFor let-answer [ngForOf]="question?._answers">-->
-  <!--<ion-item>-->
-  <!--<pre>{{answer?.MESSAGE}}</pre>-->
-  <!--{{answer.MESSAGE}}-->
-  <!--</ion-item>-->
-  <!--</template>-->
-  <!--</template>-->
-</template>
-<button (click)="_Answer()" ion-button>Ответить</button>
+            <ion-checkbox (ionChange)="_PrepareAnswer(answer, 'checkbox')"></ion-checkbox>
+          </ion-item>
+          <ion-item item-content *ngIf="answer?.FIELD_TYPE == 5">
+            <ion-textarea [(ngModel)]="answer.value"
+                          placeholder="{{answer?.MESSAGE}}"
+                          (blur)="_PrepareAnswer(answer, 'memo')"></ion-textarea>
+          </ion-item>
+        </template>
+        <template [ngIf]="isvoted">
+          <ion-item>
+            <ion-row item-content>
+              <ion-col>
+                {{answer?.MESSAGE}}
+              </ion-col>
+              <ion-col width-15>
+                {{answer?.COUNTER}}
+              </ion-col>
+            </ion-row>
+          </ion-item>
+        </template>
+      </template>
+    </ion-list>
+  </template>
+  <button (click)="_Answer()" ion-button [disabled]="!_answersready">Ответить</button>
 </ion-content>

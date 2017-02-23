@@ -14,22 +14,21 @@ import {NavParams} from "ionic-angular";
 
   providers: [PoolsProvider]
 })
-export class PollComponent implements OnChanges {
+export class PollComponent {
   pollid = 0;
-  isvoted: string = '';
+  isvoted: boolean = false;
   text: string;
   private _isready: boolean = false;
-  private _answersready:boolean = false;
+  private _answersready: boolean = false;
+  private questions_length = 0;
+
   private _questions: any = [];
   private _answerdata: any = {answers: []};
 
-  constructor(private poolsProvider: PoolsProvider, private navparams:NavParams) {
+  constructor(private poolsProvider: PoolsProvider, private navparams: NavParams) {
     this.text = 'Hello World';
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-
-  }
 
   ngAfterContentInit() {
     this._answerdata.id = this.navparams.get('id');
@@ -46,13 +45,12 @@ export class PollComponent implements OnChanges {
   private _GetPoll() {
     this.poolsProvider.GetPoll(this.pollid)
       .then(res => {
-
-        console.log(res,this.pollid)
         this._answerdata.sessid = res.sessid;
         let regex = /(<([^>]+)>)/ig;
         res && _.has(res, "questions_id") && res.questions_id.length > 0 ?
           _.forEach(res.questions_id, (item) => {
             try {
+              this.questions_length = res.questions_id.length;
 
               res.vote.CHANNEL_USE_CAPTCHA === "N" ?
                 (
@@ -60,7 +58,9 @@ export class PollComponent implements OnChanges {
                     res.questions[item]._answers = [],
                     _.forEach(res.questions[item].ANSWERS, (answer) => {
                       answer.value = null;
+                      this._answerdata[answer.QUESTION_ID] = [];
                       res.questions[item]._answers.push(answer);
+                      console.info(res.questions[item]._answers)
                     }),
                     this._questions.push(res.questions[item])
                 )
@@ -78,11 +78,13 @@ export class PollComponent implements OnChanges {
       this._isready = true;
       console.error(err)
     })
-    console.info(this._questions)
   }
 
   private _Answer() {
-    this.poolsProvider.Answer(this._answerdata).then(res => console.info(res)).catch(err => console.error(err));
+    this.poolsProvider.Answer(this._answerdata).then(res => {
+      this.isvoted = true;
+      console.info(res)
+    }).catch(err => console.error(err));
   }
 
   /**
@@ -90,40 +92,70 @@ export class PollComponent implements OnChanges {
    * @param answer
    * @private
    */
-  private _PrepareAnswer(answer) {
-    if (this.isvoted === 'N') {
+  private _PrepareAnswer(answer = null, type) {
+
+    if (!this.isvoted) {
       let _callback = (type, value = null) => {
         let val = null;
+        let idx: any = -1;
         value ? val = value : val = answer.ANSWER_ID;
-        this._answerdata.answers.length ?
-          this._answerdata.answers = _.filter(this._answerdata.answers, (item: any) => {
-            let result = false;
-            item.q !== answer.QUESTION_ID && item.a !== answer.ANSWER_ID ? result = true : false;
-            return result
-          })
-          : false;
-        this._answerdata.answers.push(
-          {
-            q: answer.QUESTION_ID,
-            a: answer.ANSWER_ID,
-            type: type,
-            val: val,
-            raw: 'vote_' + type + '_' + answer.QUESTION_ID + ': ' + val
+        idx = _.findIndex(this._answerdata.answers, function (o: any) {
+          return (o.q == answer.QUESTION_ID && o.a == answer.ANSWER_ID)
+        });
+        console.info(idx);
+
+
+        if (type === "checkbox") {
+          this._answerdata.answers = _.filter(this._answerdata.answers, function (o: any) {
+            return o.a !== answer.ANSWER_ID
+          });
+          if (idx < 0) {
+            this._answerdata.answers.push(
+              {
+                q: answer.QUESTION_ID,
+                a: answer.ANSWER_ID,
+                type: type,
+                val: val,
+                raw: 'vote_' + type + '_' + answer.QUESTION_ID + ': ' + val
+              }
+            );
           }
-        );
+          idx = -1;
+        }
+        else {
+
+          this._answerdata.answers = _.filter(this._answerdata.answers, function (o: any) {
+            return (o.q !== answer.QUESTION_ID && o.a !== answer.ANSWER_ID)
+          });
+          this._answerdata.answers.push(
+            {
+              q: answer.QUESTION_ID,
+              a: answer.ANSWER_ID,
+              type: type,
+              val: val,
+              raw: 'vote_' + type + '_' + answer.QUESTION_ID + ': ' + val
+            }
+          );
+        }
 
 
-
-    };
+      };
       switch (answer.FIELD_TYPE) {
         case '0':
           _callback('radio');
+          break;
+        case '1':
+          _callback('checkbox');
           break;
         case '5':
           _callback('memo', answer.value);
           break;
       }
+      let ans = _.uniqBy(this._answerdata.answers, 'q');
 
+      ans.length>=this.questions_length? this._answersready = true:this._answersready = false;
+      console.info(ans, this._answersready,this.questions_length);
+      console.info(this._answerdata.answers);
     }
   }
 }
