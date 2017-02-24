@@ -14,10 +14,10 @@
 <ion-content>
   <form [formGroup]="form" (ngSubmit)="AddObject()">
     <ion-list>
-      <ion-item>
-        <ion-label floating>{{_leng?.input_title}}</ion-label>
-        <ion-textarea formControlName="title"></ion-textarea>
-      </ion-item>
+      <!--<ion-item>-->
+        <!--<ion-label floating>{{_leng?.input_title}}</ion-label>-->
+        <!--<ion-textarea formControlName="title"></ion-textarea>-->
+      <!--</ion-item>-->
       <ion-item>
         <ion-label floating>Опишите проблему</ion-label>
         <ion-textarea formControlName="description"></ion-textarea>
@@ -41,7 +41,7 @@
 
     </ion-list>
     <div class="user_image">
-      <div class="image_placeholder" *ngFor="let item of media; let i = index" (click)="presentActionSheet(i)">
+          <div class="image_placeholder" *ngFor="let item of media; let i = index" (click)="presentActionSheet(i)">
         <ion-icon name="add-circle" *ngIf="!item.url"></ion-icon>
         <template [ngIf]="item.type === 'photo'">
           <div *ngIf="item.url" style="width: 100%; height: 100%"

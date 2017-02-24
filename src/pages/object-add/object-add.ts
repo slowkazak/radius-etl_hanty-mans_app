@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {
   NavController,
   ViewController,
@@ -8,6 +8,7 @@ import {
 
 import {Validators, FormBuilder} from '@angular/forms'
 import {
+  File,
   Camera,
   FilePath,
   MediaCapture,
@@ -17,7 +18,8 @@ import {
   CaptureVideoOptions,
   Toast
 } from 'ionic-native';
-
+declare var cordova: any;
+import FileAPI from  "../../../node_modules/file-api/index.js"
 
 import {ObjectsService} from '../../providers/objects-service'
 import {location} from '../../models/location'
@@ -25,6 +27,7 @@ import {LocationSelectPage} from '../location-select/location-select'
 import _ from "lodash";
 import {LengProvider} from "../../providers/leng-provider";
 import {settings} from "../../app/settings/settings";
+import {DashboardPage} from "../dashboard/dashboard";
 @Component({
   selector: 'page-object-add',
   templateUrl: 'object-add.html',
@@ -35,35 +38,33 @@ export class ObjectAddPage {
   mapPage: any = LocationSelectPage
   coords: any = this.location.coords;
 
-
+  @ViewChild("fl") fl: any;
   private _pattern = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/;
-  media: Array<{url: any, type: any}> = [];
+  media: Array<{url: any, type: any, file: any}> = [];
   private _leng: any = {};
-  private _loader: any = this.loadingCtrl.create({
-    content: this._leng.add_load_loader
-  });
+  private _loader: any = this.loadingCtrl.create({});
 
-  constructor(
-              public navCtrl: NavController,
+  constructor(public navCtrl: NavController,
               public viewCtrl: ViewController,
               public actionSheetCtrl: ActionSheetController,
               private formBuilder: FormBuilder,
               private service: ObjectsService,
               public location: location,
               public loadingCtrl: LoadingController,
-              private leng: LengProvider
-  ) {
+              private leng: LengProvider) {
     this.form = this.formBuilder.group({
-      title: ['', Validators.required],
       description: ['', Validators.required],
       category: ['', Validators.required]
     })
   }
 
-
-  private _SetPlaceholder(){
+  /**
+   * Установка плейсхолдеров для изображений
+   * @private
+   */
+  private _SetPlaceholder() {
     while (this.media.length < settings.object_media_placeholder_count) {
-      this.media.push({url: null, type: null})
+      this.media.push({url: null, type: null, file: null})
     }
   }
 
@@ -96,17 +97,25 @@ export class ObjectAddPage {
    * @constructor
    */
   AddObject() {
-    this.service.AddObject(this.form.value, this.media, this.location.Get())
+    this._loader.present();
+    this.service.AddObject(this.form.value, this.media, this.location.Get()).then(res => {
+
+      this._loader.dismiss();
+      this._ToastPresent(this._leng.add_success);
+      this.navCtrl.pop(DashboardPage);
+    }).catch(err => {
+      this._loader.dismiss();
+      this._ToastPresent(this._leng.add_err_common)
+    })
   }
-  takePhoto(idx:number) {
+
+  takePhoto(idx: number) {
     Camera.getPicture({
       quality: 70,
       destinationType: Camera.DestinationType.FILE_URI
     }).then((imageData) => {
 
-      this._RenderMedia(imageData,idx);
-
-
+      this._RenderMedia(imageData, idx);
 
 
       // this._loader.present();
@@ -118,7 +127,6 @@ export class ObjectAddPage {
       //   this._ToastPresent(this._leng.add_err_file_load_err);
       //   console.error(err);
       // });
-
 
 
       // this.service.Upload(imageData);
@@ -154,18 +162,18 @@ export class ObjectAddPage {
   }
 
   deleteMedia(index: number) {
- this.media[index].url= null;
- this.media[index].type= null;
+    this.media[index].url = null;
+    this.media[index].type = null;
     // let placemarkId = this.media[index].placemarkId
     // this.service.deleteMedia(placemarkId)
     // this.media.splice(index, 1)
   }
 
-  captureVideo(idx:number) {
+  captureVideo(idx: number) {
     let options: CaptureVideoOptions = {duration: 10, limit: 1};
     MediaCapture.captureVideo(options)
       .then((data: MediaFile[]) => {
-          this._RenderMedia(data[0].fullPath,idx);
+          this._RenderMedia(data[0].fullPath, idx);
           // this._loader.present();
           // this.service.Upload(data[0].fullPath).then(res => {
           //   this._loader.dismiss();
@@ -206,26 +214,35 @@ export class ObjectAddPage {
       )
   }
 
-  private _RenderMedia(filepath: string,idx:number) {
+  /**
+   * Рендеринг файлов и подготовка к отправке на сервер
+   * @param filepath
+   * @param idx
+   * @private
+   */
+
+  private _RenderMedia(filepath: string, idx: number) {
+    this._loader.present();
     FilePath.resolveNativePath(filepath)
       .then(_filePath => {
         let ext = filepath.match(this._pattern)[0];
         let index = _.indexOf(settings.image_file_extentions, ext);
 
-        index > -1 ? this.media[idx].type = "photo" : this.media[idx].type = "video";
 
-        this.media[idx].url =_filePath;
+        let rest = _filePath.substring(0, _filePath.lastIndexOf("/") + 1);
+        let last = _filePath.substring(_filePath.lastIndexOf("/") + 1, _filePath.length);
 
-        // this.media[idx].type =filedata.fileKey;
-
-        // this.media.push(
-        //   {
-        //     type: filedata.fileKey,
-        //     url: _filePath,
-        //     placemarkId: filedata.placemark_id
-        //   }
-        // );
-        console.info(this.media, filepath)
+        File.readAsDataURL(rest, last).then(
+          (res) => {
+            this._loader.dismiss();
+            index > -1 ? this.media[idx].type = "photo" : this.media[idx].type = "video";
+            this.media[idx].url = _filePath;
+            this.media[idx].file = res
+          }
+        ).catch(err => {
+          this._loader.dismiss();
+          console.log(err, 'boooh')
+        });
       })
       .catch(err => {
         this._loader.dismiss();
@@ -234,15 +251,14 @@ export class ObjectAddPage {
 
   }
 
-  getPhotoFromGallery(idx:number) {
+  getPhotoFromGallery(idx: number) {
     Camera.getPicture({
       sourceType: 0,
       destinationType: Camera.DestinationType.FILE_URI
     }).then((imageData) => {
       // this._loader.present();
       FilePath.resolveNativePath(imageData).then(result => {
-        this._RenderMedia(result,idx);
-
+        this._RenderMedia(result, idx);
 
 
         // this.service.Upload(imageData).then(res => {
@@ -280,7 +296,7 @@ export class ObjectAddPage {
     })
   }
 
-  presentActionSheet(idx:number) {
+  presentActionSheet(idx: number) {
     console.info(idx);
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Загрузить фотографию',

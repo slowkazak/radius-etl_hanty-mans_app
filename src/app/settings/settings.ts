@@ -3,9 +3,11 @@ export const settings = {
   default_lng: 69.035848,
   adm_api_path: "http://api.admhmansy.ru",
   adm_domain_path: "http://admhmansy.ru",
+  files_url:"http://api.admhmansy.ru/files/",
   image_file_extentions: [".png", ".bmp", ".jpg", ".jpg", ".jpeg", ".pcx", ".gif"],
   passport_validator_regexp: "\d{4}\s\d{6}",
   object_media_placeholder_count:4,
+  max_marker_title_length:20,
   error_codes: [{code: "form_no_reqirement_data", title: "Недостаточно данных для выполнения запроса"}],
   polls_types: [
     {"type": "radio", "id": 0},
@@ -35,6 +37,17 @@ export const settings = {
       data_param: "VOTE_ID"
     }
   },
+  status_type_id:[
+    {id:10,title:"Модерирование"},
+    {id:20,title:"В работе"},
+    {id:25,title:"Предложение принято"},
+    {id:30,title:"Решен"},
+    {id:40,title:"Не решен"},
+    {id:100,title:"Отклонен модератором"},
+    {id:150,title:"Удален"},
+    {id:666,title:"ДТП без летального исхода"},
+    {id:667,title:"ДТП с летальным исходом"}
+  ],
   citylist: [
     {
       name: 'Белоярский',

@@ -36,7 +36,7 @@ export class SigninPage {
 
     this.auth.signIn(this.login_form.value.login, this.login_form.value.password).subscribe(res => {
       loader.dismiss();
-      console.log(res.json())
+      console.log(res.json(), "DATA")
       this.auth.user = res.json();
       this.auth.islogged =true
       this.navCtrl.push(LocationPage)

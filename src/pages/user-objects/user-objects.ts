@@ -13,6 +13,7 @@ import {
   GoogleMapsMarkerOptions,
   GoogleMapsMarker
 } from 'ionic-native'
+import {settings} from "../../app/settings/settings";
 
 @Component({
   selector: 'page-user-objects',
@@ -21,8 +22,12 @@ import {
 export class UserObjectsPage {
   user_object: any = null
   _ymaps = null;
+  private _file_url = '';
+  // private _status_list = [];
 
   constructor(public navCtrl: NavController, public http: Http, public auth: AuthProvider, public loadingCtrl: LoadingController) {
+    this._file_url = settings.files_url;
+    // this._status_list.push(...settings.status_type_id);
   }
 
   ionViewDidLoad() {
@@ -35,24 +40,23 @@ export class UserObjectsPage {
     headers.set('Content-Type', 'application/x-www-form-urlencoded')
     let params = new URLSearchParams()
     params.set('access_token', this.auth.user.access_token)
-    params.set('user_id', this.auth.user.user_id)
+    params.set('login', this.auth.user.login)
     let body = params.toString()
     this.http.post('http://api.admhmansy.ru/place/plist', body, {headers: headers}).subscribe(res => {
       this.user_object = res.json()
       console.info(this.user_object);
       // this.loadMap()
-      // this.user_object.length > 0 ? _.forEach(this.user_object, (item) => {
-      //     try {
-      //       item.coordinates ?  (item.coordinates = JSON.parse(item.coordinates),
-      //         this._InitMap(item.coordinates[0],item.coordinates[1],item.placemark_id,item.title))
-      //     :
-      //       false
-      //     }
-      //     catch (err) {
-      //       console.info("cant iterate coords", item.coordinates)
-      //     }
-      //   }) : false;
-console.info(this.user_object)
+      this.user_object.length > 0 ? _.forEach(this.user_object, (item: any) => {
+          try {
+            item.status_type_id = _.find(settings.status_type_id, _.matchesProperty('id', parseInt(item.status_type_id)));
+            item.user_image = item.user_image.split(',');
+            item.Long_t > 0 && item.Lat_t > 0 ? this._InitMap(item.Lat_t, item.Long_t, item.id, item.user_message) : false;
+          }
+          catch (err) {
+            console.info("cant iterate coords", item.coordinates)
+          }
+        }) : false;
+      console.info(this.user_object)
       loader.dismiss()
     }, err => {
       console.log(err.json())
@@ -75,18 +79,19 @@ console.info(this.user_object)
 
 
     };
-    ymaps.ready(init).then(()=>this._SetMarker(lat,lng, marker_title, maps));
+    ymaps.ready(init).then(() => this._SetMarker(lat, lng, marker_title, maps));
   }
 
-  private _SetMarker(lat: number, lng: number, title: string = '',instanse) {
+  private _SetMarker(lat: number, lng: number, title: string = '', instanse) {
 
     try {
       let _callback = (lat: number, lng: number) => {
-
+        let markertitle = title;
+        markertitle.length > settings.max_marker_title_length ? markertitle = markertitle.substring(0, 25) + '...' : false;
         let myPlacemark = new ymaps.Placemark(
           [lat, lng], {
             balloonContent: '',
-            iconCaption: title
+            iconCaption: markertitle
           }, {
             preset: 'islands#greenDotIconWithCaption'
           }

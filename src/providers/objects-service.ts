@@ -32,7 +32,8 @@ export class ObjectsService {
    * @private
    */
   private _Init() {
-    this._headers.set('Content-Type', 'multipart/form-data');
+    // this._headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    this._headers.set('cache-control', "no-cache");
     this.lengprovider.GetLeng("http_queries").then(res => {
       this._leng = _.assign({}, res);
     }).catch(err => {
@@ -52,18 +53,23 @@ export class ObjectsService {
     this._params.replaceAll(this._params);
     // this._params
     try {
-      this._params.set('access_token', this.auth.user.access_token);
-      this._params.set('user_message', formdata.description);
-      this._params.set('placemark_type_id', formdata.category);
-      this._params.set('lat_t', coords[0].toString());
-      this._params.set('long_t', coords[1].toString());
+      let form = new FormData();
+      form.append("access_token", this.auth.user.access_token);
+      form.append("user_message", formdata.description);
+      form.append("placemark_type_id", formdata.category);
+      form.append("lat_t", coords[0].toString());
+      form.append("long_t", coords[1].toString());
+
+
       _.forEach(media_files, (file: any) => {
         let str = Math.random().toString(36).substring(7);
+        console.info(file)
         file.url ?
-          this._params.set(str, file.url)
+          form.append("asset_"+str, file.file)
           : false;
       });
-      result = this.http.post(settings.adm_api_path + '/place/add', this._params.toString(), {headers: this._headers})
+      console.info(formdata);
+      result = this.http.post(settings.adm_api_path + '/place/add', form, {headers: this._headers})
         .toPromise()
         .then(res => {
           console.info(res)
