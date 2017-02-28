@@ -10,6 +10,9 @@ export class location {
   public Set(lat: number, lng: number) {
     this.coords = [lat, lng];
   }
+  public Empty(){
+    this.coords = [];
+  }
 
   /**
    * Геттер для координат пользователя

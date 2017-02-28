@@ -1,6 +1,89 @@
+//// Ionic Variables and Theming. For more info, please see:
+//// http://ionicframework.com/docs/v2/theming/
+//@import "ionic.globals";
+//
+//// Shared Variables
+//// --------------------------------------------------
+//// To customize the look and feel of this app, you can override
+//// the Sass variables found in Ionic's source scss files.
+//// To view all the possible Ionic variables, see:
+//// http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+//
+//// Named Color Variables
+//// --------------------------------------------------
+//// Named colors makes it easy to reuse colors on various components.
+//// It's highly recommended to change the default colors
+//// to match your app's branding. Ionic uses a Sass map of
+//// colors so you can add, rename and remove colors as needed.
+//// The "primary" color is the only required color in the map.
+//
+//$colors: (
+//  primary: #2c7dc1,
+//  secondary: #06009e,
+//  danger: #f53d3d,
+//  light: #f4f4f4,
+//  dark: #222,
+//  light_blue: #58A3FD,
+//  pinky: #E8324C,
+//  green: #0094de,
+//  signin_button: #0094de,
+//  signup_button: #06009e,
+//  skip_button: #ffffff,
+//  arrow-black: #1e1e1e,
+//  dark-red: #990000,
+//  //
+//  dark_light: #9b9b9b
+//);
+//
+//// App iOS Variables
+//// --------------------------------------------------
+//// iOS only Sass variables can go here
+//
+//$text-input-md-show-focus-highlight: false;
+//$popover-md-width: 90%;
+//$popover-ios-width: 90%;
+//$text-input-ios-show-focus-highlight: false;
+//// App Material Design Variables
+//// --------------------------------------------------
+//// Material Design only Sass variables can go here
+//$text-input-ios-show-focus-highlight: false;
+//
+//// App Material Design Variables
+//// --------------------------------------------------
+//// Material Design only Sass variables can go here
+//
+//// App Windows Variables
+//// --------------------------------------------------
+//// Windows only Sass variables can go here
+//
+//.scroll-content {
+//  overflow: hidden;
+//}
+//
+//// App Theme
+//// --------------------------------------------------
+//// Ionic apps can have different themes applied, which can
+//// then be future customized. This import comes last
+//// so that the above variables are used and Ionic's
+//// default are overridden.
+//
+//@import "ionic.theme.default";
+//
+//// Ionicons
+//// --------------------------------------------------
+//// The premium icon font for Ionic. For more info, please see:
+//// http://ionicframework.com/docs/v2/ionicons/
+//
+//$ionicons-font-path: "../assets/fonts";
+//@import "ionicons";
+//@import "roboto";
+//@import "noto-sans";
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
+$font-path: "../assets/fonts";
+
 @import "ionic.globals";
+
 
 // Shared Variables
 // --------------------------------------------------
@@ -8,6 +91,9 @@
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+
+
+
 
 // Named Color Variables
 // --------------------------------------------------
@@ -18,22 +104,18 @@
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary: #2c7dc1,
-  secondary: #06009e,
-  danger: #f53d3d,
-  light: #f4f4f4,
-  dark: #222,
-  light_blue: #58A3FD,
-  pinky: #E8324C,
-  green: #0094de,
-  signin_button: #0094de,
-  signup_button: #06009e,
-  skip_button: #ffffff,
-  arrow-black: #1e1e1e,
+  primary:    #2c7dc1,
+  secondary:  #32db64,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222,
+  white:      #fff,
+  dark_light: #9b9b9b,
+  content:#f6f6f6,
   dark-red: #990000,
-  //
-  dark_light: #9b9b9b
+  pinky: #E8324C,
 );
+
 
 // App iOS Variables
 // --------------------------------------------------
@@ -42,22 +124,22 @@ $colors: (
 $text-input-md-show-focus-highlight: false;
 $popover-md-width: 90%;
 $popover-ios-width: 90%;
-// App Material Design Variables
-// --------------------------------------------------
-// Material Design only Sass variables can go here
 $text-input-ios-show-focus-highlight: false;
 
+
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
+$text-input-md-show-focus-highlight: false;
+
+$text-input-placeholder-color:#000;
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
 
-.scroll-content {
-  overflow: hidden;
-}
+
+
 
 // App Theme
 // --------------------------------------------------
@@ -68,12 +150,17 @@ $text-input-ios-show-focus-highlight: false;
 
 @import "ionic.theme.default";
 
+
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
 
-$ionicons-font-path: "../assets/fonts";
-@import "ionicons";
+@import "ionic.ionicons";
+
+
+// Fonts
+// --------------------------------------------------
+
 @import "roboto";
 @import "noto-sans";

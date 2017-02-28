@@ -19,7 +19,7 @@ import {
   Toast
 } from 'ionic-native';
 declare var cordova: any;
-import FileAPI from  "../../../node_modules/file-api/index.js"
+import base64 from  "../../../node_modules/file-base64/index.js"
 
 import {ObjectsService} from '../../providers/objects-service'
 import {location} from '../../models/location'
@@ -42,7 +42,6 @@ export class ObjectAddPage {
   private _pattern = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/;
   media: Array<{url: any, type: any, file: any}> = [];
   private _leng: any = {};
-  private _loader: any = this.loadingCtrl.create({});
 
   constructor(public navCtrl: NavController,
               public viewCtrl: ViewController,
@@ -84,6 +83,7 @@ export class ObjectAddPage {
     }).catch(err => {
       this._leng = _.assign({}, err);
     });
+    // this._loader = this.loadingCtrl.create();
     this._SetPlaceholder();
   }
 
@@ -97,14 +97,17 @@ export class ObjectAddPage {
    * @constructor
    */
   AddObject() {
-    this._loader.present();
+    let loader = this.loadingCtrl.create();
+    loader.present();
     this.service.AddObject(this.form.value, this.media, this.location.Get()).then(res => {
 
-      this._loader.dismiss();
+      loader.dismiss();
+      this.location.Empty();
       this._ToastPresent(this._leng.add_success);
       this.navCtrl.pop(DashboardPage);
     }).catch(err => {
-      this._loader.dismiss();
+      console.error(err)
+      loader.dismiss();
       this._ToastPresent(this._leng.add_err_common)
     })
   }
@@ -172,8 +175,12 @@ export class ObjectAddPage {
   captureVideo(idx: number) {
     let options: CaptureVideoOptions = {duration: 10, limit: 1};
     MediaCapture.captureVideo(options)
-      .then((data: MediaFile[]) => {
-          this._RenderMedia(data[0].fullPath, idx);
+      .then((data: any) => {
+          let _data = data.pop();
+          _data.size > settings.max_video_size_bytes ? this._ToastPresent(this._leng.video_zise_too_big) :
+            this._RenderMedia(_data.localURL, idx);
+
+          // this._RenderMedia(data[0].fullPath, idx);
           // this._loader.present();
           // this.service.Upload(data[0].fullPath).then(res => {
           //   this._loader.dismiss();
@@ -208,7 +215,7 @@ export class ObjectAddPage {
           //   })
         },
         (err: CaptureError) => {
-          this._loader.dismiss();
+          // this._loader.dismiss();
           console.error(err);
         }
       )
@@ -222,44 +229,58 @@ export class ObjectAddPage {
    */
 
   private _RenderMedia(filepath: string, idx: number) {
-    this._loader.present();
-    FilePath.resolveNativePath(filepath)
-      .then(_filePath => {
-        let ext = filepath.match(this._pattern)[0];
-        let index = _.indexOf(settings.image_file_extentions, ext);
+    let loader = this.loadingCtrl.create();
+    loader.present();
+    try {
+      loader.dismiss();
+      let ext = filepath.match(this._pattern)[0];
+      let index = _.indexOf(settings.image_file_extentions, ext);
 
 
-        let rest = _filePath.substring(0, _filePath.lastIndexOf("/") + 1);
-        let last = _filePath.substring(_filePath.lastIndexOf("/") + 1, _filePath.length);
+      let rest = filepath.substring(0, filepath.lastIndexOf("/") + 1);
+      let last = filepath.substring(filepath.lastIndexOf("/") + 1, filepath.length);
 
-        File.readAsDataURL(rest, last).then(
-          (res) => {
-            this._loader.dismiss();
-            index > -1 ? this.media[idx].type = "photo" : this.media[idx].type = "video";
-            this.media[idx].url = _filePath;
-            this.media[idx].file = res
-          }
-        ).catch(err => {
-          this._loader.dismiss();
-          console.log(err, 'boooh')
-        });
-      })
-      .catch(err => {
-        this._loader.dismiss();
-        console.log(err, filepath)
+      File.readAsDataURL(rest, last).then(
+        (res) => {
+
+          index > -1 ? this.media[idx].type = "photo" : this.media[idx].type = "video";
+          this.media[idx].url = filepath;
+          this.media[idx].file = res;
+          loader.dismiss();
+        }
+      ).catch(err => {
+        loader.dismiss();
+        console.log(err, 'boooh')
       });
+    }
+    catch (err) {
+      loader.dismiss();
+      console.error("Произошла ошибка", err)
+    }
+
+    // FilePath.resolveNativePath(filepath)
+    //   .then(_filePath => {
+    //
+    //   })
+    //   .catch(err => {
+    //     this._loader.dismiss();
+    //     console.log(err, filepath)
+    //   });
 
   }
 
   getPhotoFromGallery(idx: number) {
+
     Camera.getPicture({
       sourceType: 0,
       destinationType: Camera.DestinationType.FILE_URI
     }).then((imageData) => {
+
+      // this._RenderMedia(imageData, idx);
       // this._loader.present();
       FilePath.resolveNativePath(imageData).then(result => {
-        this._RenderMedia(result, idx);
 
+        this._RenderMedia(result, idx);
 
         // this.service.Upload(imageData).then(res => {
         //   this._loader.dismiss();
@@ -290,8 +311,7 @@ export class ObjectAddPage {
         //   loader.dismiss()
         // })
       }, err => {
-        this._loader.dismiss();
-        console.log(err);
+        console.error(err);
       })
     })
   }
@@ -306,7 +326,7 @@ export class ObjectAddPage {
           text: 'Сделать фото',
           icon: 'camera',
           handler: () => {
-            this.takePhoto(idx)
+            this.takePhoto(idx);
             console.log('Take a photo clicked')
           }
         },
@@ -314,16 +334,16 @@ export class ObjectAddPage {
           text: 'Выбрать из галлереи',
           icon: 'images',
           handler: () => {
-            this.getPhotoFromGallery(idx)
-            console.log('Choose photo clicked')
+            this.getPhotoFromGallery(idx);
+            console.log('Choose gal clicked')
           }
         },
         {
           text: 'Записать видео',
           icon: 'videocam',
           handler: () => {
-            this.captureVideo(idx)
-            console.log('Choose photo clicked')
+            this.captureVideo(idx);
+            console.log('Choose video clicked')
           }
         },
         {

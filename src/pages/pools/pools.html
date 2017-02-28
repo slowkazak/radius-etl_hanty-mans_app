@@ -11,37 +11,47 @@
 
 <ion-content>
   <!--<ion-list>-->
-    <template [ngIf]="_pollslist.length>0">
+  <template [ngIf]="_pollslist.length>0">
 
-      <!--<ion-item-group  *ngFor="let poll of _pollslist" class="poll_list" (click)="_ShowPoll(poll.ID, poll.USER_ALREADY_VOTE)">-->
-        <!--<ion-item-divider color="white" text-wrap>{{poll?.TITLE}}</ion-item-divider>-->
-      <!--</ion-item-group>-->
+    <!--<ion-item-group  *ngFor="let poll of _pollslist" class="poll_list" (click)="_ShowPoll(poll.ID, poll.USER_ALREADY_VOTE)">-->
+    <!--<ion-item-divider color="white" text-wrap>{{poll?.TITLE}}</ion-item-divider>-->
+    <!--</ion-item-group>-->
 
-      <button  ion-item *ngFor="let poll of _pollslist" text-wrap class="poll_list" (click)="_ShowPoll(poll.ID, poll.USER_ALREADY_VOTE)">
-        {{poll?.TITLE}}
-      </button>
+    <button ion-item *ngFor="let poll of _pollslist" text-wrap class="poll_list"
+            (click)="_ShowPoll(poll.ID, poll.USER_ALREADY_VOTE)">
+      {{poll?.TITLE}}
+    </button>
 
-      <!--<poll *ngIf="_pollclicked" [pollid]="_pollid" [isvoted]="_isvoted"></poll>-->
-      <!--<ion-item *ngFor="let poll of _pollslist" text-wrap>-->
-        <!--<p>-->
-          <!--{{poll?.TITLE}}-->
-        <!--</p>-->
-        <!--<poll id="{{poll.ID}}" [pollid]="poll?.ID"></poll>-->
-      <!--</ion-item>-->
-    </template>
+    <!--<poll *ngIf="_pollclicked" [pollid]="_pollid" [isvoted]="_isvoted"></poll>-->
+    <!--<ion-item *ngFor="let poll of _pollslist" text-wrap>-->
+    <!--<p>-->
+    <!--{{poll?.TITLE}}-->
+    <!--</p>-->
+    <!--<poll id="{{poll.ID}}" [pollid]="poll?.ID"></poll>-->
+    <!--</ion-item>-->
+  </template>
 
-    <template [ngIf]="_pollslist.length<1">
-      <ion-item text-center>
-        {{_leng?.polls_empty}}
+  <template [ngIf]="_pollslist.length<1">
+    <ion-item text-center>
+      {{_leng?.polls_empty}}
 
-      </ion-item>
+    </ion-item>
 
 
-    </template>
+  </template>
 
   <!--</ion-list>-->
 
-  <!--</ion-content>-->
+  </ion-content>
+<ion-footer>
+  <ion-fab center bottom (click)="navCtrl.popToRoot()">
+    <button ion-fab color="danger">
+      <ion-icon name="home"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-toolbar color="white">
+  </ion-toolbar>
+</ion-footer>
   <!--<ion-footer>-->
   <!--<ion-fab center bottom (click)="navCtrl.popToRoot()">-->
   <!--<button ion-fab color="danger">-->

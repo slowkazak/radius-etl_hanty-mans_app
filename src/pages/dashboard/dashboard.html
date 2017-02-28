@@ -23,8 +23,21 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Улучшим наш город {{auth?.user?.city?.name}}</ion-title>
+    <ion-title>Улучшим наш город</ion-title>
   </ion-navbar>
+  <ion-toolbar color="primary">
+    <div class="header-title" style="margin-left: 16px;">
+    <p *ngIf="auth?.user?.city?.name" ion-text color="white">{{auth?.user?.city?.name}}</p>
+    <p *ngIf="!auth?.user?.city?.name" ion-text color="white">Гость</p>
+    </div>
+    <ion-buttons end style="margin-right: 16px;">
+      <button ion-button clear icon-left color="white" (click)="this.navCtrl.push(UserObjectsPage)"
+              [disabled]="!auth.user.access_token">
+        <ion-icon name="ios-contact-outline"></ion-icon>
+        {{_leng?.dashboard_myobj_btn}}
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 
 </ion-header>
 <ion-content>
@@ -32,7 +45,7 @@
     <div class="card-img">
       <img src="http://admhmansy.ru/map/serviceimage/{{item.User_Image}}"/>
       <div class="card-date">
-        <ion-icon color="primary" name="ios-calendar-outline"></ion-icon>
+        <!--<ion-icon color="primary" name="ios-calendar-outline"></ion-icon>-->
         {{item?.Date_Change | convertDate}} {{item?.Status_Name}}
       </div>
 
@@ -50,22 +63,32 @@
 <ion-footer>
   <span></span>
   <ion-toolbar color="white">
-    <ion-buttons start>
-      <button ion-button icon-left color="royal" (click)="addObject()" [disabled]="!auth.user.access_token">
-        <ion-icon name="checkbox-outline"></ion-icon>
-        {{_leng?.dashboard_add_btn}}
-      </button>
-    </ion-buttons>
-    <button ion-button clear icon-left color="royal" (click)="this.navCtrl.push(UserObjectsPage)"
-            [disabled]="!auth.user.access_token">
-      <ion-icon name="ios-contact-outline"></ion-icon>
-      {{_leng?.dashboard_myobj_btn}}
+    <!--<ion-buttons start>-->
+      <!--<button ion-button icon-left color="royal" (click)="addObject()" [disabled]="!auth.user.access_token">-->
+        <!--<ion-icon name="checkbox-outline"></ion-icon>-->
+        <!--{{_leng?.dashboard_add_btn}}-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
+    <button ion-button icon-left clear icon-only color="primary"
+            (click)="addObject()"
+            [disabled]="!auth.user.access_token"
+            style="margin-left: 6px;
+font-size: 2.3rem;"
+    >
+      <ion-icon name="add-circle"></ion-icon>
+      <!--{{_leng?.dashboard_add_btn}}-->
     </button>
-    <ion-buttons end>
+
+    <ion-buttons end style="margin-right: 16px;">
       <button ion-button icon-right color="royal" (click)=openStatusChange()>
         {{_leng?.dashboard_filters_btn}}
         <ion-icon name="settings"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>
+  <ion-fab center bottom (click)="navCtrl.popToRoot()">
+    <button ion-fab color="danger">
+      <ion-icon name="home"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-footer>

@@ -1,8 +1,8 @@
 page-menu {
 
-//  ion-content {
-//    background-color: #f6f6f6!important;
-//  }
+  ion-content {
+    //background-color: #f6f6f6!important;
+  }
 //
 //  ion-toolbar .exit_button {
 //    // padding: 0 2.6rem;
@@ -91,7 +91,8 @@ page-menu {
   ion-label {
     margin: 0 !important;
     border-bottom: 1px solid #d6d6d6 !important;
-    padding-bottom: 5px;
+    padding-bottom: 7px;
+    padding-top: 12px;
   }
   .item-inner {padding: 0 !important;}
   .scroll-content {

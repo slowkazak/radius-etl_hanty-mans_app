@@ -2,10 +2,29 @@ page-object-add {
   input {
     margin: 0 !important;
   }
-  ion-content {
-    .scroll-content {
-      overflow: hidden;
-    }
+  ion-content {}
+  .list-md .item-input:last-child {
+    border: 0 !important;
+  }
+  form {
+    width: 90%;
+  }
+  .scroll-content {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+  ion-input {
+    border-bottom: 1px solid #387ef5 !important;
+  }
+  //ion-select {
+  //  border-bottom: 1px solid #387ef5 !important;
+  //}
+  ion-label {
+    color: #000 !important;
+  }
+  * {
+    margin: 0;
   }
 
   .user_image {

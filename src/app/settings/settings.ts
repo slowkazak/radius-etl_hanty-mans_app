@@ -7,6 +7,7 @@ export const settings = {
   image_file_extentions: [".png", ".bmp", ".jpg", ".jpg", ".jpeg", ".pcx", ".gif"],
   passport_validator_regexp: "\d{4}\s\d{6}",
   object_media_placeholder_count:4,
+  max_video_size_bytes:52428799,
   max_marker_title_length:20,
   error_codes: [{code: "form_no_reqirement_data", title: "Недостаточно данных для выполнения запроса"}],
   polls_types: [

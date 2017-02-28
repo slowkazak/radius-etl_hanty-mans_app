@@ -2,28 +2,22 @@
 
   <ion-navbar color="primary">
     <ion-title>Добавить заявку</ion-title>
-    <!--<ion-buttons start>-->
-    <!--<button ion-button (click)="dismiss()">-->
-    <!--<span color="positive" showWhen="ios">Закрыть</span>-->
-    <!--<ion-icon name="md-close" showWhen="android,windows"></ion-icon>-->
-    <!--</button>-->
-    <!--</ion-buttons>-->
-  </ion-navbar>
+    </ion-navbar>
 </ion-header>
-
+<!--(ngSubmit)="AddObject()"-->
 <ion-content>
-  <form [formGroup]="form" (ngSubmit)="AddObject()">
+  <form [formGroup]="form" >
     <ion-list>
       <!--<ion-item>-->
         <!--<ion-label floating>{{_leng?.input_title}}</ion-label>-->
         <!--<ion-textarea formControlName="title"></ion-textarea>-->
       <!--</ion-item>-->
-      <ion-item>
-        <ion-label floating>Опишите проблему</ion-label>
+      <ion-item no-padding>
+        <ion-label floating no-padding>Опишите проблему</ion-label>
         <ion-textarea formControlName="description"></ion-textarea>
       </ion-item>
-      <ion-item padding>
-        <ion-label>Выберите категорию</ion-label>
+      <ion-item no-padding>
+        <ion-label no-padding>Выберите категорию</ion-label>
         <ion-select formControlName="category">
           <ion-option value="1">Несанкционированная свалка</ion-option>
           <ion-option value="2">Дефекты дорожного покрытия</ion-option>
@@ -45,7 +39,7 @@
         <ion-icon name="add-circle" *ngIf="!item.url"></ion-icon>
         <template [ngIf]="item.type === 'photo'">
           <div *ngIf="item.url" style="width: 100%; height: 100%"
-               [ngStyle]="{'background': 'url('+item.url+')','border-radius': '4px', 'background-size': 'contain'}">
+               [ngStyle]="{'background': 'url('+item.url+')','border-radius': '4px', 'background-size': 'contain','background-repeat': 'no-repeat'}">
             <div class="delete" (click)="deleteMedia(i)">
               <ion-icon name="close-circle"></ion-icon>
             </div>
@@ -53,7 +47,7 @@
         </template>
         <template [ngIf]="item.type === 'video'">
           <div *ngIf="item.url" style="width: 100%; height: 100%"
-               [ngStyle]="{'background': 'url(assets/img/video.png)','border-radius': '4px', 'background-size': 'contain'}">
+               [ngStyle]="{'background': 'url(assets/img/video.png)','border-radius': '4px', 'background-size': 'contain', 'background-repeat': 'no-repeat'}">
             <div class="delete" (click)="deleteMedia(i)">
               <ion-icon name="close-circle"></ion-icon>
             </div>
@@ -73,7 +67,7 @@
     </div>
     <!--<div padding>-->
     <p>
-      <button type="button" ion-button block (click)="openMap()">Выбрать местоположение</button>
+      <button ion-button outline block (click)="openMap()">Выбрать местоположение</button>
     </p>
     <!--<p>-->
     <!--<button type="button" ion-button block (click)="presentActionSheet()">Добавить фото или видео</button>-->
@@ -84,15 +78,22 @@
 
     <!--</p>-->
     <!--</div>-->
+
+    <button  ion-button outline block type="submit" (click)="AddObject()" [disabled]="!(form.valid && location.coords.length>0)">Подать заявку
+    </button>
   </form>
 
 </ion-content>
 
 <ion-footer>
-
-  <ion-toolbar>
-    <button ion-button block color="danger" type="submit" [disabled]="!(form.valid && location.coords.length>0)"
-            (click)="AddObject()">Подать заявку
+  <ion-fab center bottom (click)="navCtrl.popToRoot()">
+    <button ion-fab color="danger">
+      <ion-icon name="home"></ion-icon>
     </button>
+  </ion-fab>
+  <ion-toolbar color="white">
+    <!--<button ion-button block color="danger" type="submit" [disabled]="!(form.valid && location.coords.length>0)"-->
+            <!--(click)="AddObject()">Подать заявку-->
+    <!--</button>-->
   </ion-toolbar>
 </ion-footer>

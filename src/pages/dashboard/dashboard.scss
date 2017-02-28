@@ -54,9 +54,9 @@ page-dashboard {
   }
 
   ion-card {
-    margin: 0!important;
-    width: 100%!important;
-    position: relative;
+    //margin: 0!important;
+    //width: 100%!important;
+    //position: relative;
   }
 
   ion-card .card-img {
@@ -72,20 +72,22 @@ page-dashboard {
 
   ion-card .card-date {
     position: absolute;
+    background: #ea2749;
     bottom: 20px;
+    color: #ffffff;
     //width: 120px;
     // padding: 10px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 9px;
+    padding-right: 9px;
     text-align: center;
-    background-color: white;
+    //background-color: white;
     margin-left: 15px;
     border-radius: 20px;
     -moz-border-radius: 20px;
     -webkit-border-radius: 20px;
-    border: 1px solid #eee;
+    font-size: 1rem;
   }
 
 
