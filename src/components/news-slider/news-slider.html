@@ -1,0 +1,17 @@
+<!--
+  Generated template for the NewsSlider component.
+
+  See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
+  for more info on Angular 2 Components.
+-->
+
+<div id="sliderFrame">
+  <div id="slider">
+<template ngFor let-item [ngForOf]="_news">
+    <img src={{item?.enclosure}} />
+</template>
+  </div>
+  <div id="htmlcaption" style="display: none;">
+    <em>HTML</em> caption. dfgdfgdfgdfgfdgfdLink dfgdsfdsf to <a href="http://www.google.com/">Google</a>.
+  </div>
+</div>

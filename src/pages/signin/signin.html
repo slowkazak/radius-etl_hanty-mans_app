@@ -13,19 +13,36 @@
 </ion-header>
 
 <ion-content>
+
   <form [formGroup]="login_form" (ngSubmit)="signIn()">
-    <ion-list>
-      <ion-item>
-        <ion-label floating>Мобильный телефон или почта</ion-label>
+    <ion-list no-lines no-border>
+      <ion-item no-padding>
+        <ion-label floating>Телефон или почта</ion-label>
         <ion-input type="text" formControlName="login"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label floating>Пароль</ion-label>
+      <ion-item no-lines no-padding>
+        <ion-label floating >Пароль</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
     </ion-list>
-    <div padding>
-      <button ion-button block type="submit" [disabled]="!login_form.valid">Войти</button>
+    <div style="margin-right: 6px;">
+      <button ion-button outline block text-capitalize type="submit" [disabled]="!login_form.valid">Войти</button>
     </div>
   </form>
+
+  <!--<form [formGroup]="login_form" (ngSubmit)="signIn()">-->
+    <!--<ion-list>-->
+      <!--<ion-item>-->
+        <!--<ion-label floating>Мобильный телефон или почта</ion-label>-->
+        <!--<ion-input type="text" formControlName="login"></ion-input>-->
+      <!--</ion-item>-->
+      <!--<ion-item>-->
+        <!--<ion-label floating>Пароль</ion-label>-->
+        <!--<ion-input type="password" formControlName="password"></ion-input>-->
+      <!--</ion-item>-->
+    <!--</ion-list>-->
+    <!--<div padding>-->
+      <!--<button ion-button block type="submit" [disabled]="!login_form.valid">Войти</button>-->
+    <!--</div>-->
+  <!--</form>-->
 </ion-content>

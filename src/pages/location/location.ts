@@ -73,7 +73,7 @@ export class LocationPage {
       ymaps.ready()
         .then(() => ymaps.geocode([lat, lng], {kind: 'locality'}))
         .then(res => {
-        console.info(res.geoObjects.get(0))
+
         try {
             res = res.geoObjects.get(0).getLocalities().pop();
             }
@@ -82,7 +82,7 @@ export class LocationPage {
         }
             let city = this._FindCity(res);
             city ?
-              this.goToMenu(city) : this._ToastPresent(this._leng.city_not_found)
+              this._ToMenu(city) : this._ToastPresent(this._leng.city_not_found)
           }
         )
         .catch(err => {
@@ -127,45 +127,51 @@ export class LocationPage {
     return _city;
   }
 
+  /**
+   * Переход в меню после выбора города - неотрефакторенная функция
+   * @param city
+   * @private
+   */
+   private _ToMenu(city: string) {
+    this.auth.set('city', city);
+    this.auth.updateStorage();
+    this.navCtrl.setRoot(MenuPage, {}, {animate: true, direction: 'forward'})
+  }
 
   //todo рефактор, затем удалить
 
 
-  getItems(event: any) {
-    this.initializeItems()
-    let val = event.target.value
-    if (val && val.trim() != '') {
-      this.items = this.items.filter((item) => {
-        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1)
-      })
-    }
-    // console.log(event.target.value)
-  }
+  // getItems(event: any) {
+  //   this.initializeItems()
+  //   let val = event.target.value
+  //   if (val && val.trim() != '') {
+  //     this.items = this.items.filter((item) => {
+  //       return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1)
+  //     })
+  //   }
+  //   // console.log(event.target.value)
+  // }
 
-  test = 1
+  // test = 1
 
-  goToMenu(city: string) {
-    this.auth.set('city', city);
-    this.auth.updateStorage();
-    this.navCtrl.setRoot(NewsFeedPage, {}, {animate: true, direction: 'forward'})
-  }
 
-  private findCity(city: String) {
-    let res = this.items.filter(item => {
-      return item.name.indexOf(city) > -1
-    })[0]
-    if (!res) {
-    }
-    // this.toastCtrl.create({
-    //   message: 'Не удалось определить город. Пожалуйста, выберете вручную',
-    //   duration: 3000
-    // }).present()
-    else {
-      this.goToMenu(res.name)
-    }
-    console.log(res)
-    return res
-  }
+
+  // private findCity(city: String) {
+  //   let res = this.items.filter(item => {
+  //     return item.name.indexOf(city) > -1
+  //   })[0]
+  //   if (!res) {
+  //   }
+  //   // this.toastCtrl.create({
+  //   //   message: 'Не удалось определить город. Пожалуйста, выберете вручную',
+  //   //   duration: 3000
+  //   // }).present()
+  //   else {
+  //     this._ToMenu(res.name)
+  //   }
+  //   console.log(res)
+  //   return res
+  // }
 
   // public getPosition() {
   //   let loader = this.loadingCtrl.create({

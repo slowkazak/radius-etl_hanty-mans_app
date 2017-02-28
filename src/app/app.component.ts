@@ -2,14 +2,13 @@ import {Component, ViewChild} from '@angular/core';
 import {Platform, Nav, MenuController} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {HomePage} from '../pages/home/home';
-// import {MenuPage} from '../pages/menu/menu'
 import {AuthProvider} from '../providers/auth-provider'
-import {NewsFeedPage} from "../pages/news-feed/news-feed";
 import {DashboardPage} from "../pages/dashboard/dashboard";
 import {PoolsPage} from "../pages/pools/pools";
 import {OmsPage} from "../pages/oms-page/oms-page";
 import {ServicesPage} from "../pages/services/services";
 import {UserCabinetPage} from "../pages/user-cabinet/user-cabinet";
+import {MenuPage} from "../pages/menu/menu";
 
 
 @Component({
@@ -39,7 +38,7 @@ export class MyApp {
           this.auth.user = JSON.parse(user);
           this.auth.islogged = true;
           console.log('User found in storage',this.auth.user)
-          this.rootPage = NewsFeedPage
+          this.rootPage = MenuPage
         } else {
           this.islogged = false;
           this.rootPage = HomePage

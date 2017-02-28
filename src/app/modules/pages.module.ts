@@ -7,7 +7,7 @@ import {PoolsPage} from '../../pages/pools/pools'
 import {PopoverPage} from "../../pages/popover-page/popover-page";
 import {NewsFeedPage} from "../../pages/news-feed/news-feed";
 import {PollComponent} from "../../components/poll/poll";
-
+import {NewsSliderComponent} from "../../components/news-slider/news-slider"
 @NgModule({
   imports: [
     IonicModule.forRoot(LocationPage),
@@ -18,7 +18,8 @@ import {PollComponent} from "../../components/poll/poll";
     IonicModule.forRoot(PoolsPage),
     IonicModule.forRoot(PopoverPage),
     IonicModule.forRoot(NewsFeedPage),
-    IonicModule.forRoot(PollComponent)
+    IonicModule.forRoot(PollComponent),
+    IonicModule.forRoot(NewsSliderComponent)
   ],
   declarations: [
     LocationPage,
@@ -27,7 +28,8 @@ import {PollComponent} from "../../components/poll/poll";
     PoolsPage,
     PopoverPage,
     NewsFeedPage,
-    PollComponent
+    PollComponent,
+    NewsSliderComponent
   ],
   exports: [
     LocationPage,
@@ -36,7 +38,8 @@ import {PollComponent} from "../../components/poll/poll";
     PoolsPage,
     PopoverPage,
     NewsFeedPage,
-    PollComponent
+    PollComponent,
+    NewsSliderComponent
   ]
 })
 export class PagesModule {

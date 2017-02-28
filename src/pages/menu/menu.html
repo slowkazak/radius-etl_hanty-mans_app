@@ -1,38 +1,80 @@
-<!--<ion-header>-->
+<ion-header>
 
-  <!--<ion-toolbar>-->
-    <!--<ion-title>Просмотр без авторизации</ion-title>-->
-  <!--</ion-toolbar>-->
+  <ion-toolbar color="primary">
+    <!--<template [ngIf]="auth?.user.access_token">-->
+      <ion-title *ngIf="auth?.user.access_token">{{auth?.user?.points}} {{auth?.user?.first_name}}</ion-title>
+      <ion-buttons end *ngIf="auth?.user.access_token">
+        <button ion-button (click)="exit()">
+          Выйти
+          <ion-icon name="log-out"></ion-icon>
+        </button>
+      </ion-buttons>
+    <!--</template>-->
+    <!--<template [ngIf]="!auth?user.access_token">-->
+      <ion-title *ngIf="!auth?.user.access_token">Гость</ion-title>
+      <ion-buttons end *ngIf="!auth?.user.access_token">
+        <button ion-button [navPush]="HomePage">
+          Войти
+          <ion-icon name="log-in"></ion-icon>
+        </button>
+      </ion-buttons>
+    <!--</template>-->
+  </ion-toolbar>
 
-<!--</ion-header>-->
+</ion-header>
 
 <ion-content>
-  <div class="cards">
-    <ion-card>
-      <img src="assets/img/city_view.png"/>
-    </ion-card>
-  </div>
-  <ion-list>
-    <button ion-item (click)=openPage(DashboardPage)>
-      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
-      Улучшим наш город
-    </button>
-    <button ion-item (click)=openPage(PoolsPage) [disabled]="!auth.user.access_token">
-      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
-      Опросы
-    </button>
-    <button ion-item (click)=navCtrl.push(OmsPage)>
-      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
-      Запись на приём в ОМС
-    </button>
-    <button ion-item (click)=navCtrl.push(ServicesPage)>
-      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
-      Запись на приём в МФЦ Югры
-    </button>
-    <button ion-item (click)=navCtrl.setRoot(HomePage)>
-      <ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>
-      Вход/Регистрация
-    </button>
+  <!--<div class="cards">-->
+    <!--<ion-card>-->
+      <!--<news-slider></news-slider>-->
+    <!--</ion-card>-->
+  <!--</div>-->
+  <!--<ion-list>-->
+    <!--<button ion-item (click)=openPage(DashboardPage)>-->
+      <!--<ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>-->
+      <!--Улучшим наш город-->
+    <!--</button>-->
+    <!--<button ion-item (click)=openPage(PoolsPage) [disabled]="!auth.user.access_token">-->
+      <!--<ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>-->
+      <!--Опросы-->
+    <!--</button>-->
+    <!--<button ion-item (click)=navCtrl.push(OmsPage)>-->
+      <!--<ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>-->
+      <!--Запись на приём в ОМС-->
+    <!--</button>-->
+    <!--<button ion-item (click)=navCtrl.push(ServicesPage)>-->
+      <!--<ion-icon name="ios-arrow-forward-outline" color="arrow-black" item-left></ion-icon>-->
+      <!--Запись на приём в МФЦ Югры-->
+    <!--</button>-->
+  <!--</ion-list>-->
+
+  <news-slider></news-slider>
+  <ion-list style="width: 90%; margin-top: 16px">
+    <ion-item no-border no-lines no-padding>
+      <button ion-button clear icon-left text-capitalize color="dark">
+        <ion-icon name="arrow-dropright-circle" color="primary"></ion-icon>
+        Улучшим наш город
+      </button>
+    </ion-item>
+    <ion-item no-border no-lines no-padding>
+      <button ion-button clear icon-left text-capitalize color="dark">
+        <ion-icon name="arrow-dropright-circle" color="primary"></ion-icon>
+        Опросы
+      </button>
+    </ion-item>
+    <ion-item no-border no-lines no-padding>
+      <button ion-button clear icon-left text-capitalize color="dark">
+        <ion-icon name="arrow-dropright-circle" color="primary"></ion-icon>
+        Запись на прием в ОМС
+      </button>
+    </ion-item>
+    <ion-item no-border no-lines no-padding>
+      <button ion-button clear icon-left text-capitalize color="dark">
+        <ion-icon name="arrow-dropright-circle" color="primary"></ion-icon>
+        Запись на прием в МФЦ ЮГРЫ
+      </button>
+    </ion-item>
+
   </ion-list>
 
 </ion-content>

@@ -2,16 +2,12 @@
 // http://ionicframework.com/docs/v2/theming/
 @import "ionic.globals";
 
-
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
 // the Sass variables found in Ionic's source scss files.
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
-
-
-
 
 // Named Color Variables
 // --------------------------------------------------
@@ -22,44 +18,38 @@
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #2c7dc1,
-  secondary:  #06009e,
-  danger:     #f53d3d,
-  light:      #f4f4f4,
-  dark:       #222,
+  primary: #2c7dc1,
+  secondary: #06009e,
+  danger: #f53d3d,
+  light: #f4f4f4,
+  dark: #222,
   light_blue: #58A3FD,
   pinky: #E8324C,
   green: #0094de,
-
   signin_button: #0094de,
   signup_button: #06009e,
   skip_button: #ffffff,
-
   arrow-black: #1e1e1e,
-
-  dark-red: #990000
+  dark-red: #990000,
+  //
+  dark_light: #9b9b9b
 );
-
 
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-$text-input-md-show-focus-highlight:false;
-$popover-md-width:90%;
-$popover-ios-width:90%;
+$text-input-md-show-focus-highlight: false;
+$popover-md-width: 90%;
+$popover-ios-width: 90%;
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-$text-input-ios-show-focus-highlight:false;
-
+$text-input-ios-show-focus-highlight: false;
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
-
-
 
 // App Windows Variables
 // --------------------------------------------------
@@ -69,7 +59,6 @@ $text-input-ios-show-focus-highlight:false;
   overflow: hidden;
 }
 
-
 // App Theme
 // --------------------------------------------------
 // Ionic apps can have different themes applied, which can
@@ -78,7 +67,6 @@ $text-input-ios-show-focus-highlight:false;
 // default are overridden.
 
 @import "ionic.theme.default";
-
 
 // Ionicons
 // --------------------------------------------------
