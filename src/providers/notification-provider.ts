@@ -28,7 +28,7 @@ this._Init();
    * @returns {Promise<T>}
    * @private
    */
-  private _Regiseter() {
+  private _Regiseter(sender_id = 995990249907) {
     //Проверяем есть ли разрешение на push
     //Если устройство на базе ios или android - пробуем получать токен, при ошибке возвращаем null или ошибку, при успехе - информацию о регистрации
     return new Promise((resolve, reject) => {
@@ -37,14 +37,18 @@ this._Init();
           Push.hasPermission().then(() => { //Если на PUSH права есть
             let push = Push.init({
               android: {
-                senderID: '995990249907'
+                sound: true,
+                vibrate: true,
+                forceShow: false,
+                senderID: sender_id.toString()
               },
               ios: {
-                alert: 'true',
+                alert: true,
                 badge: true,
-                sound: 'false'
-              },
-              windows: {}
+                sound: true,
+                senderID: sender_id.toString(),
+                gcmSandbox: false
+              }
             });
             try {
               this._push.on('registration', (data) => {
