@@ -25,7 +25,7 @@ declare var ymaps: any;
   templateUrl: 'location.html'
 })
 export class LocationPage {
-  items: any = settings.citylist;
+  items: any = [];
   searchQuery: string = ''
 
 
@@ -34,7 +34,7 @@ export class LocationPage {
   constructor(private locationprov: GeolocationProvider,
               private leng: LengProvider,
               public navCtrl: NavController, public loadingCtrl: LoadingController, public auth: AuthProvider) {
-    this.initializeItems()
+    // this.initializeItems()
   }
 
 
@@ -63,6 +63,20 @@ export class LocationPage {
     }
   }
 
+  /**
+   * генерация списка городов по кнопке
+   * @constructor
+   */
+  private _GenerateList(){
+    _.forEach(settings.citylist,(item)=>{
+      _.delay((i)=>{
+        this.items.push(i)
+      },1000, item)
+    })
+
+
+
+  }
   /**
    * Определение города по геопозиции
    * @private
@@ -201,71 +215,71 @@ export class LocationPage {
   //     })
   // }
 
-  initializeItems() {
-    this.items = [{
-      name: 'Белоярский',
-      state: 'Белоярский район'
-    },
-      {
-        name: 'Когалым',
-        state: 'МО город Когалым'
-      },
-      {
-        name: 'Лангепас',
-        state: 'МО город Лангепас'
-      },
-      {
-        name: 'Лянтор',
-        state: 'Сургутский район'
-      },
-      {
-        name: 'Мегион',
-        state: 'МО город Мегион'
-      },
-      {
-        name: 'Нефтеюганск',
-        state: 'МО город Нефтеюганск'
-      },
-      {
-        name: 'Нижневартовск',
-        state: 'МО город Нижневартовск'
-      },
-      {
-        name: 'Нягань',
-        state: 'МО город Нягань'
-      },
-      {
-        name: 'Покачи',
-        state: 'МО город Покачи'
-      },
-      {
-        name: 'Пыть-Ях',
-        state: 'МО город Пыть-Ях'
-      },
-      {
-        name: 'Радужный',
-        state: 'МО город Радужный'
-      },
-      {
-        name: 'Советский',
-        state: 'Советский район'
-      },
-      {
-        name: 'Сургут',
-        state: 'Городской округ город Сургут'
-      },
-      {
-        name: 'Урай',
-        state: 'МО город Урай'
-      },
-      {
-        name: 'Ханты-Мансийск',
-        state: 'МО город Ханты-Мансийск'
-      },
-      {
-        name: 'Югорск',
-        state: 'МО город Югорск'
-      }]
-  }
+  // initializeItems() {
+  //   this.items = [{
+  //     name: 'Белоярский',
+  //     state: 'Белоярский район'
+  //   },
+  //     {
+  //       name: 'Когалым',
+  //       state: 'МО город Когалым'
+  //     },
+  //     {
+  //       name: 'Лангепас',
+  //       state: 'МО город Лангепас'
+  //     },
+  //     {
+  //       name: 'Лянтор',
+  //       state: 'Сургутский район'
+  //     },
+  //     {
+  //       name: 'Мегион',
+  //       state: 'МО город Мегион'
+  //     },
+  //     {
+  //       name: 'Нефтеюганск',
+  //       state: 'МО город Нефтеюганск'
+  //     },
+  //     {
+  //       name: 'Нижневартовск',
+  //       state: 'МО город Нижневартовск'
+  //     },
+  //     {
+  //       name: 'Нягань',
+  //       state: 'МО город Нягань'
+  //     },
+  //     {
+  //       name: 'Покачи',
+  //       state: 'МО город Покачи'
+  //     },
+  //     {
+  //       name: 'Пыть-Ях',
+  //       state: 'МО город Пыть-Ях'
+  //     },
+  //     {
+  //       name: 'Радужный',
+  //       state: 'МО город Радужный'
+  //     },
+  //     {
+  //       name: 'Советский',
+  //       state: 'Советский район'
+  //     },
+  //     {
+  //       name: 'Сургут',
+  //       state: 'Городской округ город Сургут'
+  //     },
+  //     {
+  //       name: 'Урай',
+  //       state: 'МО город Урай'
+  //     },
+  //     {
+  //       name: 'Ханты-Мансийск',
+  //       state: 'МО город Ханты-Мансийск'
+  //     },
+  //     {
+  //       name: 'Югорск',
+  //       state: 'МО город Югорск'
+  //     }]
+  // }
 
 }

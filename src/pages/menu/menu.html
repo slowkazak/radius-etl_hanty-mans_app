@@ -2,12 +2,17 @@
 
   <ion-toolbar color="primary">
     <!--<template [ngIf]="auth?.user.access_token">-->
-      <ion-title *ngIf="auth?.user.access_token">{{auth?.user?.points}} {{auth?.user?.first_name}}</ion-title>
+      <ion-title  *ngIf="auth?.user.access_token">{{auth?.user?.points}} {{auth?.user?.first_name}}</ion-title>
       <ion-buttons end *ngIf="auth?.user.access_token">
+        <button ion-button (click)="_OpenCabinet()">
+          <ion-icon name="cog" style="margin-left: 4px;" ></ion-icon>
+          <!--<ion-icon  name="log-out"></ion-icon>-->
+        </button>
         <button ion-button (click)="exit()">
           Выйти
-          <ion-icon name="log-out"></ion-icon>
+          <ion-icon style="margin-left: 4px;" name="log-out"></ion-icon>
         </button>
+
       </ion-buttons>
     <!--</template>-->
     <!--<template [ngIf]="!auth?user.access_token">-->
@@ -51,22 +56,22 @@
   <news-slider></news-slider>
   <ion-list style="width: 90%; margin-top: 16px">
     <!--<ion-item no-border no-lines no-padding>-->
-      <button ion-item no-border no-lines no-padding icon-left (click)=openPage(DashboardPage) color="content">
+      <button ion-item no-border no-lines no-padding icon-left (click)=openPage(DashboardPage) >
         <ion-icon name="arrow-dropright-circle" color="primary"></ion-icon>
         <!--<span style="font-size: 1.8rem;">Улучшим наш город</span>-->
         Улучшим наш город
       </button>
-    <button ion-item no-border no-lines no-padding icon-left (click)=openPage(PoolsPage) color="content">
+    <button ion-item no-border no-lines no-padding icon-left (click)=openPage(PoolsPage) >
       <ion-icon name="arrow-dropright-circle" color="primary"></ion-icon>
       <!--<span style="font-size: 1.8rem;">Опросы</span>-->
       Опросы
     </button>
-    <button ion-item no-border no-lines no-padding icon-left (click)=navCtrl.push(OmsPage) color="content">
+    <button ion-item no-border no-lines no-padding icon-left (click)=navCtrl.push(OmsPage) >
       <ion-icon name="arrow-dropright-circle" color="primary"></ion-icon>
       Запись на прием в ОМС
       <!--<span style="font-size: 1.8rem;">Запись на прием в ОМС</span>-->
     </button>
-    <button ion-item no-border no-lines no-padding icon-left  (click)=navCtrl.push(ServicesPage) color="content">
+    <button ion-item no-border no-lines no-padding icon-left  (click)=navCtrl.push(ServicesPage) >
       <ion-icon name="arrow-dropright-circle" color="primary"></ion-icon>
       Запись на прием в МФЦ ЮГРЫ
       <!--<span style="font-size: 1.8rem;">Запись на прием в МФЦ ЮГРЫ</span>-->

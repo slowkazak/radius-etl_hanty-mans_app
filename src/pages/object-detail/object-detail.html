@@ -7,9 +7,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+
     <ion-title>{{data.Type_Name}}</ion-title>
   </ion-navbar>
 
@@ -19,14 +17,15 @@
   <ion-card>
     <div class="card-img">
       <img src="http://admhmansy.ru/map/serviceimage/{{data.User_Image}}"/>
-      <div class="card-status">
-        {{data.Status_Name}}
+      <!--<div class="card-status">-->
+
+      <!--</div>-->
+      <div class="card-date">
+        <!--<ion-icon color="primary" name="ios-calendar-outline"></ion-icon>-->
+        {{data.Date_Change | convertDate}}  {{data.Status_Name}}
       </div>
     </div>
-    <div class="card-date">
-      <ion-icon color="primary" name="ios-calendar-outline"></ion-icon>
-      {{data.Date_Change | convertDate}}
-    </div>
+
     <div class="card-location">
       <ion-icon name="pin" color="pinky"></ion-icon>
       {{street}}
@@ -44,6 +43,6 @@
       <ion-icon name="home"></ion-icon>
     </button>
   </ion-fab>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="white">
   </ion-toolbar>
 </ion-footer>

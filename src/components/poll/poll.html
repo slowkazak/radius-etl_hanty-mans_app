@@ -8,18 +8,17 @@
   <template ngFor let-question [ngForOf]="_questions">
 
     <ion-list radio-group>
-      <ion-list-header>
+      <ion-list-header text-wrap>
         {{question?.QUESTION}}
       </ion-list-header>
       <template ngFor let-answer [ngForOf]="question?._answers">
         <template [ngIf]="!isvoted">
-          <ion-item item-content *ngIf="answer?.FIELD_TYPE == 0">
-            <template></template>
+          <ion-item item-content *ngIf="answer?.FIELD_TYPE == 0" text-wrap>
             <ion-label> {{answer?.MESSAGE}}</ion-label>
             <ion-radio value="{{answer.ANSWER_ID}}" (ionSelect)="_PrepareAnswer(answer, 'radio')"></ion-radio>
           </ion-item>
 
-          <ion-item item-content *ngIf="answer?.FIELD_TYPE == 1">
+          <ion-item item-content *ngIf="answer?.FIELD_TYPE == 1" text-wrap>
             <ion-label>{{answer?.FIELD_TYPE}} {{answer?.MESSAGE}}</ion-label>
 
             <ion-checkbox (ionChange)="_PrepareAnswer(answer, 'checkbox')"></ion-checkbox>

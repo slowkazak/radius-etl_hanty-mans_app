@@ -4,13 +4,17 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-toolbar>
-    <ion-searchbar placeholder="Поиск" (input)="getItems($event)" showCancelButton="true"></ion-searchbar>
-  </ion-toolbar>
+  <!--<ion-toolbar>-->
+    <!--<ion-searchbar placeholder="Поиск" (input)="getItems($event)" showCancelButton="true"></ion-searchbar>-->
+  <!--</ion-toolbar>-->
   <ion-list>
     <button ion-item (click)=_GetLocation()>
       <ion-icon name="ios-navigate" color="pinky" item-left></ion-icon>
       Текущее местоположение
+    </button>
+    <button ion-item (click)=_GenerateList() *ngIf="!items.length">
+      <ion-icon name="pin" color="pinky" item-left></ion-icon>
+      Выбрать из списка
     </button>
     <button ion-item *ngFor="let item of items" (click)="_ToMenu(item)">
       <ion-icon name="pin" color="pinky" item-left></ion-icon>

@@ -7,6 +7,7 @@ import { ServicesPage } from '../services/services'
 import { PoolsPage } from '../pools/pools'
 import { OmsPage } from '../oms-page/oms-page'
 import { AuthProvider } from '../../providers/auth-provider'
+import {UserCabinetPage} from "../user-cabinet/user-cabinet";
 
 @Component({
   selector: 'page-menu',
@@ -34,6 +35,10 @@ export class MenuPage {
   exit() {
     this.auth.clearStorage()
     this.navCtrl.setRoot(HomePage, {}, {animate: true, direction: 'backwards'})
+  }
+  private _OpenCabinet(){
+    // this.menu.close();
+    this.navCtrl.push(UserCabinetPage);
   }
 
 }

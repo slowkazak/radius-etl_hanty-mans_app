@@ -1,8 +1,23 @@
 page-user-cabinet {
-
-  .brd {
-    padding-left: 10px !important;  padding-bottom: 5px !important;
-    border-bottom: 1px solid #DADADA !important;  padding-top: 5px !important;
-
+  ion-content {}
+  .list-md .item-input:last-child {
+    border: 0 !important;
+  }
+  form {
+    width: 80%;
+  }
+  .scroll-content {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+  ion-input {
+    border-bottom: 1px solid #387ef5 !important;
+  }
+  ion-label {
+    color: #000 !important;
+  }
+  * {
+    margin: 0;
   }
 }

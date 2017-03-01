@@ -3,12 +3,13 @@ import {Platform, Nav, MenuController} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {HomePage} from '../pages/home/home';
 import {AuthProvider} from '../providers/auth-provider'
-import {DashboardPage} from "../pages/dashboard/dashboard";
-import {PoolsPage} from "../pages/pools/pools";
-import {OmsPage} from "../pages/oms-page/oms-page";
-import {ServicesPage} from "../pages/services/services";
-import {UserCabinetPage} from "../pages/user-cabinet/user-cabinet";
+// import {DashboardPage} from "../pages/dashboard/dashboard";
+// import {PoolsPage} from "../pages/pools/pools";
+// import {OmsPage} from "../pages/oms-page/oms-page";
+// import {ServicesPage} from "../pages/services/services";
+// import {UserCabinetPage} from "../pages/user-cabinet/user-cabinet";
 import {MenuPage} from "../pages/menu/menu";
+import {NotificationProvider} from "../providers/notification-provider";
 
 
 @Component({
@@ -22,13 +23,13 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   private _menu_items = null;
 
-  constructor(platform: Platform, private auth: AuthProvider, private menu:MenuController) {
-    this._menu_items = [
-      {title: "Улучшим наш город", component: DashboardPage, onlywithtoken:true},
-      {title: "Опросы", component: PoolsPage, onlywithtoken:true},
-      {title: "Запись на приём в ОМС", component: OmsPage, onlywithtoken:false},
-      {title: "Запись на приём в МФЦ Югры", component: ServicesPage, onlywithtoken:false}
-    ];
+  constructor(platform: Platform, private auth: AuthProvider, private menu:MenuController, private notification:NotificationProvider) {
+    // this._menu_items = [
+    //   {title: "Улучшим наш город", component: DashboardPage, onlywithtoken:true},
+    //   {title: "Опросы", component: PoolsPage, onlywithtoken:true},
+    //   {title: "Запись на приём в ОМС", component: OmsPage, onlywithtoken:false},
+    //   {title: "Запись на приём в МФЦ Югры", component: ServicesPage, onlywithtoken:false}
+    // ];
     platform.ready().then(() => {
 
       // Okay, so the platform is ready and our plugins are available.
@@ -54,10 +55,7 @@ export class MyApp {
    * Открывает кабинет пользователя
    * @private
    */
-  private _OpenCabinet(){
-    this.menu.close();
-    this.nav.push(UserCabinetPage);
-  }
+
   openPage(page) {
     this.menu.close();
     this.nav.push(page.component);

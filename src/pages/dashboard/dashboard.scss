@@ -68,6 +68,8 @@ page-dashboard {
   ion-card img {
     height: auto;
     border: 1px solid #eee;
+    max-height: 200px;
+    object-fit: cover;
   }
 
   ion-card .card-date {
