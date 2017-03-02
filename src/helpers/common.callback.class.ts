@@ -1,6 +1,7 @@
 import {common_msg} from "../app/settings/common.msg";
 export class CommonCallback {
-constructor(){}
+  constructor() {
+  }
 
   /**
    * Коллбэк для успешного выполнения запроса
@@ -8,7 +9,7 @@ constructor(){}
    * @returns {any}
    * @public
    */
-  public _SuccessCallback(data) {
+  static _SuccessCallback(data) {
     return data.json()
   }
 
@@ -18,7 +19,7 @@ constructor(){}
    * @returns {null}
    * @public
    */
-  _ErrorCallback(data) {
+  static _ErrorCallback(data) {
     console.error(common_msg.query_execute_err, data);
     let result = null;
     try {

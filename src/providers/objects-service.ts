@@ -11,6 +11,7 @@ import {settings} from "../app/settings/settings";
 import {LengProvider} from "./leng-provider";
 import _ from "lodash";
 import "rxjs/add/operator/toPromise";
+import {Events} from "ionic-angular";
 
 @Injectable()
 export class ObjectsService {
@@ -23,7 +24,7 @@ export class ObjectsService {
   data: any;
   selected_location: Array<number>
 
-  constructor(public http: Http, private auth: AuthProvider, private lengprovider: LengProvider) {
+  constructor(public http: Http, private auth: AuthProvider, private lengprovider: LengProvider, private events:Events) {
     this._Init();
   }
 
@@ -72,6 +73,7 @@ export class ObjectsService {
       result = this.http.post(settings.adm_api_path + '/place/add', form, {headers: this._headers})
         .toPromise()
         .then(res => {
+          this.events.publish('points:change');
           console.info(res)
         })
         .catch(err => {

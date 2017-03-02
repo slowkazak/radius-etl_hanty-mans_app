@@ -13,6 +13,7 @@ import {LengProvider} from "../providers/leng-provider"
 import {GeolocationProvider} from "../providers/geolocation-provider";
 import {UserUpdateProvider} from "../providers/user-update-provider";
 import {NotificationProvider} from "../providers/notification-provider";
+import {PointsProvider} from "../providers/points-provider";
 
 
 enableProdMode();
@@ -34,6 +35,6 @@ enableProdMode();
   entryComponents: [
     MyApp
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Filter, AuthProvider, location, Storage, LengProvider, GeolocationProvider, UserUpdateProvider,NotificationProvider]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Filter, AuthProvider, location, Storage, LengProvider, GeolocationProvider, UserUpdateProvider,NotificationProvider, PointsProvider]
 })
 export class AppModule {}

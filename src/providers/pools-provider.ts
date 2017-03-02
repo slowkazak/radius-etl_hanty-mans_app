@@ -7,13 +7,13 @@ import {settings} from "../app/settings/settings";
 import {CommonCallback} from "../helpers/common.callback.class";
 import _ from "lodash";
 @Injectable()
-export class PoolsProvider extends CommonCallback {
+export class PoolsProvider  {
   server: string = 'http://api.admhmansy.ru'
   access_token: string = this.auth.user.access_token || null
 
 
   constructor(public http: Http, private auth: AuthProvider) {
-    super();
+
   }
 
   /** Получение списка опросов
@@ -25,8 +25,8 @@ export class PoolsProvider extends CommonCallback {
       settings.adm_domain_path +
       settings.api_methods.votes_list.method)
       .toPromise()
-      .then(res => super._SuccessCallback(res))
-      .catch(err => super._ErrorCallback(err))
+      .then(res => CommonCallback._SuccessCallback(res))
+      .catch(err => CommonCallback._ErrorCallback(err))
     return result;
   }
 
@@ -49,8 +49,8 @@ export class PoolsProvider extends CommonCallback {
             settings.adm_domain_path +
             settings.api_methods.vote.method, { search: urlsearch })
             .toPromise()
-            .then(res => super._SuccessCallback(res))
-            .catch(err => super._ErrorCallback(err))
+            .then(res => CommonCallback._SuccessCallback(res))
+            .catch(err => CommonCallback._ErrorCallback(err))
         }
         catch (err) {
           console.error("Произошла ошибка", err);
@@ -96,8 +96,8 @@ export class PoolsProvider extends CommonCallback {
     //   type:type,
     //   val:val,
     return this.http.post(settings.adm_domain_path,urlsearch.toString(), {headers: headers}).toPromise()
-      .then(res => super._SuccessCallback(res))
-      .catch(err => super._ErrorCallback(err))
+      .then(res => CommonCallback._SuccessCallback(res))
+      .catch(err => CommonCallback._ErrorCallback(err))
   }
 
 

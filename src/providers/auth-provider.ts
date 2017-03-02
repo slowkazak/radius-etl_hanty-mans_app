@@ -58,8 +58,15 @@ export class AuthProvider {
     }
   }
 
-  addPoints(points: number) {
-    // TODO, но по-хорошему надо на стороне сервера
+  /**
+   * Изменяет количество баллов пользователя
+   * @param points - количество баллов
+   * @constructor
+   */
+  public SetPoints(points: number) {
+    this.set('points', points);
+    this.user = this.Get();
+    this.updateStorage();
   }
 
   updateStorage() {

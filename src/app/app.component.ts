@@ -10,6 +10,7 @@ import {AuthProvider} from '../providers/auth-provider'
 // import {UserCabinetPage} from "../pages/user-cabinet/user-cabinet";
 import {MenuPage} from "../pages/menu/menu";
 import {NotificationProvider} from "../providers/notification-provider";
+import {PointsProvider} from "../providers/points-provider";
 
 
 @Component({
@@ -23,7 +24,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
   private _menu_items = null;
 
-  constructor(platform: Platform, private auth: AuthProvider, private menu:MenuController, private notification:NotificationProvider) {
+  constructor(platform: Platform, private auth: AuthProvider, private menu:MenuController, private notification:NotificationProvider, private points:PointsProvider) {
     // this._menu_items = [
     //   {title: "Улучшим наш город", component: DashboardPage, onlywithtoken:true},
     //   {title: "Опросы", component: PoolsPage, onlywithtoken:true},

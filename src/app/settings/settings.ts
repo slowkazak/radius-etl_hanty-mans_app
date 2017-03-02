@@ -31,6 +31,12 @@ export const settings = {
       auth_param: "",
       data_param: ""
     },
+    user_info: {
+      domain: "adm_api_path",
+      method: "/user/info",
+      auth_param: "access_token",
+      data_param: ""
+    },
     vote: {
       domain: "adm_domain_path",
       method: "/vote/vote_api/vote_form.php",

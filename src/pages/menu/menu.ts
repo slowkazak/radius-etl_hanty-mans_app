@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MyApp } from '../../app/app.component';
-import { NavController } from 'ionic-angular';
+import {NavController, Events} from 'ionic-angular';
 import { HomePage } from '../home/home'
 import { DashboardPage } from '../dashboard/dashboard'
 import { ServicesPage } from '../services/services'
@@ -20,7 +20,7 @@ export class MenuPage {
   OmsPage: any = OmsPage;
   HomePage: any = HomePage;
 
-  constructor(public navCtrl: NavController, public auth: AuthProvider) {
+  constructor(public navCtrl: NavController, public auth: AuthProvider, private events:Events) {
     this.navCtrl = navCtrl
   }
 
@@ -39,6 +39,9 @@ export class MenuPage {
   private _OpenCabinet(){
     // this.menu.close();
     this.navCtrl.push(UserCabinetPage);
+  }
+  x() {
+    this.events.publish('points:change');
   }
 
 }
