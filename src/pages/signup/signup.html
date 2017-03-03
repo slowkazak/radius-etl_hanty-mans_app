@@ -9,24 +9,78 @@
 
 <ion-content>
   <form [formGroup]="signup_form" (ngSubmit)="signUp()">
-  <ion-list  no-lines no-border>
-    <ion-item no-padding>
-      <ion-label floating no-padding>Фамилия</ion-label>
-      <ion-input type="text" formControlName="second_name"></ion-input>
-    </ion-item>
-    <ion-item no-padding>
-      <ion-label floating no-padding>Имя</ion-label>
-      <ion-input type="text" formControlName="first_name"></ion-input>
-    </ion-item>
-    <ion-item no-padding>
-      <ion-label floating no-padding>Телефон или почта</ion-label>
-      <ion-input type="text" formControlName="login"></ion-input>
-    </ion-item>
-    <ion-item no-padding>
-      <ion-label floating no-padding>Пароль</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-    </ion-item>
-  </ion-list>
-  <button style="margin-right: 6px;" ion-button outline block text-capitalize type="submit" [disabled]="!signup_form.valid">Зарегистрироваться</button>
-</form>
+    <!--<ion-list no-lines no-border>-->
+      <!--<ion-item no-padding>-->
+        <!--<ion-label floating no-padding>Логин</ion-label>-->
+        <!--<ion-input type="text" formControlName="login"></ion-input>-->
+      <!--</ion-item>-->
+      <!--<ion-item no-padding>-->
+
+        <!--<ion-label floating no-padding>Фамилия</ion-label>-->
+        <!--<ion-input type="text" formControlName="second_name"></ion-input>-->
+      <!--</ion-item>-->
+      <!--<ion-item no-padding>-->
+        <!--<ion-label floating no-padding>Имя</ion-label>-->
+        <!--<ion-input type="text" formControlName="first_name"></ion-input>-->
+      <!--</ion-item>-->
+
+      <!--<ion-item no-padding>-->
+        <!--<ion-label floating no-padding>Электронная почта</ion-label>-->
+        <!--<ion-input type="text" formControlName="email"></ion-input>-->
+      <!--</ion-item>-->
+      <!--<ion-item no-padding>-->
+      <!--<ion-label floating no-padding>Номер телефона</ion-label>-->
+      <!--<ion-input type="text" formControlName="phone"></ion-input>-->
+      <!--</ion-item>-->
+      <!--<ion-item no-padding>-->
+        <!--<ion-label floating no-padding>Пароль</ion-label>-->
+        <!--<ion-input type="password" formControlName="password"></ion-input>-->
+      <!--</ion-item>-->
+    <!--</ion-list>-->
+
+
+
+
+    <ion-list  no-lines no-border>
+      <ion-item no-padding>
+        <ion-label floating no-padding>Фамилия</ion-label>
+        <ion-input type="text" formControlName="second_name"></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label floating no-padding>Имя</ion-label>
+        <ion-input type="text" formControlName="first_name"></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label floating no-padding>>Номер телефона</ion-label>
+        <ion-input type="text" formControlName="phone"></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label floating no-padding>Электронная почта</ion-label>
+        <ion-input type="text" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label floating no-padding>Логин</ion-label>
+        <ion-input type="text" formControlName="login"></ion-input>
+      </ion-item>
+      <ion-item no-padding>
+        <ion-label floating no-padding>Пароль</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+    </ion-list>
+
+
+
+
+
+
+
+
+
+
+
+
+    <button style="margin-right: 6px;" ion-button outline block text-capitalize type="submit"
+            [disabled]="!signup_form.valid">Зарегистрироваться
+    </button>
+  </form>
 </ion-content>

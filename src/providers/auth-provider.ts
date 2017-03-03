@@ -2,12 +2,15 @@ import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage'
 import {Http, URLSearchParams, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
+import {Subject} from "rxjs";
 
 @Injectable()
 export class AuthProvider {
   server: string = 'http://api.admhmansy.ru'
   user: any = {}
   islogged: boolean = false;
+public usersubject = new Subject();
+
 
   constructor(public http: Http, public storage: Storage) {
     console.log('Hello AuthProvider Provider');
@@ -23,7 +26,7 @@ export class AuthProvider {
     return this.http.post(this.server + "/user/auth", body, {headers: headers})
   }
 
-  signUp(login: string, first_name: string, second_name: string, password: string) {
+  signUp(login: string, first_name: string, second_name: string, password: string, phone:string,email:string) {
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
     let params = new URLSearchParams()
@@ -31,6 +34,8 @@ export class AuthProvider {
     params.set('first_name', first_name)
     params.set('second_name', second_name)
     params.set('password', password)
+    params.set('phone', phone)
+    params.set('email', email)
     let body = params.toString()
     return this.http.post(this.server + "/user/create", body, {headers: headers})
   }
@@ -70,6 +75,7 @@ export class AuthProvider {
   }
 
   updateStorage() {
+    this.usersubject.next(this.user.token);
     this.storage.set('user', JSON.stringify(this.user))
   }
 

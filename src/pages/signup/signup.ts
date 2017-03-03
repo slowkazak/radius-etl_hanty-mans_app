@@ -21,7 +21,9 @@ export class SignupPage {
   {
     this.signup_form = this.formBuilder.group({
       login: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', Validators.required],
+      phone: ['', Validators.required],
+      password: ['', Validators.compose([Validators.minLength(6),Validators.required])],
       first_name: ['', Validators.required],
       second_name: ['', Validators.required]
     })
@@ -37,7 +39,7 @@ export class SignupPage {
     })
     loader.present()
 
-    this.auth.signUp(this.signup_form.value.login, this.signup_form.value.first_name, this.signup_form.value.second_name, this.signup_form.value.password).subscribe(res => {
+    this.auth.signUp(this.signup_form.value.login, this.signup_form.value.first_name, this.signup_form.value.second_name, this.signup_form.value.password,this.signup_form.value.phone,this.signup_form.value.email).subscribe(res => {
       loader.dismiss();
       console.log(res.json())
       this.auth.user = res.json()

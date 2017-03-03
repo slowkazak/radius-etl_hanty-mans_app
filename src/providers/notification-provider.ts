@@ -3,6 +3,7 @@ import {Push} from 'ionic-native';
 import {Platform} from "ionic-angular";
 import {CommonToast} from "../helpers/toast.class";
 import {common_msg} from "../app/settings/common.msg";
+import {AuthProvider} from "./auth-provider";
 /*
  Generated class for the NotificationProvider provider.
 
@@ -17,9 +18,9 @@ export class NotificationProvider {
    *
    * @param plt - платформа на которой запускается приложение
    */
-  constructor(private plt: Platform) {
+  constructor(private plt: Platform, private auth: AuthProvider) {
 
-this._Init();
+    this._Init();
   }
 
 
@@ -52,6 +53,17 @@ this._Init();
             });
             try {
               this._push.on('registration', (data) => {
+                this.auth.usersubject.subscribe(
+                  (x) => {
+                    console.log('onNext: ' + x);
+                  },
+                  (e) => {
+                    console.log('onError: ' + e.message);
+                  },
+                  () => {
+                    console.log('onCompleted');
+                  }
+                );
                 resolve(push);
               });
             }
@@ -84,13 +96,15 @@ this._Init();
   private _Init() {
 
     this.plt.ready().then(() => {
-      this._Regiseter().then((res:any) => {
-         res.on('notification', () => {
+      this._Regiseter().then((res: any) => {
+        res.on('notification', () => {
+
           console.info(res)
         })
-      }).catch(err=>{
+      }).catch(err => {
         CommonToast.ShowToast(common_msg.push_not_avaiable);
-        console.error("Произошла ошибка", err);})
+        console.error("Произошла ошибка", err);
+      })
     });
 
   }

@@ -8,6 +8,7 @@ import {CommonCallback} from "../helpers/common.callback.class";
 import "rxjs/add/operator/toPromise";
 import {AuthProvider} from "./auth-provider";
 import _ from "lodash";
+
 /*
  Generated class for the NotificationProvider provider.
 
