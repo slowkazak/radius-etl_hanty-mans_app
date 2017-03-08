@@ -12,14 +12,10 @@ import {
   Camera,
   FilePath,
   MediaCapture,
-  MediaFile,
   CaptureError,
-  CaptureImageOptions,
   CaptureVideoOptions,
   Toast
 } from 'ionic-native';
-declare var cordova: any;
-import base64 from  "../../../node_modules/file-base64/index.js"
 
 import {ObjectsService} from '../../providers/objects-service'
 import {location} from '../../models/location'

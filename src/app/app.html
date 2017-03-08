@@ -1,44 +1,53 @@
-<!--<ion-menu [content]="mycontent" [enabled]="auth.islogged">-->
-  <!--<ion-header>-->
-    <!--<ion-toolbar color="primary">-->
-      <!--&lt;!&ndash;<ion-title>&ndash;&gt;-->
-      <!--<div style="margin-left:5px" *ngIf="auth.islogged" (click)="_OpenCabinet()">-->
-        <!--<h4 style="margin-top: 23px!important; color: #fff !important;">{{auth?.user?.first_name}}-->
-          <!--{{auth?.user?.second_name}}</h4>-->
-        <!--<p style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">-->
-          <!--{{auth?.user?.city?.name}}</p>-->
-        <!--<p *ngIf="auth?.user?.points>0"-->
-           <!--style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">-->
-          <!--{{auth?.user?.points}} баллов</p>-->
-        <!--<p *ngIf="auth?.user?.points<1"-->
-           <!--style="margin-top: 0px !important; color: #fff !important; margin-bottom: 1px !important;">Баллов нет</p>-->
+<ion-menu [content]="mycontent">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title  *ngIf="auth?.user.access_token">{{auth?.user?.points}} {{auth?.user?.NAME}}</ion-title>
+      <ion-buttons end *ngIf="auth?.user.access_token">
+        <button ion-button (click)="_OpenCabinet()">
+          <ion-icon name="cog" style="margin-left: 4px;" ></ion-icon>
+        </button>
+        <button ion-button (click)="exit()">
+          Выйти
+          <ion-icon style="margin-left: 4px;" name="log-out"></ion-icon>
+        </button>
 
-        <!--&lt;!&ndash;<p class="p_header" style="margin-bottom: 10px;" *ngIf="!app.lastused?.user_is_courier">{{leng?.admin}}</p>&ndash;&gt;-->
-      <!--</div>-->
-
-      <!--&lt;!&ndash;</ion-title>&ndash;&gt;-->
-    <!--</ion-toolbar>-->
-  <!--</ion-header>-->
-
-  <!--<ion-content>-->
-    <!--<ion-list no-lines no-border style="margin-top: 5px;">-->
-      <!--<template ngFor let-p [ngForOf]="_menu_items">-->
-        <!--<button class="brd" ion-item (click)="openPage(p)">-->
-          <!--{{p.title}}-->
-        <!--</button>-->
+      </ion-buttons>
       <!--</template>-->
-    <!--</ion-list>-->
-  <!--</ion-content>-->
-  <!--<ion-footer *ngIf="auth.islogged">-->
+      <!--<template [ngIf]="!auth?user.access_token">-->
+      <ion-title *ngIf="!auth?.user.access_token">Гость</ion-title>
+      <ion-buttons end *ngIf="!auth?.user.access_token">
+        <button ion-button (click)="exit()">
+          Войти
+          <ion-icon name="log-in"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 
-    <!--<button style="-->
-  <!--padding-left: 10px !important;-->
-  <!--padding-bottom: 5px !important; padding-top: 5px !important;-->
-<!--" ion-item (click)="exit()" ion-text="danger">-->
-      <!--Выйти-->
-    <!--</button>-->
-  <!--</ion-footer>-->
-<!--</ion-menu>-->
+  <ion-content>
+    <page-notifications></page-notifications>
+    <page-news-feed></page-news-feed>
+  </ion-content>
+  <ion-footer>
+    <p ion-text color="primary" style="text-align: center; font-size: 1rem; margin: 5px 0;">
+      Улучшим наш город.
+    </p>
+    <p ion-text color="primary" style="text-align: center; font-size: 1rem; margin: 5px 0;">
+      Приложение администрации города Ханты-Мансийска.
+    </p>
+    <p ion-text color="primary" style="text-align: center; font-size: 1rem; margin: 5px 0;">
+      Контакты для пожеланий, вопросов по приложению
+    </p>
+    <p ion-text color="primary" style="text-align: center; font-size: 1rem; margin: 5px 0;">
+      т./ф. +7 (3467) 352-351
+    </p>
+    <p ion-text color="primary" style="text-align: center; font-size: 1rem; margin: 5px 0;">
+      E-mail: MaksimchukPA@admhmansy.ru
+    </p>
 
 
-<ion-nav [root]="rootPage"></ion-nav>
+  </ion-footer>
+</ion-menu>
+
+
+<ion-nav #mycontent [root]="rootPage"></ion-nav>

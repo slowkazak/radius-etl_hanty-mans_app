@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
 import {RssProvider} from "../../providers/rss-provider";
 import _ from "lodash";
 import {LengProvider} from "../../providers/leng-provider";
 import {NewsFeed} from "../../app/interfaces/newsfeed.interface";
-import {SafariViewController, InAppBrowser} from 'ionic-native';
-import {AuthProvider} from "../../providers/auth-provider";
+import {NavController, ViewController} from "ionic-angular";
+
 /*
  Generated class for the NewsFeed page.
 
@@ -24,11 +23,11 @@ export class NewsFeedPage {
   private _error: boolean = false;
   private _nomessagetext: string = '';
 
-  constructor(public navCtrl: NavController, private leng: LengProvider, private rss: RssProvider, private auth:AuthProvider) {
+  constructor(private leng: LengProvider, private rss: RssProvider) {
   }
 
 
-  ionViewDidLoad() {
+  ngAfterViewInit() {
     this.leng.GetLeng("news_feed").then(res => {
       this._leng = _.assign({}, res);
     }).catch(err => {
@@ -56,7 +55,7 @@ export class NewsFeedPage {
 
   doRefresh(refresher) {
     this._LoadRss();
-    refresher.complete();
+    // refresher.complete();
   }
 
 
@@ -66,36 +65,36 @@ export class NewsFeedPage {
    * @constructor
    */
   OpenPage(item) {
-    console.info(item.link)
-    try {
-      SafariViewController.isAvailable()
-        .then(
-          (available: boolean) => {
-            if (available) {
-
-              SafariViewController.show({
-                url: item.link,
-                hidden: false,
-                animated: false,
-                transition: 'curl',
-                enterReaderModeIfAvailable: true,
-                tintColor: '#ff0000'
-              })
-                .then(
-                  (result: any) => {
-                  },
-                  (error: any) => console.error(error)
-                );
-
-            } else {
-              let browser = new InAppBrowser(item.link, '_system');
-            }
-          }
-        );
-    }
-    catch (err) {
-      console.error("Произошла ошибка", err)
-    }
+    // console.info(item.link)
+    // try {
+    //   SafariViewController.isAvailable()
+    //     .then(
+    //       (available: boolean) => {
+    //         if (available) {
+    //
+    //           SafariViewController.show({
+    //             url: item.link,
+    //             hidden: false,
+    //             animated: false,
+    //             transition: 'curl',
+    //             enterReaderModeIfAvailable: true,
+    //             tintColor: '#ff0000'
+    //           })
+    //             .then(
+    //               (result: any) => {
+    //               },
+    //               (error: any) => console.error(error)
+    //             );
+    //
+    //         } else {
+    //           let browser = new InAppBrowser(item.link, '_system');
+    //         }
+    //       }
+    //     );
+    // }
+    // catch (err) {
+    //   console.error("Произошла ошибка", err)
+    // }
 
   }
 

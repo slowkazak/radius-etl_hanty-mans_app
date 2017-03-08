@@ -42,6 +42,18 @@ export const settings = {
       method: "/vote/vote_api/vote_form.php",
       auth_param: "",
       data_param: "VOTE_ID"
+    },
+    user_update2: {
+      domain: "adm_api_path",
+      method: "/user/update",
+      auth_param: "",
+      data_param: ""
+    },
+    user_login: {
+      domain: "adm_api_path",
+      method: "/user/auth",
+      auth_param: "",
+      data_param: ['login','password']
     }
   },
   status_type_id:[

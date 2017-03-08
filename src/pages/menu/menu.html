@@ -2,33 +2,33 @@
 
   <ion-toolbar color="primary">
     <!--<template [ngIf]="auth?.user.access_token">-->
-      <ion-title  *ngIf="auth?.user.access_token">{{auth?.user?.points}} {{auth?.user?.first_name}}  {{auth?.user?.NAME}}</ion-title>
-      <ion-buttons end *ngIf="auth?.user.access_token">
-        <button ion-button (click)="_OpenCabinet()">
-          <ion-icon name="cog" style="margin-left: 4px;" ></ion-icon>
-          <!--<ion-icon  name="log-out"></ion-icon>-->
-        </button>
-        <button ion-button (click)="exit()">
-          Выйти
-          <ion-icon style="margin-left: 4px;" name="log-out"></ion-icon>
-        </button>
+      <ion-title >Улучшим наш город</ion-title>
+      <!--<ion-buttons end *ngIf="auth?.user.access_token">-->
+        <!--<button ion-button (click)="_OpenCabinet()">-->
+          <!--<ion-icon name="cog" style="margin-left: 4px;" ></ion-icon>-->
+          <!--&lt;!&ndash;<ion-icon  name="log-out"></ion-icon>&ndash;&gt;-->
+        <!--</button>-->
+        <!--<button ion-button (click)="exit()">-->
+          <!--Выйти-->
+          <!--<ion-icon style="margin-left: 4px;" name="log-out"></ion-icon>-->
+        <!--</button>-->
 
-      </ion-buttons>
-    <!--</template>-->
-    <!--<template [ngIf]="!auth?user.access_token">-->
-      <ion-title *ngIf="!auth?.user.access_token">Гость</ion-title>
-      <ion-buttons end *ngIf="!auth?.user.access_token">
-        <button ion-button [navPush]="HomePage">
-          Войти
-          <ion-icon name="log-in"></ion-icon>
-        </button>
-      </ion-buttons>
+      <!--</ion-buttons>-->
+    <!--&lt;!&ndash;</template>&ndash;&gt;-->
+    <!--&lt;!&ndash;<template [ngIf]="!auth?user.access_token">&ndash;&gt;-->
+      <!--<ion-title *ngIf="!auth?.user.access_token">Гость</ion-title>-->
+      <!--<ion-buttons end *ngIf="!auth?.user.access_token">-->
+        <!--<button ion-button [navPush]="HomePage">-->
+          <!--Войти-->
+          <!--<ion-icon name="log-in"></ion-icon>-->
+        <!--</button>-->
+      <!--</ion-buttons>-->
     <!--</template>-->
   </ion-toolbar>
 
 </ion-header>
 
-<ion-content>
+<ion-content (swipe)="sw($event)">
   <!--<div class="cards">-->
     <!--<ion-card>-->
       <!--<news-slider></news-slider>-->

@@ -34,6 +34,9 @@ export class SigninPage {
     })
     loader.present()
 
+    // this.auth.Auth(this.login_form.value.login,this.login_form.value.password).then(res=>{
+    //   console.info(res)
+    // }).catch(err=>{console.error(err)});
     this.auth.signIn(this.login_form.value.login, this.login_form.value.password).subscribe(res => {
       loader.dismiss();
       console.log(res.json(), "DATA")

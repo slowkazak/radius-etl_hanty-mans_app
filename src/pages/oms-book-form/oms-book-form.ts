@@ -43,8 +43,8 @@ export class OmsBookFormPage {
     let userdata = {first_name: '', second_name: '', patronymic: '', passport: '', rawobject: null};
     userdata.rawobject = this.auth.Get();
     !_.isEmpty(userdata.rawobject) ? (
-        userdata.first_name = userdata.rawobject.first_name,
-          userdata.second_name = userdata.rawobject.second_name,
+        userdata.first_name = userdata.rawobject.NAME,
+          userdata.second_name = userdata.rawobject.LAST_NAME,
           !_.isEmpty(userdata.rawobject.passport) ? userdata.passport = atob(userdata.rawobject.passport) : false
       ) : false;
 

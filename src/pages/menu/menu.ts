@@ -18,7 +18,7 @@ export class MenuPage {
   ServicesPage: any = ServicesPage;
   PoolsPage: any = PoolsPage;
   OmsPage: any = OmsPage;
-  HomePage: any = HomePage;
+
 
   constructor(public navCtrl: NavController, public auth: AuthProvider, private events:Events) {
     this.navCtrl = navCtrl
@@ -40,8 +40,8 @@ export class MenuPage {
     // this.menu.close();
     this.navCtrl.push(UserCabinetPage);
   }
-  x() {
-    this.events.publish('points:change');
+  sw(ev){
+    console.info(ev)
   }
 
 }

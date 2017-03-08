@@ -1,0 +1,11 @@
+<ion-list no-margin>
+  <ion-item  no-margin *ngFor="let item of messages; let i=index" style="padding-left: 0;">
+    <div item-content style="    display: flex;
+    align-items: center;">
+      <small item-right text-wrap>{{ item.msg}}</small>
+        <button ion-button icon-only clear color="danger" (click)="_Remove(i)">
+            <ion-icon name="trash"></ion-icon>
+        </button>
+    </div>
+  </ion-item>
+</ion-list>

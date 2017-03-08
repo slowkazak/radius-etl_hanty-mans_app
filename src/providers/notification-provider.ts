@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Push} from 'ionic-native';
-import {Platform} from "ionic-angular";
+import {Platform, Events} from "ionic-angular";
 import {CommonToast} from "../helpers/toast.class";
 import {common_msg} from "../app/settings/common.msg";
 import {AuthProvider} from "./auth-provider";
+import {PishStorage} from "../models/push";
+import _ from "lodash";
 /*
  Generated class for the NotificationProvider provider.
 
@@ -12,16 +14,17 @@ import {AuthProvider} from "./auth-provider";
  */
 @Injectable()
 export class NotificationProvider {
-  private _push: any = null;
+  platform = '';
 
   /**
    *
    * @param plt - платформа на которой запускается приложение
    */
-  constructor(private plt: Platform, private auth: AuthProvider) {
+  constructor(private plt: Platform, private auth: AuthProvider,private events:Events) {
 
-    this._Init();
+    this._Regiseter();
   }
+
 
 
   /**
@@ -32,8 +35,10 @@ export class NotificationProvider {
   private _Regiseter(sender_id = 995990249907) {
     //Проверяем есть ли разрешение на push
     //Если устройство на базе ios или android - пробуем получать токен, при ошибке возвращаем null или ошибку, при успехе - информацию о регистрации
-    return new Promise((resolve, reject) => {
+    this.plt.ready().then(() => {
+      this. ChangeToken();
       if (this.plt.is('ios') || this.plt.is('android')) {
+        this.plt.is('ios') ? this.platform = 'ios' : this.platform = 'android';
         try {
           Push.hasPermission().then(() => { //Если на PUSH права есть
             let push = Push.init({
@@ -51,65 +56,59 @@ export class NotificationProvider {
                 gcmSandbox: false
               }
             });
-            try {
-              this._push.on('registration', (data) => {
-                this.auth.usersubject.subscribe(
-                  (x) => {
-                    console.log('onNext: ' + x);
-                  },
-                  (e) => {
-                    console.log('onError: ' + e.message);
-                  },
-                  () => {
-                    console.log('onCompleted');
-                  }
-                );
-                resolve(push);
-              });
-            }
-            catch (err) {
-              reject(null);
-              console.error("Произошла ошибка", err)
-            }
+
+            push.on('registration', (data) => {
+              PishStorage.token.next(data.registrationId);
+            });
+            push.on('notification', (res) => {
+              this.events.publish('points:change');
+              this.events.publish('message:new',{msg:res.message,type:null});
+              console.info(res);
+              res.additionalData.foreground?
+              CommonToast.ShowToast(res.message):false
+
+            });
+            push.on('error', (e) => {
+              CommonToast.ShowToast(common_msg.push_not_avaiable);
+              console.log(e.message);
+            });
+
           }).catch((err) => {
             console.error(err);
             CommonToast.ShowToast(common_msg.push_not_avaiable);
-            reject(err)
+
           })
         }
         catch (err) {
-          console.error("Произошла ошибка", err);
-          reject(err);
+          CommonToast.ShowToast(common_msg.push_not_avaiable);
+          console.error("Произошла ошибка111", err);
+
         }
       }
       else {
-        reject(null);
+        CommonToast.ShowToast(common_msg.push_not_avaiable);
         console.error("Произошла ошибка");
       }
     })
+
   }
 
   /**
    * Инициализация пушей
    * @private
    */
-  private _Init() {
+  private ChangeToken() {
+    PishStorage.token.subscribe(
+      (x) => {
+        this.auth.SayPushToken(this.platform, x);
 
-    this.plt.ready().then(() => {
-      this._Regiseter().then((res: any) => {
-        res.on('notification', () => {
-
-          console.info(res)
-        })
-      }).catch(err => {
-        CommonToast.ShowToast(common_msg.push_not_avaiable);
-        console.error("Произошла ошибка", err);
-      })
-    });
-
+      },
+      (e) => {
+        console.log('onError: ' + e.message);
+      },
+      () => {
+        console.log('onCompleted');
+      });
   }
-
-  // }
-
 
 }

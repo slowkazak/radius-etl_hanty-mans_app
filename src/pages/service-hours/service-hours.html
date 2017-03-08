@@ -10,7 +10,7 @@
 <ion-content>
   <ion-item-group>
     <ion-item-divider color="light">{{ date }}</ion-item-divider>
-    <template [ngIf]="item.Free" ngFor let-item [ngForOf]="hours">
+    <template [ngIf]="item?.Free" ngFor let-item [ngForOf]="hours">
       <button ion-item (click)="showPrompt(item)">
         {{item.Hour}}:{{(item.Minutes === 0) ? '00' : (item.Minutes)}}
       </button>

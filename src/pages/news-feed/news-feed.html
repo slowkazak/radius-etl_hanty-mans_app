@@ -4,35 +4,36 @@
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<!--<ion-header>-->
 
-  <ion-navbar color="primary">
+  <!--<ion-navbar color="primary">-->
 
-    <ion-title>{{_leng?.page_title}}</ion-title>
-  </ion-navbar>
+    <!--<ion-title>{{_leng?.page_title}}</ion-title>-->
+  <!--</ion-navbar>-->
 
-</ion-header>
+<!--</ion-header>-->
 
 
-<ion-content padding>
+<!--<ion-content padding>-->
 
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      ion-text="primary"
-      pullingIcon="arrow-dropdown"
-      refreshingSpinner="crescent"
-      >
-    </ion-refresher-content>
-  </ion-refresher>
+  <!--<ion-refresher (ionRefresh)="doRefresh($event)">-->
+    <!--<ion-refresher-content-->
+      <!--ion-text="primary"-->
+      <!--pullingIcon="arrow-dropdown"-->
+      <!--refreshingSpinner="crescent"-->
+      <!--&gt;-->
+    <!--</ion-refresher-content>-->
+  <!--</ion-refresher>-->
+
 
   <template [ngIf]="!_error">
-    <ion-list [virtualScroll]="_news">
-      <ion-item *virtualItem="let item" style="padding-left: 0;" (click)="OpenPage(item)">
+    <ion-list >
+      <ion-item *ngFor="let item of _news" style="padding-left: 0;" (click)="OpenPage(item)">
         <div item-content style="display: flex;">
           <ion-avatar item-left>
             <ion-img [src]="item?.enclosure"></ion-img>
           </ion-avatar>
-          <h3 item-right text-wrap>{{ item?.title }}</h3>
+          <small item-right text-wrap>{{ item?.title }}</small>
         </div>
       </ion-item>
     </ion-list>
@@ -46,4 +47,4 @@
     </ion-item>
   </template>
 
-</ion-content>
+<!--</ion-content>-->

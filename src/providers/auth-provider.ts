@@ -3,19 +3,100 @@ import {Storage} from '@ionic/storage'
 import {Http, URLSearchParams, Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Subject} from "rxjs";
-
+import _ from "lodash";
+import {CommonCallback} from "../helpers/common.callback.class";
+import {settings} from "../app/settings/settings";
 @Injectable()
 export class AuthProvider {
   server: string = 'http://api.admhmansy.ru'
   user: any = {}
   islogged: boolean = false;
-public usersubject = new Subject();
-
+  private _headers: any = null;
 
   constructor(public http: Http, public storage: Storage) {
-    console.log('Hello AuthProvider Provider');
+    this._Init();
   }
 
+
+  private _Init() {
+
+    this._headers = new Headers();
+    this._headers.set('Content-Type', 'application/x-www-form-urlencoded');
+  }
+
+  public Auth(login: string, password: string) {
+    let result: any = null;
+    let urlsearch = new URLSearchParams();
+    urlsearch.append(settings.api_methods.user_login.data_param[0], login);
+    urlsearch.append(settings.api_methods.user_login.data_param[1], password);
+    try {
+      result = this.http.post(settings[settings.api_methods.user_login.domain] + settings.api_methods.user_login.method, urlsearch.toString(), {headers: this._headers})
+        .toPromise()
+        .then(res => CommonCallback._SuccessCallback(res))
+        .catch(err => CommonCallback._ErrorCallback(err));
+    }
+    catch (err) {
+      result = Promise.reject(null);
+      console.error("Произошла ошибка", err)
+    }
+    return result;
+  }
+
+  private Rerister(login: string, first_name: string, second_name: string, password: string, phone: string, email: string) {
+    let result: any = null;
+    let urlsearch = new URLSearchParams();
+    urlsearch.append(settings.api_methods.user_login.data_param[0], login);
+    urlsearch.append(settings.api_methods.user_login.data_param[1], password);
+    try {
+      result = this.http.post(settings[settings.api_methods.user_login.domain] + settings.api_methods.user_login.method, urlsearch.toString(), {headers: this._headers})
+        .toPromise()
+        .then(res => CommonCallback._SuccessCallback(res))
+        .catch(err => CommonCallback._ErrorCallback(err));
+    }
+    catch (err) {
+      result = Promise.reject(null);
+      console.error("Произошла ошибка", err)
+    }
+    return result;
+  }
+
+  public SayPushToken(platform = 'android', push_token = '', uid = 0, token = '') {
+
+
+    let result: any = null;
+    let data = {"platform": platform, "push_token": push_token};
+    try {
+      let urlsearch = new URLSearchParams();
+      let interval = setInterval(() => {
+        let usr = this.Get();
+        _.has(usr, "access_token") && _.has(usr, "ID") ?
+          (
+
+            clearInterval(interval),
+              urlsearch.append('user_id', usr.ID),
+              urlsearch.append('access_token', usr.access_token),
+              urlsearch.append('data', JSON.stringify(data)),
+              result = this.http.post(settings[settings.api_methods.user_update2.domain] +
+                settings.api_methods.user_update2.method, urlsearch.toString(),
+                {headers: this._headers})
+                .toPromise()
+                .then(res => CommonCallback._SuccessCallback(res))
+                .catch(err => CommonCallback._ErrorCallback(err))
+          )
+          :
+          false
+      }, 2000);
+
+
+    }
+    catch (err) {
+      result = Promise.reject(null)
+      console.error("Произошла ошибка", err)
+    }
+    return result;
+  }
+
+  //TODO рефактор
   signIn(login: string, password: string) {
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
@@ -26,7 +107,7 @@ public usersubject = new Subject();
     return this.http.post(this.server + "/user/auth", body, {headers: headers})
   }
 
-  signUp(login: string, first_name: string, second_name: string, password: string, phone:string,email:string) {
+  signUp(login: string, first_name: string, second_name: string, password: string, phone: string, email: string) {
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
     let params = new URLSearchParams()
@@ -75,7 +156,7 @@ public usersubject = new Subject();
   }
 
   updateStorage() {
-    this.usersubject.next(this.user.token);
+    // this.usersubject.next(this.user.token);
     this.storage.set('user', JSON.stringify(this.user))
   }
 

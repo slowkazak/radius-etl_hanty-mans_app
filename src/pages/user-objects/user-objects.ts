@@ -40,24 +40,34 @@ export class UserObjectsPage {
     headers.set('Content-Type', 'application/x-www-form-urlencoded')
     let params = new URLSearchParams()
     params.set('access_token', this.auth.user.access_token)
-    params.set('login', this.auth.user.login)
+    params.set('login', this.auth.user.EMAIL)
     let body = params.toString()
     this.http.post('http://api.admhmansy.ru/place/plist', body, {headers: headers}).subscribe(res => {
       this.user_object = res.json()
       console.info(this.user_object);
       // this.loadMap()
-      this.user_object.length > 0 ? _.forEach(this.user_object, (item: any) => {
-          try {
-            item.status_type_id = _.find(settings.status_type_id, _.matchesProperty('id', parseInt(item.status_type_id)));
-            item.user_image = item.user_image.split(',');
-            item.Long_t > 0 && item.Lat_t > 0 ? this._InitMap(item.Lat_t, item.Long_t, item.id, item.user_message) : false;
-          }
-          catch (err) {
-            console.info("cant iterate coords", item.coordinates)
-          }
-        }) : false;
+      try {
+        this.user_object.length > 0 ? _.forEach(this.user_object, (item: any) => {
+            try {
+              item.status_type_id = _.find(settings.status_type_id, _.matchesProperty('id', parseInt(item.status_type_id)));
+              item.user_image = item.user_image.split(',');
+              item.Long_t > 0 && item.Lat_t > 0 ? this._InitMap(item.Lat_t, item.Long_t, item.id, item.user_message) : false;
+              loader.dismiss()
+            }
+            catch (err) {
+              loader.dismiss()
+              console.info("cant iterate coords", item.coordinates)
+            }
+          }) : false;
+
+      }
+      catch (err) {
+        loader.dismiss()
+        console.error("Произошла ошибка", err)
+      }
+
       console.info(this.user_object)
-      loader.dismiss()
+
     }, err => {
       console.log(err.json())
       loader.dismiss()
