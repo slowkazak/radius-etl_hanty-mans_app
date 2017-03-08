@@ -27,6 +27,9 @@ export class NotificationProvider {
 
 
 
+
+
+
   /**
    * Регистрация пуш уведомлений
    * @returns {Promise<T>}
@@ -36,11 +39,13 @@ export class NotificationProvider {
     //Проверяем есть ли разрешение на push
     //Если устройство на базе ios или android - пробуем получать токен, при ошибке возвращаем null или ошибку, при успехе - информацию о регистрации
     this.plt.ready().then(() => {
+      let interval:any=null;
       this. ChangeToken();
       if (this.plt.is('ios') || this.plt.is('android')) {
         this.plt.is('ios') ? this.platform = 'ios' : this.platform = 'android';
         try {
           Push.hasPermission().then(() => { //Если на PUSH права есть
+            clearInterval(interval);
             let push = Push.init({
               android: {
                 sound: true,
@@ -74,6 +79,7 @@ export class NotificationProvider {
             });
 
           }).catch((err) => {
+            interval = setInterval(this._Regiseter(),5000);
             console.error(err);
             CommonToast.ShowToast(common_msg.push_not_avaiable);
 
