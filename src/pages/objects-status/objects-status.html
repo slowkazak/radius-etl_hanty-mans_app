@@ -19,40 +19,40 @@
     <ion-item-divider color="light">Статус заявок</ion-item-divider>
     <ion-item>
       <ion-label>Решён</ion-label>
-      <ion-checkbox [(ngModel)]=filter?.status.solved></ion-checkbox>
+      <ion-checkbox [(ngModel)]=boo?.status.solved></ion-checkbox>
     </ion-item>
 
     <ion-item>
       <ion-label>Предложение принято</ion-label>
-      <ion-checkbox [(ngModel)]=filter?.status.accepted></ion-checkbox>
+      <ion-checkbox [(ngModel)]=boo?.status.accepted></ion-checkbox>
     </ion-item>
     <ion-item>
       <ion-label>В работе</ion-label>
-      <ion-checkbox [(ngModel)]=filter?.status.processing></ion-checkbox>
+      <ion-checkbox [(ngModel)]=boo?.status.processing></ion-checkbox>
     </ion-item>
     <ion-item>
       <ion-label>Не решён</ion-label>
-      <ion-checkbox [(ngModel)]=filter?.status.not_solved></ion-checkbox>
+      <ion-checkbox [(ngModel)]=boo?.status.not_solved></ion-checkbox>
     </ion-item>
   </ion-item-group>
   <ion-item-group>
     <ion-item-divider color="light">Отображать на карте</ion-item-divider>
     <ion-item>
       <ion-label>Несанкционированные свалки</ion-label>
-      <ion-checkbox [(ngModel)]=filter?.display.dumps></ion-checkbox>
+      <ion-checkbox [(ngModel)]=boo?.display.dumps></ion-checkbox>
     </ion-item>
 
     <ion-item>
       <ion-label>Дефекты дорожного покрытия</ion-label>
-      <ion-checkbox [(ngModel)]=filter?.display.roads></ion-checkbox>
+      <ion-checkbox [(ngModel)]=boo?.display.roads></ion-checkbox>
     </ion-item>
     <ion-item>
       <ion-label>Правонарушения</ion-label>
-      <ion-checkbox [(ngModel)]=filter?.display.offense></ion-checkbox>
+      <ion-checkbox [(ngModel)]=boo?.display.offense></ion-checkbox>
     </ion-item>
     <ion-item>
       <ion-label>Улучшим наш город</ion-label>
-      <ion-checkbox [(ngModel)]=filter?.display.improve></ion-checkbox>
+      <ion-checkbox [(ngModel)]=boo?.display.improve></ion-checkbox>
     </ion-item>
   </ion-item-group>
   <ion-item>

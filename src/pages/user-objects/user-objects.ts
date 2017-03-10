@@ -39,8 +39,8 @@ export class UserObjectsPage {
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded')
     let params = new URLSearchParams()
-    params.set('access_token', this.auth.user.access_token)
-    params.set('login', this.auth.user.EMAIL)
+    params.set('access_token', this.auth.user.user.access_token)
+    params.set('login', this.auth.user.user.email)
     let body = params.toString()
     this.http.post('http://api.admhmansy.ru/place/plist', body, {headers: headers}).subscribe(res => {
       this.user_object = res.json()

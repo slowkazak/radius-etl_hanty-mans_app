@@ -121,6 +121,7 @@ export class OmsDatePage {
   }
 
   private GetTimeOMS(time, title, visitLength) {
+    console.info(title)
     this.navCtrl.push(OmsTimePage, {
       name: title,
       time: time,

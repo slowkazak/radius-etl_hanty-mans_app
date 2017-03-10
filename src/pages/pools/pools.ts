@@ -18,7 +18,7 @@ export class PoolsPage {
   private _pollslist: any = [];
   private _pollclicked = false;
   private _pollid = 0;
-  private _isvoted:boolean = false;
+  private _isvoted: boolean = false;
 
   constructor(public navCtrl: NavController,
               public poolsProvider: PoolsProvider,
@@ -43,8 +43,10 @@ export class PoolsPage {
 
       !_.isEmpty(res) ? _.map(res, ((item: any) => {
           try {
-            item.LAMP == "green"?item.LAMP=true:item.LAMP=false;
-            item.LAMP ? this._pollslist.push(item) : false;
+            console.info(item)
+            item.EVENT3 === 'true' ? item.EVENT3 = true : item.EVENT3 = false;
+            item.LAMP == "green" ? item.LAMP = true : item.LAMP = false;
+            item.LAMP && item.EVENT3 ? this._pollslist.push(item) : false;
           }
           catch (err) {
             console.error("Произошла ошибка", err)
@@ -58,7 +60,7 @@ export class PoolsPage {
     })
   }
 
-  private _ShowPoll(id,isvoted) {
+  private _ShowPoll(id, isvoted) {
     // !this._pollclicked ?
     //   _.forEach(document.getElementsByClassName('poll_list'), (item: any) => {
     //     _.indexOf(item.classList, 'activated') > -1 ? item.classList.remove('activated') : item.classList.add('hidden')
@@ -68,9 +70,9 @@ export class PoolsPage {
     //   });
     this._pollclicked = !this._pollclicked;
     this._pollid = id;
-isvoted === "N"? this._isvoted = false:this._isvoted = true
+    isvoted === "N" ? this._isvoted = false : this._isvoted = true
     console.info(id, this._isvoted);
-this.navCtrl.push(PollComponent,{id:this._pollid,isvoted:this._isvoted})
+    this.navCtrl.push(PollComponent, {id: this._pollid, isvoted: this._isvoted})
 
   }
 

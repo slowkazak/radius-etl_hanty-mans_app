@@ -44,7 +44,7 @@ export class DashboardPage {
     public auth: AuthProvider
   )
     {
-      this.checkbox = Filter
+      this.checkbox = this.Filter;
       this.loading = this.loadingCtrl.create({
         content: 'Пожалуйста, подождите'
       });
@@ -169,6 +169,7 @@ export class DashboardPage {
   }
 
   ionViewDidLoad() {
+    this.Filter.Get();
     this.loadData();
     this.leng.GetLeng("dashboard").then(res => {
       this._leng = _.assign({}, res);

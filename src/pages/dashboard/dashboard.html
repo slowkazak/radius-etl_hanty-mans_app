@@ -30,7 +30,7 @@
     </div>
     <ion-buttons end style="margin-right: 16px;">
       <button ion-button clear icon-left color="white" (click)="this.navCtrl.push(UserObjectsPage)"
-              [disabled]="!auth.user.access_token">
+              [disabled]="!auth?.user?.user?.access_token">
         <ion-icon name="ios-contact-outline"></ion-icon>
         {{_leng?.dashboard_myobj_btn}}
       </button>
@@ -69,7 +69,7 @@
     <!--</ion-buttons>-->
     <button ion-button icon-left clear icon-only color="primary"
             (click)="addObject()"
-            [disabled]="!auth.user.access_token"
+            [disabled]="!auth.user?.user?.access_token"
             style="margin-left: 6px;
 font-size: 2.3rem;"
     >

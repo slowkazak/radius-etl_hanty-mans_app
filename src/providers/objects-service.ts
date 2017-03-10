@@ -55,7 +55,7 @@ export class ObjectsService {
     // this._params
     try {
       let form = new FormData();
-      form.append("access_token", this.auth.user.access_token);
+      form.append("access_token", this.auth.user.user.access_token);
       form.append("user_message", formdata.description);
       form.append("placemark_type_id", formdata.category);
       form.append("lat_t", coords[0].toString());

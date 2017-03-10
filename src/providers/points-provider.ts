@@ -34,6 +34,7 @@ export class PointsProvider {
    * @private
    */
   private _Init() {
+    // async _f = ()=>{}
     this.events.subscribe('points:change', () => {
       this._GetPoints().then((res) => {
         _.has(res, "points") && !isNaN(res.points) && res.points >= 0 ? (this.auth.SetPoints(res.points)) : false;
@@ -53,7 +54,7 @@ export class PointsProvider {
   private _GetPoints() {
     let result: any = null;
     try {
-      let token = this.auth.Get().access_token;
+      let token = this.auth.Get().user.access_token;
       let urlsearch = new URLSearchParams();
       token && token.length > 0 ? urlsearch.set(settings.api_methods.user_info.auth_param, token) : result = Promise.reject(null);
       ;

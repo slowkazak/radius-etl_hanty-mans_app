@@ -15,6 +15,7 @@ import {LocationData} from "../../app/interfaces/location.interface";
 export class LocationSelectPage {
 
   private _ymaps: any = null;
+  private _placed: boolean = false;
   public _marker_placeable: boolean = true;
 
   map: any
@@ -69,7 +70,7 @@ export class LocationSelectPage {
     let coords = [];
     try {
       let _callback = (lat: number, lng: number) => {
-
+        this._placed = true;
         let myPlacemark = new ymaps.Placemark(
           [lat, lng], {
             balloonContent: '',
@@ -81,7 +82,8 @@ export class LocationSelectPage {
         this._ymaps.geoObjects.removeAll();
         this._ymaps.geoObjects.add(myPlacemark);
         this.location.Set(coords[0], coords[1]);
-        this.navCtrl.pop();
+
+
       };
       coords.push(...ev.get('coords'));
       _callback(coords[0], coords[1]);

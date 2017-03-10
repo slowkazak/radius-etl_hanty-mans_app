@@ -21,6 +21,10 @@ export const leng = {
       "add_err_file_load_err":"Ошибка при загрузке вложения",
       "video_zise_too_big":"Видео слишком большое, сделайте более короткое видео или умньшьте разрешение"
     },
+    "sign":{
+      "signup_success":"",
+      "signup_err":"Ошибка при регистрации"
+    },
     "dashboard":{
       "dashboard_add_btn":"Добавить",
       "dashboard_filters_btn":"Фильтры",

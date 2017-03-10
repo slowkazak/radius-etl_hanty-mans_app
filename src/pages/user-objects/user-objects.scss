@@ -17,7 +17,10 @@ page-user-objects {
     width: 100%;
     height: 100%;
   }
+  .scroll-content {
 
+    //overflow: hidden;
+  }
 
 
   ion-card .card-date {
@@ -40,11 +43,11 @@ page-user-objects {
     font-size: 1rem;
   }
 
-ion-img {
+//ion-img {
   img {
     width: 80px;
     height: 80px;
-  }
+  //}
 }
   //ion-footer {
   //  height: 150px;

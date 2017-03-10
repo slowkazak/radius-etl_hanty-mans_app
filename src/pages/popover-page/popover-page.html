@@ -7,7 +7,7 @@
 
 
 <ion-content padding>
-  <h5 *ngIf="data.date">{{_leng?.title}} {{data?.date}} {{data?.time}}</h5>
+  <h5 *ngIf="data.date">{{_leng?.title}} {{data?.title}}</h5>
   <p><strong>{{_leng?.docs_needed}}</strong></p>
   <p *ngFor="let item of data.docs">
     {{item?.name}}

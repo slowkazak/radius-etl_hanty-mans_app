@@ -34,11 +34,14 @@ export class OmsTimePage {
 
   ionViewDidLoad() {
       let date = new Date();
-      let datetime = date.getDate() + "." + date.getMonth() + 1 + "." + date.getFullYear();
+     let m:any = date.getMonth();
+     m = parseInt(m) + 1;
 
+      let datetime = date.getDate() + "." + m + "." + date.getFullYear();
+console.info(datetime,m,'!!!!!!!!!!!!!!!!!!!!!!!!!')
     this.bookobject = {
       serviceId: this.navParams.get('serviceId'),
-      date: datetime,
+      date: this.navParams.get('name'),
       visitLength: this.navParams.get('visitLength'),
       time: ''
     };
@@ -109,6 +112,8 @@ export class OmsTimePage {
 
 
   bookTime(time: any) { // Запись по времени
+
+    this.bookobject.datetitle=this.navParams.get('name')+' '+time;
     // TODO Переход на страницу с формой (oms-book-form), оттуда отправка данных
     this.bookobject.time = time;
     this.navCtrl.push(OmsBookFormPage, {data: this.bookobject})

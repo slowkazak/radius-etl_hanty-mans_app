@@ -35,7 +35,7 @@
               <ion-col>
                 {{answer?.MESSAGE}}
               </ion-col>
-              <ion-col width-15>
+              <ion-col width-15 text-right>
                 {{answer?.COUNTER}}
               </ion-col>
             </ion-row>
@@ -44,5 +44,6 @@
       </template>
     </ion-list>
   </template>
-  <button (click)="_Answer()" ion-button [disabled]="!_answersready">Ответить</button>
+  <!---->
+  <button clear style="float: right" (click)="_Answer()" ion-button [disabled]="!_answersready" *ngIf="!isvoted">Ответить</button>
 </ion-content>

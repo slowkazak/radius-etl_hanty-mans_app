@@ -51,10 +51,10 @@ export class UserCabinetPage implements OnChanges {
 
   private _InitPage() {
     this._user_cabinet = this.formBuilder.group({
-      first_name: [this.auth.user.NAME, Validators.required],
-      second_name: [this.auth.user.LAST_NAME, Validators.required],
-      passport: ['', Validators.compose([Validators.maxLength(11),
-        Validators.minLength(11)])]
+      first_name: [this.auth.user.user.first_name, Validators.required],
+      second_name: [this.auth.user.user.second_name, Validators.required],
+      passport: ['', Validators.compose([Validators.minLength(11),
+        Validators.minLength(10)])]
     })
   }
 

@@ -28,7 +28,13 @@ export class MyApp {
 
 
     platform.ready().then(() => {
-
+      this.notification._Regiseter();
+      // var head = document.getElementsByTagName('head')[0];
+      // var script = document.createElement('script');
+      // script.type = 'text/javascript';
+      //
+      // script.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
+      // head.appendChild(script);
       this.auth.checkAuth().then((user) => {
         if (user) {
           this.auth.user = JSON.parse(user);

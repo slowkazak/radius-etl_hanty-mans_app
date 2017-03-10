@@ -14,15 +14,16 @@ import { Filter } from '../../models/filters'
 })
 export class ObjectsStatusPage {
   filter: Object
-  constructor(public navCtrl: NavController, public viewCtrl: ViewController, boo: Filter) {
-    this.filter = boo
+  constructor(public navCtrl: NavController, public viewCtrl: ViewController, private boo: Filter) {
+    // this.filter = boo
   }
 
   ionViewDidLoad() {
-    console.log('Hello ObjectsStatusPage Page');
+
   }
 
   dismiss() {
+this.boo.Set();
     this.viewCtrl.dismiss()
   }
 

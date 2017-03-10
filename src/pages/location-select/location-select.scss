@@ -5,6 +5,11 @@ page-location-select {
     height: 100%;
   }
 
+  .scroll-content {
+
+    overflow: hidden;
+  }
+
   .center-marker {
     position: absolute;
     /*url of the marker*/

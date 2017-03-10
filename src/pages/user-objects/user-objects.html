@@ -17,7 +17,7 @@
 
       <div class="card-date">
         <!--<ion-icon color="primary" name="ios-calendar-outline"></ion-icon>-->
-        {{item?.status_type_id?.title}}
+        {{item.date_add | convertDate}} {{item?.status_type_id?.title}}
       </div>
 
     </div>
@@ -28,7 +28,9 @@
       <div style="display: flex; justify-content: space-between;">
  <!--<div  *ngFor="let img of item?.user_image" [ngStyle]="{'background': '#fff (_file_url+img)'}"-->
        <!--class="ssss"></div>-->
-        <ion-img *ngFor="let img of item?.user_image" style="width: 80px; height: 80px;"[src]="_file_url+img"></ion-img>
+        <img *ngFor="let img of item?.user_image" style="width: 80px; height: 80px;"src={{_file_url}}{{img}}>
+
+        <!--</img>-->
         <!--<ion-avatar style="width: 80px;height: auto;" *ngFor="let img of item?.user_image">-->
           <!--<ion-img  [src]="_file_url+img"></ion-img>-->
         <!--</ion-avatar>-->

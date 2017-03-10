@@ -1,8 +1,8 @@
 <ion-menu [content]="mycontent">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title  *ngIf="auth?.user.access_token">{{auth?.user?.points}} {{auth?.user?.NAME}}</ion-title>
-      <ion-buttons end *ngIf="auth?.user.access_token">
+      <ion-title  *ngIf="auth?.user?.user?.access_token">{{auth?.user?.user?.first_name}}</ion-title>
+      <ion-buttons end *ngIf="auth?.user?.user?.access_token">
         <button ion-button (click)="_OpenCabinet()">
           <ion-icon name="cog" style="margin-left: 4px;" ></ion-icon>
         </button>
@@ -14,8 +14,8 @@
       </ion-buttons>
       <!--</template>-->
       <!--<template [ngIf]="!auth?user.access_token">-->
-      <ion-title *ngIf="!auth?.user.access_token">Гость</ion-title>
-      <ion-buttons end *ngIf="!auth?.user.access_token">
+      <ion-title *ngIf="!auth?.user?.user?.access_token">Гость</ion-title>
+      <ion-buttons end *ngIf="!auth?.user?.user?.access_token">
         <button ion-button (click)="exit()">
           Войти
           <ion-icon name="log-in"></ion-icon>

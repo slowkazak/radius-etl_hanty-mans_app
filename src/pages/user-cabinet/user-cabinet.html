@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar  color="primary">
+  <ion-navbar color="primary">
     <ion-title>{{_leng.page_title}}</ion-title>
   </ion-navbar>
 
@@ -14,32 +14,43 @@
 
 
 <ion-content>
-  <form [formGroup]="_user_cabinet" (ngSubmit)="_Change()">
-    <ion-list no-lines>
-      <ion-item class="brd">
-        <ion-label floating>{{_leng.form_first_name}}</ion-label>
-        <ion-input type="text" formControlName="first_name"></ion-input>
-      </ion-item>
-      <ion-item class="brd">
-        <ion-label floating>{{_leng.form_second_name}}</ion-label>
-        <ion-input type="text" formControlName="second_name"></ion-input>
-      </ion-item>
-      <!--<ion-item class="brd">-->
+  <ion-card>
+      <ion-list no-lines>
+        <ion-item class="brd">
+          <h2>Баллов: {{auth?.user?.user?.points}}</h2>
+        </ion-item>
+      </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <form [formGroup]="_user_cabinet" (ngSubmit)="_Change()">
+      <ion-list no-lines>
+        <ion-item class="brd">
+          <ion-label floating>{{_leng.form_first_name}}</ion-label>
+          <ion-input type="text" formControlName="first_name"></ion-input>
+        </ion-item>
+        <ion-item class="brd">
+          <ion-label floating>{{_leng.form_second_name}}</ion-label>
+          <ion-input type="text" formControlName="second_name"></ion-input>
+        </ion-item>
+        <!--<ion-item class="brd">-->
         <!--<ion-label floating>{{_leng.form_login}}</ion-label>-->
         <!--<ion-input type="text" formControlName="login"></ion-input>-->
-      <!--</ion-item>-->
-      <!--<ion-item class="brd">-->
+        <!--</ion-item>-->
+        <!--<ion-item class="brd">-->
         <!--<ion-label floating>{{_leng.form_password}}</ion-label>-->
         <!--<ion-input type="password" formControlName="password"></ion-input>-->
-      <!--</ion-item>-->
-      <ion-item class="brd">
-        <ion-label floating>{{_leng.form_passport}}</ion-label>
-        <ion-input type="text" formControlName="passport"></ion-input>
-      </ion-item>
-    </ion-list>
-    <div padding>
-      <button style="float: right;" ion-button clear type="submit" [disabled]="!_user_cabinet.valid">{{_leng.btn_update_title}}</button>
-    </div>
-  </form>
-
+        <!--</ion-item>-->
+        <ion-item class="brd">
+          <ion-label floating>{{_leng.form_passport}}</ion-label>
+          <ion-input type="text" formControlName="passport"></ion-input>
+        </ion-item>
+      </ion-list>
+      <div padding>
+        <button style="float: right;" ion-button clear type="submit" [disabled]="!_user_cabinet.valid">
+          {{_leng.btn_update_title}}
+        </button>
+      </div>
+    </form>
+  </ion-card>
 </ion-content>

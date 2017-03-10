@@ -22,7 +22,7 @@ export class NotificationProvider {
    */
   constructor(private plt: Platform, private auth: AuthProvider,private events:Events) {
 
-    this._Regiseter();
+    // this._Regiseter();
   }
 
 
@@ -35,17 +35,21 @@ export class NotificationProvider {
    * @returns {Promise<T>}
    * @private
    */
-  private _Regiseter(sender_id = 995990249907) {
+  public _Regiseter(sender_id = 995990249907) {
+
     //Проверяем есть ли разрешение на push
     //Если устройство на базе ios или android - пробуем получать токен, при ошибке возвращаем null или ошибку, при успехе - информацию о регистрации
-    this.plt.ready().then(() => {
+
       let interval:any=null;
       this. ChangeToken();
       if (this.plt.is('ios') || this.plt.is('android')) {
+
         this.plt.is('ios') ? this.platform = 'ios' : this.platform = 'android';
         try {
+
           Push.hasPermission().then(() => { //Если на PUSH права есть
-            clearInterval(interval);
+            console.info(3)
+            // clearInterval(interval);
             let push = Push.init({
               android: {
                 sound: true,
@@ -63,6 +67,7 @@ export class NotificationProvider {
             });
 
             push.on('registration', (data) => {
+              console.info(data);
               PishStorage.token.next(data.registrationId);
             });
             push.on('notification', (res) => {
@@ -95,7 +100,7 @@ export class NotificationProvider {
         CommonToast.ShowToast(common_msg.push_not_avaiable);
         console.error("Произошла ошибка");
       }
-    })
+
 
   }
 

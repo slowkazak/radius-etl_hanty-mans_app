@@ -54,6 +54,12 @@ export const settings = {
       method: "/user/auth",
       auth_param: "",
       data_param: ['login','password']
+    },
+    user_register: {
+      domain: "adm_api_path",
+      method: "/user/create",
+      auth_param: "",
+      data_param: ['login','first_name','second_name','password','phone','email']
     }
   },
   status_type_id:[

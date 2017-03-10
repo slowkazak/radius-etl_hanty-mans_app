@@ -42,11 +42,16 @@ export class OmsBookFormPage {
 
     let userdata = {first_name: '', second_name: '', patronymic: '', passport: '', rawobject: null};
     userdata.rawobject = this.auth.Get();
-    !_.isEmpty(userdata.rawobject) ? (
-        userdata.first_name = userdata.rawobject.NAME,
-          userdata.second_name = userdata.rawobject.LAST_NAME,
-          !_.isEmpty(userdata.rawobject.passport) ? userdata.passport = atob(userdata.rawobject.passport) : false
-      ) : false;
+    try {
+      !_.isEmpty(userdata.rawobject) ? (
+          userdata.first_name = userdata.rawobject.user.first_name,
+            userdata.second_name = userdata.rawobject.user.second_name,
+            !_.isEmpty(userdata.rawobject.user.passport) ? userdata.passport = atob(userdata.rawobject.passport) : false
+        ) : false;
+    }
+    catch (err) {
+      console.error("Произошла ошибка", err)
+    }
 
     this.book_form = this.formBuilder.group({
       first_name: [userdata.first_name, Validators.required],
@@ -61,6 +66,7 @@ export class OmsBookFormPage {
    access_token: "2ef6de4be7bf03034d2d519ec6d29a5c855370934266"city: Objectfirst_name: "stanislavov"login: "staskuban@ya.ru"passport: "MTIzNCAxMjM0NTY="password_hash: "784056f5e049c5766ed86569a36d592c"points: "40"role: "2"second_name: "stanislav"user_id: "3"
    */
   ionViewDidLoad() {
+    console.info(this.navParams.get('datetitle'));
     this.auth.Get()
 
   }
@@ -87,6 +93,7 @@ export class OmsBookFormPage {
           let popover = this.popoverCtrl.create(
             PopoverPage,
             {
+              title:sid.datetitle,
               date: sid.date,
               time: sid.time,
               docs: result

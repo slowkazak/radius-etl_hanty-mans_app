@@ -42,13 +42,18 @@ export class AuthProvider {
     return result;
   }
 
-  private Rerister(login: string, first_name: string, second_name: string, password: string, phone: string, email: string) {
+  public Rerister(login: string, first_name: string, second_name: string, password: string, phone: string, email: string) {
     let result: any = null;
     let urlsearch = new URLSearchParams();
-    urlsearch.append(settings.api_methods.user_login.data_param[0], login);
-    urlsearch.append(settings.api_methods.user_login.data_param[1], password);
+    // 'login','first_name','second_name','password','phone','email'
+    urlsearch.append(settings.api_methods.user_register.data_param[0], login);
+    urlsearch.append(settings.api_methods.user_register.data_param[1], first_name);
+    urlsearch.append(settings.api_methods.user_register.data_param[2], second_name);
+    urlsearch.append(settings.api_methods.user_register.data_param[3], password);
+    urlsearch.append(settings.api_methods.user_register.data_param[4], phone);
+    urlsearch.append(settings.api_methods.user_register.data_param[5], email);
     try {
-      result = this.http.post(settings[settings.api_methods.user_login.domain] + settings.api_methods.user_login.method, urlsearch.toString(), {headers: this._headers})
+      result = this.http.post(settings[settings.api_methods.user_register.domain] + settings.api_methods.user_register.method, urlsearch.toString(), {headers: this._headers})
         .toPromise()
         .then(res => CommonCallback._SuccessCallback(res))
         .catch(err => CommonCallback._ErrorCallback(err));
@@ -71,7 +76,6 @@ export class AuthProvider {
         let usr = this.Get();
         _.has(usr, "access_token") && _.has(usr, "ID") ?
           (
-
             clearInterval(interval),
               urlsearch.append('user_id', usr.ID),
               urlsearch.append('access_token', usr.access_token),

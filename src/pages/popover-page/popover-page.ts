@@ -34,6 +34,7 @@ export class PopoverPage {
       this.data.docs.push(...this.navParams.get("docs"));
       this.data.date = this.navParams.get("date");
       this.data.time = this.navParams.get("time");
+      this.data.title = this.navParams.get("title");
     }
     catch (err) {
     }

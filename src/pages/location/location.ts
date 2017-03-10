@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, LoadingController,} from 'ionic-angular';
+import {NavController, LoadingController, NavParams,} from 'ionic-angular';
 // import {Geolocation, Dialogs, Toast} from 'ionic-native';
 import {MenuPage} from '../menu/menu'
 import {AuthProvider} from '../../providers/auth-provider'
@@ -11,8 +11,9 @@ import {settings} from "../../app/settings/settings";
 import {Toast} from 'ionic-native';
 import {LengProvider} from "../../providers/leng-provider";
 
-import {NewsFeedPage} from "../news-feed/news-feed";
-declare var ymaps: any;
+// import {NewsFeedPage} from "../news-feed/news-feed";
+// declare var ymaps: any;
+
 
 /*
  Generated class for the Location page.
@@ -33,12 +34,18 @@ export class LocationPage {
 
   constructor(private locationprov: GeolocationProvider,
               private leng: LengProvider,
-              public navCtrl: NavController, public loadingCtrl: LoadingController, public auth: AuthProvider) {
+              public navCtrl: NavController,
+              public loadingCtrl: LoadingController,
+              public auth: AuthProvider,
+              public navParams: NavParams,) {
     // this.initializeItems()
   }
 
 
   ionViewDidLoad() {
+
+
+
 
 
     this.leng.GetLeng("getlocation").then(res => {
@@ -67,43 +74,68 @@ export class LocationPage {
    * генерация списка городов по кнопке
    * @constructor
    */
-  private _GenerateList(){
-    _.forEach(settings.citylist,(item)=>{
-      _.delay((i)=>{
+  private _GenerateList() {
+    _.forEach(settings.citylist, (item) => {
+      _.delay((i) => {
         this.items.push(i)
-      },1000, item)
+      }, 1000, item)
     })
 
 
-
   }
+
   /**
    * Определение города по геопозиции
    * @private
    */
   private _GetLocation() {
     let _callback = (lat: number, lng: number) => {
-      console.info(lat, lng);
-      ymaps.ready()
-        .then(() => ymaps.geocode([lat, lng], {kind: 'locality'}))
-        .then(res => {
-
-        try {
-            res = res.geoObjects.get(0).getLocalities().pop();
-            }
-        catch(err){
-        res = [12,12];
-        }
-            let city = this._FindCity(res);
-            city ?
-              this._ToMenu(city) : this._ToastPresent(this._leng.city_not_found)
-          }
-        )
-        .catch(err => {
-            console.error(err)
-            this._ToastPresent(this._leng.city_not_found);
-          }
-        )
+      // var options = {
+      //   provider: 'google',
+      //   httpAdapter: 'https',
+      //   apiKey: 'AIzaSyA0xJ9Fm6xxWy77tUYtUspJCtmjt2pKn3g',
+      //   formatter: null,
+      //   language:'ru'
+      // };
+      this.locationprov.GetReverse(lat,lng).then((res:any)=>{
+        let city = this._FindCity(res.city);
+        city ?
+          this._ToMenu(city) : this._ToastPresent(this._leng.city_not_found)
+      }).catch(err=>{
+        this._ToastPresent(this._leng.city_not_found);
+      });
+      // var geocoder = NodeGeocoder(options);
+      // geocoder.reverse({lat:lat, lon:lng})
+      //   .then((res:any) =>{
+      //           let city = this._FindCity(res[0].city);
+      //
+      //           city ?
+      //             this._ToMenu(city) : this._ToastPresent(this._leng.city_not_found)
+      //   })
+      //   .catch((err)=> {
+      //     console.log(err);
+      //     this._ToastPresent(this._leng.city_not_found);
+      //   });
+      // ymaps.ready()
+      //   .then(() => ymaps.geocode([lat, lng], {kind: 'locality'}))
+      //   .then(res => {
+      //
+      //       try {
+      //         res = res.geoObjects.get(0).getLocalities().pop();
+      //       }
+      //       catch (err) {
+      //         res = [12, 12];
+      //       }
+      //       let city = this._FindCity(res);
+      //       city ?
+      //         this._ToMenu(city) : this._ToastPresent(this._leng.city_not_found)
+      //     }
+      //   )
+      //   .catch(err => {
+      //       console.error(err)
+      //       this._ToastPresent(this._leng.city_not_found);
+      //     }
+      //   )
     };
     let loader = this.loadingCtrl.create({
       content: "Загрузка..."
@@ -111,7 +143,6 @@ export class LocationPage {
     loader.present();
     this.locationprov.GetLocation()
       .then((res: LocationData) => {
-
         _callback(res.lat, res.lng);
         loader.dismiss();
       })
@@ -130,7 +161,6 @@ export class LocationPage {
    * @private
    */
   private _FindCity(city: string) {
-
     let _city = null;
     try {
       _city = settings.citylist.filter(item => item.name === city).pop();
@@ -146,9 +176,10 @@ export class LocationPage {
    * @param city
    * @private
    */
-   private _ToMenu(city: string) {
+  private _ToMenu(city: string) {
     this.auth.set('city', city);
     this.auth.updateStorage();
+    console.info(this.auth.Get());
     this.navCtrl.setRoot(MenuPage, {}, {animate: true, direction: 'forward'})
   }
 
@@ -167,7 +198,6 @@ export class LocationPage {
   // }
 
   // test = 1
-
 
 
   // private findCity(city: String) {
