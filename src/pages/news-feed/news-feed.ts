@@ -4,6 +4,7 @@ import _ from "lodash";
 import {LengProvider} from "../../providers/leng-provider";
 import {NewsFeed} from "../../app/interfaces/newsfeed.interface";
 import {NavController, ViewController} from "ionic-angular";
+import {SafariViewController, InAppBrowser} from "ionic-native";
 
 /*
  Generated class for the NewsFeed page.
@@ -65,36 +66,36 @@ export class NewsFeedPage {
    * @constructor
    */
   OpenPage(item) {
-    // console.info(item.link)
-    // try {
-    //   SafariViewController.isAvailable()
-    //     .then(
-    //       (available: boolean) => {
-    //         if (available) {
-    //
-    //           SafariViewController.show({
-    //             url: item.link,
-    //             hidden: false,
-    //             animated: false,
-    //             transition: 'curl',
-    //             enterReaderModeIfAvailable: true,
-    //             tintColor: '#ff0000'
-    //           })
-    //             .then(
-    //               (result: any) => {
-    //               },
-    //               (error: any) => console.error(error)
-    //             );
-    //
-    //         } else {
-    //           let browser = new InAppBrowser(item.link, '_system');
-    //         }
-    //       }
-    //     );
-    // }
-    // catch (err) {
-    //   console.error("Произошла ошибка", err)
-    // }
+    console.info(item.link)
+    try {
+      SafariViewController.isAvailable()
+        .then(
+          (available: boolean) => {
+            if (available) {
+
+              SafariViewController.show({
+                url: item.link,
+                hidden: false,
+                animated: false,
+                transition: 'curl',
+                enterReaderModeIfAvailable: true,
+                tintColor: '#ff0000'
+              })
+                .then(
+                  (result: any) => {
+                  },
+                  (error: any) => console.error(error)
+                );
+
+            } else {
+              let browser = new InAppBrowser(item.link, '_system');
+            }
+          }
+        );
+    }
+    catch (err) {
+      console.error("Произошла ошибка", err)
+    }
 
   }
 

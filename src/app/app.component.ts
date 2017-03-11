@@ -28,20 +28,21 @@ export class MyApp {
 
 
     platform.ready().then(() => {
-      this.notification._Regiseter();
-      // var head = document.getElementsByTagName('head')[0];
-      // var script = document.createElement('script');
-      // script.type = 'text/javascript';
-      //
-      // script.src = 'https://api-maps.yandex.ru/2.1/?lang=ru_RU';
-      // head.appendChild(script);
+
+
+       this.notification._Regiseter();
+
+
       this.auth.checkAuth().then((user) => {
+console.info(user,1111)
         if (user) {
+
           this.auth.user = JSON.parse(user);
           this.auth.islogged = true;
           console.log('User found in storage', this.auth.user)
           this.rootPage = MenuPage
         } else {
+
           this.islogged = false;
           this.rootPage = HomePage
         }
@@ -49,6 +50,7 @@ export class MyApp {
       })
       StatusBar.styleDefault();
       Splashscreen.hide();
+
     });
 
   }

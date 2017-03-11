@@ -71,24 +71,26 @@ export class AuthProvider {
     let result: any = null;
     let data = {"platform": platform, "push_token": push_token};
     try {
+
       let urlsearch = new URLSearchParams();
       let interval = setInterval(() => {
-        let usr = this.Get();
-        _.has(usr, "access_token") && _.has(usr, "ID") ?
+        let usr:any = this.Get();
+
+        _.has(usr, "user") ?
           (
-            clearInterval(interval),
-              urlsearch.append('user_id', usr.ID),
-              urlsearch.append('access_token', usr.access_token),
-              urlsearch.append('data', JSON.stringify(data)),
-              result = this.http.post(settings[settings.api_methods.user_update2.domain] +
-                settings.api_methods.user_update2.method, urlsearch.toString(),
-                {headers: this._headers})
-                .toPromise()
-                .then(res => CommonCallback._SuccessCallback(res))
-                .catch(err => CommonCallback._ErrorCallback(err))
-          )
-          :
-          false
+            usr = usr.user,
+        urlsearch.append('user_id', usr.user_id),
+          urlsearch.append('access_token', usr.access_token),
+          urlsearch.append('data', JSON.stringify(data)),
+          result = this.http.post(settings[settings.api_methods.user_update2.domain] +
+            settings.api_methods.user_update2.method, urlsearch.toString(),
+            {headers: this._headers})
+            .toPromise()
+            .then(res => CommonCallback._SuccessCallback(res))
+            .catch(err => CommonCallback._ErrorCallback(err))
+        )
+        :
+        false
       }, 2000);
 
 
@@ -126,7 +128,7 @@ export class AuthProvider {
   }
 
   checkAuth() {
-    return this.storage.get('user')
+    return Promise.resolve(this.storage.get('user'));
   }
 
   /**

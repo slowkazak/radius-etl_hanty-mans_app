@@ -62,7 +62,7 @@ export class NotificationProvider {
                 badge: true,
                 sound: true,
                 senderID: sender_id.toString(),
-                gcmSandbox: false
+                gcmSandbox: true
               }
             });
 
