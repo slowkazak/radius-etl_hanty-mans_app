@@ -41,12 +41,14 @@ export class OmsBookFormPage {
   private _InitPage() {
 
     let userdata = {first_name: '', second_name: '', patronymic: '', passport: '', rawobject: null};
-    userdata.rawobject = this.auth.Get();
+
     try {
+      userdata.rawobject = this.auth.Get().user;
+      console.warn(userdata)
       !_.isEmpty(userdata.rawobject) ? (
-          userdata.first_name = userdata.rawobject.user.first_name,
-            userdata.second_name = userdata.rawobject.user.second_name,
-            !_.isEmpty(userdata.rawobject.user.passport) ? userdata.passport = atob(userdata.rawobject.passport) : false
+          userdata.first_name = userdata.rawobject.first_name,
+            userdata.second_name = userdata.rawobject.second_name,
+            !_.isEmpty(userdata.rawobject.passport) ? userdata.passport = atob(userdata.rawobject.passport) : false
         ) : false;
     }
     catch (err) {

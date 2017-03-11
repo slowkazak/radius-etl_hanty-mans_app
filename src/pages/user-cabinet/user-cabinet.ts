@@ -19,11 +19,12 @@ import {LengProvider} from "../../providers/leng-provider";
 export class UserCabinetPage implements OnChanges {
   private _user_cabinet: any;
   private _leng: any = {};
+  usr: any = {};
 
   constructor(public navCtrl: NavController,
               private auth: AuthProvider,
               private formBuilder: FormBuilder,
-              private leng:LengProvider,
+              private leng: LengProvider,
               private userprovider: UserUpdateProvider) {
 
   }
@@ -50,17 +51,26 @@ export class UserCabinetPage implements OnChanges {
   }
 
   private _InitPage() {
+    this.usr = this.auth.Get();
+    let p = '';
+    _.has(this.usr, 'user') ? this.usr = this.usr.user : false;
+    _.has(this.usr, 'passport') ? p= atob(this.usr.passport) : false;
     this._user_cabinet = this.formBuilder.group({
-      first_name: [this.auth.user.user.first_name, Validators.required],
-      second_name: [this.auth.user.user.second_name, Validators.required],
-      passport: ['', Validators.compose([Validators.minLength(11),
+      first_name: [this.usr.first_name, Validators.required],
+      second_name: [this.usr.second_name, Validators.required],
+      passport: [p, Validators.compose([Validators.maxLength(11),
         Validators.minLength(10)])]
     })
   }
 
   private _Change() {
-    console.info(this._user_cabinet.value.passport)
-    this._user_cabinet.valid && this._user_cabinet.value.passport.length > 0 ? this.auth.set("passport", btoa(this._user_cabinet.value.passport)) : false
+    this._user_cabinet.valid && this._user_cabinet.value.passport.length > 0 ? (
+        this.usr.passport = btoa(this._user_cabinet.value.passport),
+        this.usr.first_name = this._user_cabinet.value.first_name,
+        this.usr.second_name = this._user_cabinet.value.second_name,
+          this.auth.set("user", this.usr),
+      console.log(this.usr)) : false;
+        this.auth.updateStorage()
     // this.auth.set("passport",this)
     // this.userprovider.UserUpdate(this.auth.user.user_id, '1234 123456', null)
     //   .then(res => {
