@@ -67,7 +67,7 @@ export class ServiceProvider {
     let second_name = item.second_name;
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded')
-    // headers.set('Authorization', token)
+    token? headers.set('Authorization', token):false
     let ProductRequiredFieldTypeId = item.Product.RequiredFields[0].Id
     let dataFields = JSON.stringify([{ProductRequiredFieldTypeId: ProductRequiredFieldTypeId, Value: second_name}])
     let params = new URLSearchParams()
@@ -79,7 +79,7 @@ export class ServiceProvider {
     let body = params.toString()
     return new Promise((resolve, reject) => {
       try {
-        this.http.post(this.server + '/book/', body, {headers: headers}).subscribe(res => {
+        this.http.post(this.server + '/book', body, {headers: headers}).subscribe(res => {
           console.info(res)
           resolve(res.json())
         }, err => {

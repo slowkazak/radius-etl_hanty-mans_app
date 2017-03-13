@@ -43,25 +43,31 @@ export class ServiceHoursPage {
       content: "Получаем разрешение..."
     })
     loader.present()
+    try {
+      this.service.getToken().then(token => {
+        loader.dismiss()
+        console.log('Token: ' + token)
+        this.bookHour(item, name,token)
+      }, error => {
 
-    // this.service.getToken().then(token => {
-    //   loader.dismiss()
-    //   console.log('Token: ' + token)
-    //   this.bookHour(token, item, name)
-    // }, error => {
+        this.bookHour(item, name)
+        CommonToast.ShowToast('Извините, запись на это время невозможна');
+        loader.dismiss()
 
-    this.bookHour(item, name)
+      })
+    }
+    catch (err) {
 
-      loader.dismiss()
-      // console.log(error)
-    // })
+      console.error("Произошла ошибка", err)
+    }
+
   }
 
   private formatNumber(month: any) {
     return ((month) < 10 ? '0' + month : month)
   }
 //token: any,
-  private bookHour( item: any, name: string) {
+  private bookHour( item: any, name: string,token: any =null) {
     let loader = this.loadingCtrl.create({
       content: "Записываемся..."
     })
@@ -75,7 +81,7 @@ export class ServiceHoursPage {
     let sssd =this.navParams.data.item;
     sssd.second_name = name;
     // console.info(this.navParams.data,2222222222222222222222)
-    this.service.book(time, this.navParams.data.item).then(res => {
+    this.service.book(time, this.navParams.data.item, token).then(res => {
       loader.dismiss();
       let alert = this.alertCtrl.create({
         title: 'Вы записались!',
@@ -88,7 +94,7 @@ export class ServiceHoursPage {
     }, err => {
 
       loader.dismiss()
-CommonToast.ShowToast('Ошибка записи, сервис временно недоступен, попробуйте позже');
+
       // alert.present();
 
       console.log(err)
