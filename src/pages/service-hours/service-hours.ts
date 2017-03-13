@@ -51,7 +51,7 @@ export class ServiceHoursPage {
       }, error => {
 
         this.bookHour(item, name)
-        CommonToast.ShowToast('Извините, запись на это время невозможна');
+
         loader.dismiss()
 
       })
@@ -94,7 +94,7 @@ export class ServiceHoursPage {
     }, err => {
 
       loader.dismiss()
-
+      CommonToast.ShowToast('Извините, запись на это время невозможна');
       // alert.present();
 
       console.log(err)
