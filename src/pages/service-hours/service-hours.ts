@@ -96,6 +96,8 @@ CommonToast.ShowToast('Ошибка записи, сервис временно 
   }
 
   showPrompt(item: any) {
+let n=''
+  try {n = this.auth.user.user.second_name} catch(err){}
     let prompt = this.alertCtrl.create({
       title: 'Подтверждение записи',
       message: "Записаться на выбранную услугу?",
@@ -103,7 +105,7 @@ CommonToast.ShowToast('Ошибка записи, сервис временно 
         {
           name: 'second_name',
           placeholder: 'Фамилия',
-          value: this.auth.user.user.second_name
+          value: n
         },
       ],
       buttons: [

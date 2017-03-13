@@ -3,6 +3,7 @@ import {PoolsProvider} from "../../providers/pools-provider";
 import _ from "lodash";
 import {NavParams, NavController} from "ionic-angular";
 import {CommonToast} from "../../helpers/toast.class";
+import {PoolsPage} from "../../pages/pools/pools";
 /*
  Generated class for the Poll component.
 
@@ -86,7 +87,7 @@ export class PollComponent {
       this.isvoted = true;
       console.info(res)
       CommonToast.ShowToast('Ваш ответ принят, спасибо');
-      this.navCtrl.popToRoot();
+      this.navCtrl.push(PoolsPage);
     }).catch(err => console.error(err));
   }
 
