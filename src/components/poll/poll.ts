@@ -83,12 +83,16 @@ export class PollComponent {
   }
 
   private _Answer() {
-    this.poolsProvider.Answer(this._answerdata).then(res => {
-      this.isvoted = true;
-      console.info(res)
-      CommonToast.ShowToast('Ваш ответ принят, спасибо');
-      this.navCtrl.push(PoolsPage);
-    }).catch(err => console.error(err));
+    try {
+      this.poolsProvider.Answer(this._answerdata).then(res => {
+        this.isvoted = true;
+        console.info(res)
+        CommonToast.ShowToast('Ваш ответ принят, спасибо');
+
+      }).catch(err => console.error(err));
+    } catch (err) {}
+    this.navCtrl.popToRoot();
+
   }
 
   /**
