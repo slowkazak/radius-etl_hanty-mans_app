@@ -46,10 +46,8 @@ export class NotificationProvider {
 
         this.plt.is('ios') ? this.platform = 'ios' : this.platform = 'android';
         try {
-
           Push.hasPermission().then(() => { //Если на PUSH права есть
-            console.info(3)
-            // clearInterval(interval);
+             clearInterval(interval);
             let push = Push.init({
               android: {
                 sound: true,

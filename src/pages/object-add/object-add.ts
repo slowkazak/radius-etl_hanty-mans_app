@@ -3,7 +3,8 @@ import {
   NavController,
   ViewController,
   ActionSheetController,
-  LoadingController
+  LoadingController,
+  Platform
 } from 'ionic-angular';
 
 import {Validators, FormBuilder} from '@angular/forms'
@@ -46,7 +47,8 @@ export class ObjectAddPage {
               private service: ObjectsService,
               public location: location,
               public loadingCtrl: LoadingController,
-              private leng: LengProvider) {
+              private leng: LengProvider,
+              private plt:Platform) {
     this.form = this.formBuilder.group({
       description: ['', Validators.required],
       category: ['', Validators.required]
@@ -271,44 +273,16 @@ export class ObjectAddPage {
       sourceType: 0,
       destinationType: Camera.DestinationType.FILE_URI
     }).then((imageData) => {
-
-      // this._RenderMedia(imageData, idx);
-      // this._loader.present();
+this.plt.is('ios')?this._RenderMedia(imageData, idx):
       FilePath.resolveNativePath(imageData).then(result => {
 
         this._RenderMedia(result, idx);
-
-        // this.service.Upload(imageData).then(res => {
-        //   this._loader.dismiss();
-        //   res ? this._RenderMedia(imageData, res) : this._ToastPresent(this._leng.add_err_file_load_err);
-        // }).catch(err => {
-        //   this._loader.dismiss();
-        //   this._ToastPresent(this._leng.add_err_file_load_err);
-        //   console.error(err)
-        // });
-
-        // this.service.uploadPhoto(result).then((data) => {
-        //   console.log(JSON.parse(data.toString()))
-        //   this.media.push({
-        //     'type': 'photo',
-        //     'url': result,
-        //     'placemarkId': JSON.parse(data.toString())['placemark_id']
-        //   })
-        //   loader.dismiss()
-        // }, err => {
-        //   console.log(err.http_status)
-        //   if (err.http_status === 413) {
-        //     let toast = this.toastCtrl.create({
-        //       message: 'Ошибка, файл слишком большой',
-        //       duration: 3000
-        //     })
-        //     toast.present()
-        //   }
-        //   loader.dismiss()
-        // })
       }, err => {
         console.error(err);
       })
+      // 
+      // this._loader.present();
+
     })
   }
 
