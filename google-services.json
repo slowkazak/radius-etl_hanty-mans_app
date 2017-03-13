@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "995990249907",
+    "firebase_url": "https://hmao-f36a0.firebaseio.com",
+    "project_id": "hmao-f36a0",
+    "storage_bucket": "hmao-f36a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995990249907:android:a54d14c56474f096",
+        "android_client_info": {
+          "package_name": "ru.admhansy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995990249907-0u17q2t8n5inrhv8a0tjh0hpsemv6527.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkC0vP3oinURVIjGsAN3UyHPeGBsZC1Uc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

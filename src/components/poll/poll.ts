@@ -1,7 +1,8 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {PoolsProvider} from "../../providers/pools-provider";
 import _ from "lodash";
-import {NavParams} from "ionic-angular";
+import {NavParams, NavController} from "ionic-angular";
+import {CommonToast} from "../../helpers/toast.class";
 /*
  Generated class for the Poll component.
 
@@ -25,7 +26,7 @@ export class PollComponent {
   private _questions: any = [];
   private _answerdata: any = {answers: []};
 
-  constructor(private poolsProvider: PoolsProvider, private navparams: NavParams) {
+  constructor(private poolsProvider: PoolsProvider, private navCtrl:NavController,private navparams: NavParams) {
     this.text = 'Hello World';
   }
 
@@ -84,6 +85,8 @@ export class PollComponent {
     this.poolsProvider.Answer(this._answerdata).then(res => {
       this.isvoted = true;
       console.info(res)
+      CommonToast.ShowToast('Ваш ответ принят, спасибо');
+      this.navCtrl.popToRoot();
     }).catch(err => console.error(err));
   }
 
@@ -154,8 +157,7 @@ export class PollComponent {
       let ans = _.uniqBy(this._answerdata.answers, 'q');
 
       ans.length>=this.questions_length? this._answersready = true:this._answersready = false;
-      console.info(ans, this._answersready,this.questions_length);
-      console.info(this._answerdata.answers);
+
     }
   }
 }

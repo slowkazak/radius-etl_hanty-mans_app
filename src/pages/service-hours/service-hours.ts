@@ -3,6 +3,7 @@ import { NavController, NavParams, LoadingController, AlertController } from 'io
 import { AuthProvider } from '../../providers/auth-provider'
 import { ServiceProvider } from '../../providers/service-provider'
 import moment from 'moment'
+import {CommonToast} from "../../helpers/toast.class";
 
 @Component({
   selector: 'page-service-hours',
@@ -42,22 +43,25 @@ export class ServiceHoursPage {
       content: "Получаем разрешение..."
     })
     loader.present()
-    console.log(item)
-    this.service.getToken().then(token => {
+
+    // this.service.getToken().then(token => {
+    //   loader.dismiss()
+    //   console.log('Token: ' + token)
+    //   this.bookHour(token, item, name)
+    // }, error => {
+
+    this.bookHour(item, name)
+
       loader.dismiss()
-      console.log('Token: ' + token)
-      this.bookHour(token, item, name)
-    }, error => {
-      loader.dismiss()
-      console.log(error)
-    })
+      // console.log(error)
+    // })
   }
 
   private formatNumber(month: any) {
     return ((month) < 10 ? '0' + month : month)
   }
-
-  private bookHour(token: any, item: any, name: string) {
+//token: any,
+  private bookHour( item: any, name: string) {
     let loader = this.loadingCtrl.create({
       content: "Записываемся..."
     })
@@ -68,18 +72,25 @@ export class ServiceHoursPage {
       hours,
       date
     }
-    this.service.book(time, this.navParams.data.item, token).then(res => {
-      loader.dismiss()
+    let sssd =this.navParams.data.item;
+    sssd.second_name = name;
+    // console.info(this.navParams.data,2222222222222222222222)
+    this.service.book(time, this.navParams.data.item).then(res => {
+      loader.dismiss();
       let alert = this.alertCtrl.create({
         title: 'Вы записались!',
         subTitle: 'Ждём вас ' + date + ' в ' + hours + '.\nНе забудьте паспорт.',
         buttons: ['OK']
       });
       alert.present();
-      this.navCtrl.popToRoot()
+      this.navCtrl.popToRoot();
       console.log(res)
     }, err => {
+
       loader.dismiss()
+CommonToast.ShowToast('Ошибка записи, сервис временно недоступен, попробуйте позже');
+      // alert.present();
+
       console.log(err)
     })
   }
@@ -92,7 +103,7 @@ export class ServiceHoursPage {
         {
           name: 'second_name',
           placeholder: 'Фамилия',
-          value: this.auth.user.second_name
+          value: this.auth.user.user.second_name
         },
       ],
       buttons: [
