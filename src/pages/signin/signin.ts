@@ -41,7 +41,7 @@ export class SigninPage {
             login: res.LOGIN,
             first_name: res.NAME,
             second_name: res.LAST_NAME,
-            password: '',
+            passport_data: res.passport_data,
             phone: res.PERSONAL_PHONE,
             email: res.EMAIL,
             access_token: res.access_token,
@@ -53,8 +53,6 @@ export class SigninPage {
         ) :
         CommonToast.ShowToast('Проверьте введенные данные');
 
-
-      console.info(res)
     }).catch(err => {
       loader.dismiss();
       CommonToast.ShowToast('Проверьте введенные данные')

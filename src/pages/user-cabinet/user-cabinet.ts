@@ -1,4 +1,4 @@
-import {Component, OnChanges} from '@angular/core';
+import {Component, OnChanges, SimpleChanges} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {AuthProvider} from "../../providers/auth-provider";
 import {FormBuilder, Validators} from "@angular/forms";
@@ -29,8 +29,8 @@ export class UserCabinetPage implements OnChanges {
 
   }
 
-  ngOnChanges(changes) {
-    console.log(changes)
+  ngOnChanges(changes:SimpleChanges) {
+    console.log(changes,111)
   }
 
   ngAfterContentInit() {
@@ -52,25 +52,52 @@ export class UserCabinetPage implements OnChanges {
 
   private _InitPage() {
     this.usr = this.auth.Get();
-    let p = '';
+
+    let p:any = '';
     _.has(this.usr, 'user') ? this.usr = this.usr.user : false;
-    _.has(this.usr, 'passport') ? p= atob(this.usr.passport) : false;
+    try {
+      this.usr.passport_data = atob(this.usr.passport_data)
+
+    }
+    catch (err) {
+
+      console.error("Произошла ошибка", err)
+    }
+
     this._user_cabinet = this.formBuilder.group({
       first_name: [this.usr.first_name, Validators.required],
       second_name: [this.usr.second_name, Validators.required],
-      passport: [p, Validators.compose([Validators.maxLength(11),
-        Validators.minLength(10)])]
+      passport_data: [this.usr.passport_data , Validators.compose([Validators.maxLength(11),Validators.pattern(/[0-9]{4}\s[0-9]{6}/)])]
     })
   }
 
   private _Change() {
-    this._user_cabinet.valid && this._user_cabinet.value.passport.length > 0 ? (
-        this.usr.passport = btoa(this._user_cabinet.value.passport),
-        this.usr.first_name = this._user_cabinet.value.first_name,
-        this.usr.second_name = this._user_cabinet.value.second_name,
-          this.auth.set("user", this.usr),
-      console.log(this.usr)) : false;
-        this.auth.updateStorage()
+    this._user_cabinet.valid && this._user_cabinet.value.passport_data.length > 0 ? (
+        this.usr.passport_data = btoa(this._user_cabinet.value.passport_data),
+          this.usr.first_name = this._user_cabinet.value.first_name,
+          this.usr.second_name = this._user_cabinet.value.second_name,
+          this.auth.UpdateUser(this.usr.access_token, this.usr.user_id, this.usr)
+            .then(res => {
+              this.auth.set("user", this.usr);
+              this.auth.updateStorage()
+            }).catch(err => {
+          })
+      ) : false;
+
+
+        /*
+
+
+         this.auth.UpdateUser(this.usr.access_token, this.usr.user_id, this.usr)
+         .then(res => {
+         this.auth.set("user", this.usr);
+         this.auth.updateStorage()
+         }).catch(err => {
+         })
+         */
+
+
+    // this.auth.updateStorage();
     // this.auth.set("passport",this)
     // this.userprovider.UserUpdate(this.auth.user.user_id, '1234 123456', null)
     //   .then(res => {

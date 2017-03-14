@@ -65,6 +65,41 @@ export class AuthProvider {
     return result;
   }
 
+  public UpdateUser(access_token = null, user_id = null, data: any) {
+    let result: any = null;
+    try {
+      if (access_token && user_id) {
+        let urlsearch = new URLSearchParams();
+        urlsearch.append('user_id', user_id);
+        urlsearch.append('access_token', access_token);
+        let _data:any = {};
+        _.forEach(data, (value, key) => {
+          try {
+            _.indexOf(settings.api_user_fields_list, key) > -1 ? _data[key]=value : false;
+          }
+          catch (err) {
+            console.error("Произошла ошибка", err)
+          }
+        });
+        urlsearch.append('data', JSON.stringify(_data));
+        result = this.http.post(settings[settings.api_methods.user_update2.domain] +
+          settings.api_methods.user_update2.method, urlsearch.toString(),
+          {headers: this._headers})
+          .toPromise()
+          .then(res => CommonCallback._SuccessCallback(res))
+          .catch(err => CommonCallback._ErrorCallback(err))
+      }
+      else {
+        result = Promise.reject(null);
+      }
+    }
+    catch (err) {
+      result = Promise.reject(null);
+      console.error("Произошла ошибка", err)
+    }
+    return result;
+  }
+
   public SayPushToken(platform = 'android', push_token = '', uid = 0, token = '') {
 
 
@@ -74,23 +109,23 @@ export class AuthProvider {
 
       let urlsearch = new URLSearchParams();
       let interval = setInterval(() => {
-        let usr:any = this.Get();
+        let usr: any = this.Get();
 
         _.has(usr, "user") ?
           (
             usr = usr.user,
-        urlsearch.append('user_id', usr.user_id),
-          urlsearch.append('access_token', usr.access_token),
-          urlsearch.append('data', JSON.stringify(data)),
-          result = this.http.post(settings[settings.api_methods.user_update2.domain] +
-            settings.api_methods.user_update2.method, urlsearch.toString(),
-            {headers: this._headers})
-            .toPromise()
-            .then(res => CommonCallback._SuccessCallback(res))
-            .catch(err => CommonCallback._ErrorCallback(err))
-        )
-        :
-        false
+              urlsearch.append('user_id', usr.user_id),
+              urlsearch.append('access_token', usr.access_token),
+              urlsearch.append('data', JSON.stringify(data)),
+              result = this.http.post(settings[settings.api_methods.user_update2.domain] +
+                settings.api_methods.user_update2.method, urlsearch.toString(),
+                {headers: this._headers})
+                .toPromise()
+                .then(res => CommonCallback._SuccessCallback(res))
+                .catch(err => CommonCallback._ErrorCallback(err))
+          )
+          :
+          false
       }, 2000);
 
 

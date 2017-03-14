@@ -9,6 +9,7 @@ export const settings = {
   object_media_placeholder_count:4,
   max_video_size_bytes:52428799,
   max_marker_title_length:20,
+  api_user_fields_list:['first_name','passport_data','second_name','push_token'],
   error_codes: [{code: "form_no_reqirement_data", title: "Недостаточно данных для выполнения запроса"}],
   polls_types: [
     {"type": "radio", "id": 0},

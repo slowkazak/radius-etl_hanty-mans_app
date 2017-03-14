@@ -42,7 +42,7 @@ export const leng = {
       "form_second_name":"Фамилия",
       "form_login":"Мобильный телефон или почта",
       "form_password":"Пароль",
-      "form_passport":"Серия и номер паспора",
+      "form_passport":"Серия и номер паспора (1234 123456)",
       "message_update_success":"Обновление данных выполнено",
       "message_update_fail":"Ошибка обновления данных"
     },

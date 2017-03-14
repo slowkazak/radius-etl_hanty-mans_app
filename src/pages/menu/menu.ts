@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { MyApp } from '../../app/app.component';
+
 import {NavController, Events} from 'ionic-angular';
 import { HomePage } from '../home/home'
 import { DashboardPage } from '../dashboard/dashboard'
-import { ServicesPage } from '../services/services'
 import { PoolsPage } from '../pools/pools'
 import { OmsPage } from '../oms-page/oms-page'
 import { AuthProvider } from '../../providers/auth-provider'
 import {UserCabinetPage} from "../user-cabinet/user-cabinet";
+import {MfcIndexPage} from "../../mfc/pages/mfc-index/mfc-index";
 
 @Component({
   selector: 'page-menu',
@@ -15,7 +15,7 @@ import {UserCabinetPage} from "../user-cabinet/user-cabinet";
 })
 export class MenuPage {
   DashboardPage: any = DashboardPage;
-  ServicesPage: any = ServicesPage;
+  ServicesPage: any = MfcIndexPage;
   PoolsPage: any = PoolsPage;
   OmsPage: any = OmsPage;
 

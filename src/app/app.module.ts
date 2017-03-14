@@ -14,6 +14,7 @@ import {GeolocationProvider} from "../providers/geolocation-provider";
 import {UserUpdateProvider} from "../providers/user-update-provider";
 import {NotificationProvider} from "../providers/notification-provider";
 import {PointsProvider} from "../providers/points-provider";
+import {MfcModule} from "../mfc/mfc.module";
 
 
 enableProdMode();
@@ -26,6 +27,7 @@ enableProdMode();
     PagesModule,
     DashboardModule,
     AuthModule,
+    MfcModule,
     ServicesModule,
     IonicModule.forRoot(MyApp, {
       mode: 'md'

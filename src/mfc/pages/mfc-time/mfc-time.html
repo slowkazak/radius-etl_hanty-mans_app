@@ -1,0 +1,52 @@
+<!--&lt;!&ndash;-->
+  <!--Generated template for the MfcTime page.-->
+
+  <!--See http://ionicframework.com/docs/v2/components/#navigation for more info on-->
+  <!--Ionic pages and navigation.-->
+<!--&ndash;&gt;-->
+<!--<ion-header>-->
+
+  <!--<ion-navbar>-->
+    <!--<ion-title>mfc-time</ion-title>-->
+  <!--</ion-navbar>-->
+
+<!--</ion-header>-->
+
+
+<!--<ion-content padding>-->
+  <!--<button ion-item *ngFor="let item of time" (click)="TryOrder(item?.Hour,item?.Minutes)">-->
+    <!--{{item?.Hour}}:{{item?.Minutes}}-->
+  <!--</button>-->
+<!--</ion-content>-->
+
+<ion-header>
+
+  <ion-navbar color="primary">
+
+    <ion-title>Выберите время</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-item-group>
+    <!--<ion-item-divider color="light">{{ date }}</ion-item-divider>-->
+    <template [ngIf]="item?.Free" ngFor let-item [ngForOf]="time">
+      <button ion-item (click)="TryOrder(item?.Hour,item?.Minutes)">
+        {{item?.Hour}}:{{item?.Minutes}}
+        <!--{{item.Hour}}:{{(item.Minutes === 0) ? '00' : (item.Minutes)}}-->
+      </button>
+    </template>
+  </ion-item-group>
+</ion-content>
+
+<ion-footer>
+  <ion-fab center bottom (click)="navCtrl.popToRoot()">
+    <button ion-fab color="danger">
+      <ion-icon name="home"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-toolbar color="white">
+  </ion-toolbar>
+</ion-footer>
+

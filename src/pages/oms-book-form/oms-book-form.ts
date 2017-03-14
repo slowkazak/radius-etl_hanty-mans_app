@@ -40,7 +40,7 @@ export class OmsBookFormPage {
 
   private _InitPage() {
 
-    let userdata = {first_name: '', second_name: '', patronymic: '', passport: '', rawobject: null};
+    let userdata = {first_name: '', second_name: '', patronymic: '', passport_data: '', rawobject: null};
 
     try {
       userdata.rawobject = this.auth.Get().user;
@@ -48,7 +48,7 @@ export class OmsBookFormPage {
       !_.isEmpty(userdata.rawobject) ? (
           userdata.first_name = userdata.rawobject.first_name,
             userdata.second_name = userdata.rawobject.second_name,
-            !_.isEmpty(userdata.rawobject.passport) ? userdata.passport = atob(userdata.rawobject.passport) : false
+            !_.isEmpty(userdata.rawobject.passport_data) ? userdata.passport_data = atob(userdata.rawobject.passport_data) : false
         ) : false;
     }
     catch (err) {
@@ -59,14 +59,11 @@ export class OmsBookFormPage {
       first_name: [userdata.first_name, Validators.required],
       second_name: [userdata.second_name, Validators.required],
       patronymic: [userdata.patronymic, Validators.required],
-      passport: [userdata.passport, Validators.required]
+      passport: [userdata.passport_data, Validators.required]
     })
   }
 
 
-  /*
-   access_token: "2ef6de4be7bf03034d2d519ec6d29a5c855370934266"city: Objectfirst_name: "stanislavov"login: "staskuban@ya.ru"passport: "MTIzNCAxMjM0NTY="password_hash: "784056f5e049c5766ed86569a36d592c"points: "40"role: "2"second_name: "stanislav"user_id: "3"
-   */
   ionViewDidLoad() {
     console.info(this.navParams.get('datetitle'));
     this.auth.Get()

@@ -64,7 +64,6 @@ export class LocationPage {
     if (msg) {
       Toast.show(msg, '2000', 'bottom').subscribe(
         toast => {
-          console.log(toast);
         }
       );
     }
@@ -179,7 +178,6 @@ export class LocationPage {
   private _ToMenu(city: string) {
     this.auth.set('city', city);
     this.auth.updateStorage();
-    console.info(this.auth.Get());
     this.navCtrl.setRoot(MenuPage, {}, {animate: true, direction: 'forward'})
   }
 

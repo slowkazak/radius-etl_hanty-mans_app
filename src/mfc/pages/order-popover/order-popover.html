@@ -1,0 +1,58 @@
+<!--
+  Generated template for the OrderPopover page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+
+<ion-content padding>
+  <template [ngIf]="! steps.step1">
+    <h4>Шаг 1</h4>
+    <form [formGroup]="login_form">
+      <ion-list no-lines no-border>
+        <ion-list-header text-wrap>
+          Авторизация online.mfchmao.ru
+        </ion-list-header>
+        <ion-item no-padding>
+          <ion-label floating>Логин</ion-label>
+          <ion-input type="text" formControlName="login"></ion-input>
+        </ion-item>
+        <ion-item no-lines no-padding>
+          <ion-label floating>Пароль</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+      </ion-list>
+
+
+    </form>
+    <div style="margin-right: 6px;">
+      <button ion-button outline block text-capitalize type="submit" [disabled]="!login_form.valid"
+              (click)="TryOrder()">Войти
+      </button>
+    </div>
+    <div style="margin-right: 6px;">
+      <button ion-button outline block text-capitalize color="danger" (click)="TryOrder(true)">Пропустить</button>
+    </div>
+  </template>
+  <template [ngIf]="steps.step1 && !steps.steps2">
+    <h4>Шаг 2</h4>
+    <ion-item no-lines no-padding>
+      <ion-label floating>Фамилия</ion-label>
+      <ion-input type="text" [(ngModel)]="second_name" placeholder="Фамилия"></ion-input>
+    </ion-item>
+    <button ion-button outline block text-capitalize [disabled]="!second_name.length" (click)="TryBook()">
+      Продолжить
+    </button>
+  </template>
+  <template [ngIf]="steps.step1 && steps.steps2">
+    <h5 *ngIf="bookresult.FullNumber">Талон: {{bookresult?.FullNumber}}</h5>
+    <p>Пожалуйста, возмите с собой паспорт</p>
+    <ol *ngIf="bookresult.Products">
+      <li *ngFor="let item of bookresult?.Products">
+        {{item?.Name}} - {{item.readable_date}}
+      </li>
+    </ol>
+    <button ion-button color="primary" outline block (click)="Close()">Закрыть</button>
+  </template>
+</ion-content>

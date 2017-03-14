@@ -1,0 +1,18 @@
+page-order-popover {
+  ion-content {
+    .scroll-content {
+      overflow: hidden;
+    }
+    ion-list-header {
+      text-align: center !important;
+      padding: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    .list-md .item-input:last-child {
+      border: 0 !important;
+    }
+    ion-input {
+      border-bottom: 1px solid #387ef5 !important;
+    }
+  }
+}

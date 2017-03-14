@@ -15,11 +15,6 @@
         {{item.Hour}}:{{(item.Minutes === 0) ? '00' : (item.Minutes)}}
       </button>
     </template>
-    <!--<button ion-item *ngFor="let item of hours" [disabled]="!item.Free" (click)="showPrompt(item)">-->
-    <!--<ion-icon *ngIf="item.Free" color="primary" name="ios-checkmark-circle" item-left></ion-icon>-->
-    <!--<ion-icon *ngIf="!item.Free" color="danger" name="ios-close-circle-outline" item-left></ion-icon>-->
-    <!--{{item.Hour}}:{{(item.Minutes === 0) ? '00' : (item.Minutes)}}-->
-    <!--</button>-->
   </ion-item-group>
 </ion-content>
 
@@ -30,6 +25,5 @@
     </button>
   </ion-fab>
   <ion-toolbar color="white">
-    <!-- <ion-title>Footer</ion-title> -->
   </ion-toolbar>
 </ion-footer>
