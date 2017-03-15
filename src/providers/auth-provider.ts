@@ -108,11 +108,13 @@ export class AuthProvider {
     try {
 
       let urlsearch = new URLSearchParams();
+      urlsearch.replaceAll(urlsearch);
       let interval = setInterval(() => {
         let usr: any = this.Get();
 
         _.has(usr, "user") ?
           (
+            clearInterval(interval),
             usr = usr.user,
               urlsearch.append('user_id', usr.user_id),
               urlsearch.append('access_token', usr.access_token),
@@ -126,7 +128,7 @@ export class AuthProvider {
           )
           :
           false
-      }, 2000);
+      }, 4000);
 
 
     }

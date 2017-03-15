@@ -43,7 +43,7 @@ export class PoolsPage {
 
       !_.isEmpty(res) ? _.map(res, ((item: any) => {
           try {
-            console.info(item)
+
             item.EVENT3 === 'true' ? item.EVENT3 = true : item.EVENT3 = false;
             item.LAMP == "green" ? item.LAMP = true : item.LAMP = false;
             item.LAMP && item.EVENT3 ? this._pollslist.push(item) : false;
@@ -71,7 +71,7 @@ export class PoolsPage {
     this._pollclicked = !this._pollclicked;
     this._pollid = id;
     isvoted === "N" ? this._isvoted = false : this._isvoted = true
-    console.info(id, this._isvoted);
+
     this.navCtrl.push(PollComponent, {id: this._pollid, isvoted: this._isvoted})
 
   }

@@ -68,7 +68,7 @@ export class DashboardPage {
   openStatusChange() {
     let profileModal = this.modalCtrl.create(ObjectsStatusPage);
     profileModal.onDidDismiss(() => {
-      console.log('closed!!')
+
       this.loading = this.loadingCtrl.create({
         content: 'Пожалуйста, подождите'
       });
@@ -78,7 +78,7 @@ export class DashboardPage {
   }
 
   cutItems(data: any) {
-    this.data = []
+    this.data = [];
     for (var i = 0; i < 5; i++) {
       if (data[i]) this.data.push(data[i])
     }
@@ -117,7 +117,6 @@ export class DashboardPage {
     console.log(this.searchBar)
     if (this.searchBar) {
       data = this.processed_data
-      console.log('searchbar found')
       // infiniteScroll.complete()
       // return false
     }

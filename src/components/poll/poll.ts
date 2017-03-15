@@ -86,7 +86,6 @@ export class PollComponent {
     try {
       this.poolsProvider.Answer(this._answerdata).then(res => {
         this.isvoted = true;
-        console.info(res)
         CommonToast.ShowToast('Ваш ответ принят, спасибо');
 
       }).catch(err => console.error(err));

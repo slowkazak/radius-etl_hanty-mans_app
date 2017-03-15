@@ -27,11 +27,11 @@
       <ion-list no-lines>
         <ion-item class="brd">
           <ion-label floating>{{_leng.form_first_name}}</ion-label>
-          <ion-input type="text" formControlName="first_name"></ion-input>
+          <ion-input type="text" formControlName="first_name" (blur)="MakeChanges('first_name', _user_cabinet.value.first_name)"></ion-input>
         </ion-item>
         <ion-item class="brd">
           <ion-label floating>{{_leng.form_second_name}}</ion-label>
-          <ion-input type="text" formControlName="second_name"></ion-input>
+          <ion-input type="text" formControlName="second_name" (blur)="MakeChanges('second_name', _user_cabinet.value.second_name)"></ion-input>
         </ion-item>
         <!--<ion-item class="brd">-->
         <!--<ion-label floating>{{_leng.form_login}}</ion-label>-->
@@ -43,7 +43,7 @@
         <!--</ion-item>-->
         <ion-item class="brd">
           <ion-label floating>{{_leng.form_passport}}</ion-label>
-          <ion-input type="text" formControlName="passport_data" ></ion-input>
+          <ion-input type="text" formControlName="passport_data"  (blur)="MakeChanges('passport_data', _user_cabinet.value.passport_data)"></ion-input>
         </ion-item>
       </ion-list>
       <div padding>

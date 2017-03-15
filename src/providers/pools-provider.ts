@@ -7,7 +7,7 @@ import {settings} from "../app/settings/settings";
 import {CommonCallback} from "../helpers/common.callback.class";
 import _ from "lodash";
 @Injectable()
-export class PoolsProvider  {
+export class PoolsProvider {
   server: string = 'http://api.admhmansy.ru'
   access_token: string = this.auth.user.access_token || null
 
@@ -47,7 +47,7 @@ export class PoolsProvider  {
           urlsearch.set(settings.api_methods.vote.data_param, pollid);
           result = this.http.get(
             settings.adm_domain_path +
-            settings.api_methods.vote.method, { search: urlsearch })
+            settings.api_methods.vote.method, {search: urlsearch})
             .toPromise()
             .then(res => CommonCallback._SuccessCallback(res))
             .catch(err => CommonCallback._ErrorCallback(err))
@@ -62,26 +62,44 @@ export class PoolsProvider  {
     return result
   }
 
-  public Answer(answerdata){
-   let urlsearch = new URLSearchParams();
-   _.forEach(answerdata.answers,(item:any)=>{
-     try {
-     urlsearch.set('vote_'+item.type+'_'+item.q,item.val);
-     }
-     catch (err) {
-       console.error("Произошла ошибка", err)
-     }
-   });
-    urlsearch.set('AJAX_POST',"Y");
-    urlsearch.set('vote',"Y");
-    urlsearch.set('REVOTE_ID',answerdata.id);
-    urlsearch.set('PUBLIC_VOTE_ID',answerdata.id);
-    urlsearch.set('PUBLIC_VOTE_ID',answerdata.id);
-    urlsearch.set('sessid',answerdata.sessid);
-
-    console.warn(urlsearch.toString())
+  public Answer(answerdata) {
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded');
+
+    // let urlsearch = new URLSearchParams();
+    let DFD = new FormData();
+
+    _.forEach(answerdata.answers, (item: any) => {
+      try {
+
+        DFD.append('vote_' + item.type + '_' + item.q, item.val);
+
+
+      }
+      catch (err) {
+        console.error("Произошла ошибка", err)
+      }
+    });
+    //
+    DFD.append('vote', "Y");
+    DFD.append('VOTE_ID', answerdata.id);
+    DFD.append('PUBLIC_VOTE_ID', answerdata.id);
+    DFD.append('sessid', answerdata.sessid);
+
+    // urlsearch.set('AJAX_POST',"Y");
+    // urlsearch.set('vote',"Y");
+    // urlsearch.set('REVOTE_ID',answerdata.id);
+
+
+    // urlsearch.set('VOTE_ID',answerdata.id);
+    // urlsearch.set('PUBLIC_VOTE_ID',answerdata.id);
+    // urlsearch.set('sessid',answerdata.sessid);
+
+
+
+
+
+    console.warn(DFD.toString())
     // :Y
     // vote:Y
     // REVOTE_ID:49
@@ -95,8 +113,8 @@ export class PoolsProvider  {
     //   a: answer.ANSWER_ID,
     //   type:type,
     //   val:val,
-    return this.http.post(settings.adm_domain_path,urlsearch.toString(), {headers: headers}).toPromise()
-      .then(res => CommonCallback._SuccessCallback(res))
+    return this.http.post(settings.adm_domain_path + '/vote/vote_new.php?VOTE_ID=' + answerdata.id, DFD).toPromise()
+      .then(res => console.info(res))
       .catch(err => CommonCallback._ErrorCallback(err))
   }
 

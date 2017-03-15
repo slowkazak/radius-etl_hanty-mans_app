@@ -21,16 +21,18 @@ export class UserCabinetPage implements OnChanges {
   private _leng: any = {};
   usr: any = {};
 
+
+  private changes: any = {};
+
   constructor(public navCtrl: NavController,
               private auth: AuthProvider,
               private formBuilder: FormBuilder,
-              private leng: LengProvider,
-              private userprovider: UserUpdateProvider) {
+              private leng: LengProvider) {
 
   }
 
-  ngOnChanges(changes:SimpleChanges) {
-    console.log(changes,111)
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes, 111)
   }
 
   ngAfterContentInit() {
@@ -46,14 +48,23 @@ export class UserCabinetPage implements OnChanges {
 
   }
 
+
   ionViewCanEnter() {
     return !_.isEmpty(this.auth.user)
+  }
+
+  private MakeChanges(fld, value) {
+    console.info(this.usr)
+    this.usr[fld]!==value?(
+        fld == 'passport_data'?value= btoa(value):false,
+        this.changes[fld] = value
+      ):false;
   }
 
   private _InitPage() {
     this.usr = this.auth.Get();
 
-    let p:any = '';
+    let p: any = '';
     _.has(this.usr, 'user') ? this.usr = this.usr.user : false;
     try {
       this.usr.passport_data = atob(this.usr.passport_data)
@@ -67,7 +78,7 @@ export class UserCabinetPage implements OnChanges {
     this._user_cabinet = this.formBuilder.group({
       first_name: [this.usr.first_name, Validators.required],
       second_name: [this.usr.second_name, Validators.required],
-      passport_data: [this.usr.passport_data , Validators.compose([Validators.maxLength(11),Validators.pattern(/[0-9]{4}\s[0-9]{6}/)])]
+      passport_data: [this.usr.passport_data, Validators.compose([Validators.maxLength(11), Validators.pattern(/[0-9]{4}\s[0-9]{6}/)])]
     })
   }
 
@@ -76,7 +87,7 @@ export class UserCabinetPage implements OnChanges {
         this.usr.passport_data = btoa(this._user_cabinet.value.passport_data),
           this.usr.first_name = this._user_cabinet.value.first_name,
           this.usr.second_name = this._user_cabinet.value.second_name,
-          this.auth.UpdateUser(this.usr.access_token, this.usr.user_id, this.usr)
+          this.auth.UpdateUser(this.usr.access_token, this.usr.user_id, this.changes)
             .then(res => {
               this.auth.set("user", this.usr);
               this.auth.updateStorage()
@@ -85,16 +96,16 @@ export class UserCabinetPage implements OnChanges {
       ) : false;
 
 
-        /*
+    /*
 
 
-         this.auth.UpdateUser(this.usr.access_token, this.usr.user_id, this.usr)
-         .then(res => {
-         this.auth.set("user", this.usr);
-         this.auth.updateStorage()
-         }).catch(err => {
-         })
-         */
+     this.auth.UpdateUser(this.usr.access_token, this.usr.user_id, this.usr)
+     .then(res => {
+     this.auth.set("user", this.usr);
+     this.auth.updateStorage()
+     }).catch(err => {
+     })
+     */
 
 
     // this.auth.updateStorage();

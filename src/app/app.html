@@ -1,4 +1,4 @@
-<ion-menu [content]="mycontent">
+<ion-menu [content]="mycontent" >
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title  *ngIf="auth?.user?.user?.access_token">{{auth?.user?.user?.first_name}}</ion-title>
@@ -25,7 +25,7 @@
   </ion-header>
 
   <ion-content>
-    <page-notifications></page-notifications>
+    <!--<page-notifications></page-notifications>-->
     <page-news-feed></page-news-feed>
   </ion-content>
   <ion-footer>

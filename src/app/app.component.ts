@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {Platform, Nav, MenuController} from 'ionic-angular';
-import {StatusBar, Splashscreen} from 'ionic-native';
+import {Splashscreen} from 'ionic-native';
 import {HomePage} from '../pages/home/home';
 import {AuthProvider} from '../providers/auth-provider'
 
@@ -15,41 +15,40 @@ import {UserCabinetPage} from "../pages/user-cabinet/user-cabinet";
 })
 export class MyApp {
   rootPage: any;
-  data: Array<any>;
-  check: any;
   islogged: boolean = false;
   @ViewChild(Nav) nav: Nav;
-  HomePage: any = HomePage;
 
 
-  constructor(platform: Platform, private auth: AuthProvider, private menu: MenuController,
-              public notification: NotificationProvider, private points: PointsProvider) {
+  constructor(platform: Platform, private auth: AuthProvider,
+              private menu: MenuController,
+              public notification: NotificationProvider,
+              private points: PointsProvider) {
 
-
-
+    this.auth.checkAuth().then((user:any) => {
+      if (user) {
+        this.auth.user = JSON.parse(user);
+        this.auth.islogged = true;
+        this.rootPage = MenuPage
+      } else {
+        this.islogged = false;
+        this.rootPage = HomePage
+      }
+    });
     platform.ready().then(() => {
 
+      // document.addEventListener("deviceready", ()=>{
 
-       this.notification._Regiseter();
 
 
-      this.auth.checkAuth().then((user) => {
-console.info(user,1111)
-        if (user) {
 
-          this.auth.user = JSON.parse(user);
-          this.auth.islogged = true;
-          console.log('User found in storage', this.auth.user)
-          this.rootPage = MenuPage
-        } else {
 
-          this.islogged = false;
-          this.rootPage = HomePage
-        }
+        Splashscreen.hide();
+        this.notification._Regiseter();
+      // }, false);
 
-      })
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+
+      // StatusBar.styleDefault();
+
 
     });
 
@@ -70,17 +69,10 @@ console.info(user,1111)
     this.auth.clearStorage()
     this.nav.setRoot(HomePage, {}, {animate: true, direction: 'backwards'})
   }
-  private _OpenCabinet(){
+
+  private _OpenCabinet() {
     this.menu.close();
     // this.menu.close();
     this.nav.push(UserCabinetPage);
   }
-  // exit() {
-  //   this.auth.clearStorage();
-  //   this.menu.close();
-  //   this.auth.islogged = false;
-  //   this.nav.setRoot(HomePage, {}, {animate: true, direction: 'backwards'})
-  // }
-
-
 }

@@ -64,12 +64,11 @@ export class ObjectsService {
 
       _.forEach(media_files, (file: any) => {
         let str = Math.random().toString(36).substring(7);
-        console.info(file)
+
         file.url ?
           form.append("asset_"+str, file.file)
           : false;
       });
-      console.info(formdata);
       result = this.http.post(settings.adm_api_path + '/place/add', form, {headers: this._headers})
         .toPromise()
         .then(res => {
@@ -164,32 +163,6 @@ export class ObjectsService {
 
   }
 
-
-  // add(form_data: any, media_files: any, coords: Array<number> ) {
-  //   let form = form_data.value
-  //   console.log(coords,form_data ,media_files, "ADD OBJECT");
-  //   let headers = new Headers();
-  //   headers.set('Content-Type', 'application/x-www-form-urlencoded')
-  //   let params = new URLSearchParams()
-  //   params.set('access_token', this.auth.user.access_token)
-  //   params.set('category', form.category)
-  //   params.set('description', form.description)
-  //   params.set('coordinates', JSON.stringify(coords))
-  //   if (media_files.length > 0) {
-  //     let ids = `(${media_files.map(item => item.placemarkId).join(',')})`
-  //     params.set('files', ids)
-  //   }
-  //   // console.log(form.picture.toString())
-  //   let body = params.toString()
-  //   return new Promise((resolve, reject) => {
-  //     this.http.post('http://api.admhmansy.ru' + '/place/add', body, {headers: headers}).subscribe(res => {
-  //       resolve(res.json())
-  //     }, err => {
-  //       reject(err.json())
-  //     })
-  //   })
-  // }
-
   //TODO рефактор, затем удалить
   load(filter: any) {
     let params = new URLSearchParams()
@@ -206,24 +179,6 @@ export class ObjectsService {
   }
 
 
-  // uploadPhoto(photo_uri: any) {
-  //   const fileTransfer = new Transfer();
-  //   return new Promise((resolve, reject) => {
-  //     fileTransfer.upload(photo_uri, "http://api.admhmansy.ru/place/post", {
-  //       fileKey: 'image',
-  //       params: {
-  //         'access_token': this.auth.user.access_token
-  //       }
-  //     })
-  //       .then((data: any) => {
-  //         console.log(data)
-  //         resolve(data.response)
-  //       }, (err) => {
-  //         console.log(err)
-  //         reject(err)
-  //       })
-  //   })
-  // }
 
   deleteMedia(placemarkId: any) {
     let headers = new Headers();
@@ -239,31 +194,7 @@ export class ObjectsService {
     })
   }
 
-  // add(form_data: any, media_files: any, coords: Array<number>) {
-  //   let form = form_data.value
-  //   console.log(media_files, "ADD OBJECT");
-  //   let headers = new Headers();
-  //   headers.set('Content-Type', 'application/x-www-form-urlencoded')
-  //   let params = new URLSearchParams()
-  //   params.set('access_token', this.auth.user.access_token)
-  //   params.set('category', form.category)
-  //   params.set('description', form.description)
-  //   params.set('coordinates', JSON.stringify(coords))
-  //   if (media_files.length > 0) {
-  //     let ids = `(${media_files.map(item => item.placemarkId).join(',')})`
-  //     params.set('files', ids)
-  //   }
-  //   // console.log(form.picture.toString())
-  //   let body = params.toString()
-  //   console.info(body);
-  //   return new Promise((resolve, reject) => {
-  //     this.http.post('http://api.admhmansy.ru/place/add', body, {headers: headers}).subscribe(res => {
-  //       resolve(res.json())
-  //     }, err => {
-  //       reject(err.json())
-  //     })
-  //   })
-  // }
+
 
 
   set(data: any) {
