@@ -42,7 +42,7 @@
       "form_second_name":"Фамилия",
       "form_login":"Мобильный телефон или почта",
       "form_password":"Пароль",
-      "form_passport":"Серия и номер паспора (1234 123456)",
+      "form_passport":"Серия и номер паспора",
       "message_update_success":"Обновление данных выполнено",
       "message_update_fail":"Ошибка обновления данных"
     },

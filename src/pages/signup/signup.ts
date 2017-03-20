@@ -25,7 +25,8 @@ export class SignupPage {
       phone: ['', Validators.required],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
       first_name: ['', Validators.required],
-      second_name: ['', Validators.required]
+      second_name: ['', Validators.required],
+      patronymic: ['', Validators.required]
     })
   }
 
@@ -55,6 +56,7 @@ export class SignupPage {
     this.auth.Rerister(this.signup_form.value.login,
       this.signup_form.value.first_name,
       this.signup_form.value.second_name,
+      this.signup_form.value.patronymic,
       this.signup_form.value.password,
       this.signup_form.value.phone,
       this.signup_form.value.email).then(res => {

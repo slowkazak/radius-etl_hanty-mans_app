@@ -54,9 +54,8 @@ export class UserCabinetPage implements OnChanges {
   }
 
   private MakeChanges(fld, value) {
-    console.info(this.usr)
     this.usr[fld]!==value?(
-        fld == 'passport_data'?value= btoa(value):false,
+        // fld == 'passport_data'?value= btoa(value):false,
         this.changes[fld] = value
       ):false;
   }
@@ -66,29 +65,32 @@ export class UserCabinetPage implements OnChanges {
 
     let p: any = '';
     _.has(this.usr, 'user') ? this.usr = this.usr.user : false;
-    try {
-      this.usr.passport_data = atob(this.usr.passport_data)
+    // try {
+      // this.usr.passport_data = atob(this.usr.passport_data)
 
-    }
-    catch (err) {
+    // }
+    // catch (err) {
 
-      console.error("Произошла ошибка", err)
-    }
+      // console.error("Произошла ошибка", err)
+    // }
 
     this._user_cabinet = this.formBuilder.group({
       first_name: [this.usr.first_name, Validators.required],
       second_name: [this.usr.second_name, Validators.required],
+      patronymic: [this.usr.patronymic, Validators.required],
       passport_data: [this.usr.passport_data, Validators.compose([Validators.maxLength(11), Validators.pattern(/[0-9]{4}\s[0-9]{6}/)])]
     })
   }
 
   private _Change() {
     this._user_cabinet.valid && this._user_cabinet.value.passport_data.length > 0 ? (
-        this.usr.passport_data = btoa(this._user_cabinet.value.passport_data),
+        this.usr.passport_data = this._user_cabinet.value.passport_data,
+        // this.usr.passport_data = btoa(this._user_cabinet.value.passport_data),
           this.usr.first_name = this._user_cabinet.value.first_name,
           this.usr.second_name = this._user_cabinet.value.second_name,
           this.auth.UpdateUser(this.usr.access_token, this.usr.user_id, this.changes)
             .then(res => {
+              this.changes = {};
               this.auth.set("user", this.usr);
               this.auth.updateStorage()
             }).catch(err => {

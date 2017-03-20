@@ -44,13 +44,15 @@ export class OmsBookFormPage {
 
     try {
       userdata.rawobject = this.auth.Get().user;
-      console.warn(userdata)
+      console.info(userdata.rawobject,11111111111)
       !_.isEmpty(userdata.rawobject) ? (
           userdata.first_name = userdata.rawobject.first_name,
             userdata.second_name = userdata.rawobject.second_name,
-            !_.isEmpty(userdata.rawobject.passport_data) ? userdata.passport_data = atob(userdata.rawobject.passport_data) : false
+            userdata.patronymic = userdata.rawobject.patronymic,
+            !_.isEmpty(userdata.rawobject.passport_data) ? userdata.passport_data = userdata.rawobject.passport_data : false
         ) : false;
     }
+    //userdata.passport_data = atob(userdata.rawobject.passport_data)
     catch (err) {
       console.error("Произошла ошибка", err)
     }

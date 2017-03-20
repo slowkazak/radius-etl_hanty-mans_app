@@ -3,13 +3,13 @@ export const settings = {
   default_lng: 69.035848,
   adm_api_path: "http://api.admhmansy.ru",
   adm_domain_path: "http://admhmansy.ru",
-  files_url:"http://api.admhmansy.ru/files/",
+  files_url:"http://admhmansy.ru/map/serviceimage/",
   image_file_extentions: [".png", ".bmp", ".jpg", ".jpg", ".jpeg", ".pcx", ".gif"],
   passport_validator_regexp: "\d{4}\s\d{6}",
   object_media_placeholder_count:4,
   max_video_size_bytes:52428799,
   max_marker_title_length:20,
-  api_user_fields_list:['first_name','passport_data','second_name','push_token'],
+  api_user_fields_list:['first_name','passport_data','patronymic','second_name','push_token'],
   error_codes: [{code: "form_no_reqirement_data", title: "Недостаточно данных для выполнения запроса"}],
   polls_types: [
     {"type": "radio", "id": 0},
@@ -60,7 +60,7 @@ export const settings = {
       domain: "adm_api_path",
       method: "/user/create",
       auth_param: "",
-      data_param: ['login','first_name','second_name','password','phone','email']
+      data_param: ['login','first_name','second_name','password','phone','email','patronymic']
     }
   },
   status_type_id:[

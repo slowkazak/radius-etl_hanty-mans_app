@@ -3,7 +3,7 @@ import {NavController, ViewController, NavParams} from 'ionic-angular';
 import {ObjectsService} from '../../providers/objects-service'
 import {location} from '../../models/location'
 import {GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, CameraPosition} from 'ionic-native'
-import  "../../assets/js/yandexMaps2.1.js"
+// import  "../../assets/js/yandexMaps2.1.js"
 import {GeolocationProvider} from "../../providers/geolocation-provider";
 import {LocationData} from "../../app/interfaces/location.interface";
 

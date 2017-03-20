@@ -40,6 +40,7 @@ export class SigninPage {
         (usr = {
             login: res.LOGIN,
             first_name: res.NAME,
+            patronymic: res.patronymic,
             second_name: res.LAST_NAME,
             passport_data: res.passport_data,
             phone: res.PERSONAL_PHONE,

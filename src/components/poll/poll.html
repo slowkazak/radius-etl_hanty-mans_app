@@ -19,7 +19,7 @@
           </ion-item>
 
           <ion-item item-content *ngIf="answer?.FIELD_TYPE == 1" text-wrap>
-            <ion-label>{{answer?.FIELD_TYPE}} {{answer?.MESSAGE}}</ion-label>
+            <ion-label>{{answer?.MESSAGE}}</ion-label>
 
             <ion-checkbox (ionChange)="_PrepareAnswer(answer, 'checkbox')"></ion-checkbox>
           </ion-item>

@@ -1,8 +1,8 @@
 export class Filter {
   display: Object = {
-    dumps: false, // свалки
+    dumps: true, // свалки
     roads: true, // дефекты дорог
-    offense: false, // правонарушения
+    offense: true, // правонарушения
     improve: true // улучшим город
   }
   status: Object = {

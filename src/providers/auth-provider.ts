@@ -42,7 +42,7 @@ export class AuthProvider {
     return result;
   }
 
-  public Rerister(login: string, first_name: string, second_name: string, password: string, phone: string, email: string) {
+  public Rerister(login: string, first_name: string, second_name: string,patronymic:string, password: string, phone: string, email: string) {
     let result: any = null;
     let urlsearch = new URLSearchParams();
     // 'login','first_name','second_name','password','phone','email'
@@ -52,6 +52,7 @@ export class AuthProvider {
     urlsearch.append(settings.api_methods.user_register.data_param[3], password);
     urlsearch.append(settings.api_methods.user_register.data_param[4], phone);
     urlsearch.append(settings.api_methods.user_register.data_param[5], email);
+    urlsearch.append(settings.api_methods.user_register.data_param[6], patronymic);
     try {
       result = this.http.post(settings[settings.api_methods.user_register.domain] + settings.api_methods.user_register.method, urlsearch.toString(), {headers: this._headers})
         .toPromise()

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {NavController, LoadingController} from 'ionic-angular';
 import {Http, URLSearchParams, Headers} from '@angular/http';
 import {AuthProvider} from '../../providers/auth-provider'
-
+// import  "../../assets/js/yandexMaps2.1.js"
 import _ from "lodash";
 
 import {
