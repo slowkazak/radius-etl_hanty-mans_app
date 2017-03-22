@@ -2,7 +2,8 @@ page-object-add {
   input {
     margin: 0 !important;
   }
-  ion-content {}
+  ion-content {
+  }
   .list-md .item-input:last-child {
     border: 0 !important;
   }
@@ -17,9 +18,17 @@ page-object-add {
   ion-input {
     border-bottom: 1px solid #387ef5 !important;
   }
-  //ion-select {
-  //  border-bottom: 1px solid #387ef5 !important;
-  //}
+  ion-select {
+    padding: 0 !important;
+    .select-text {
+      position: absolute;
+      width: 100%;
+    }
+    .select-icon {
+      position: absolute !important;
+      right: 9px;
+    }
+  }
   ion-label {
     color: #000 !important;
   }

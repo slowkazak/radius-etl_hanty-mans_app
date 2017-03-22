@@ -7,6 +7,9 @@
 <ion-header>
 
   <ion-navbar color="primary">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>{{_leng.page_title}}</ion-title>
   </ion-navbar>
 
@@ -46,7 +49,7 @@
         <!--<ion-input type="password" formControlName="password"></ion-input>-->
         <!--</ion-item>-->
         <ion-item class="brd">
-          <ion-label floating>{{_leng.form_passport}}</ion-label>
+          <ion-label stacked>{{_leng.form_passport}}</ion-label>
           <ion-input type="text" placeholder="В формате 1234 123456" formControlName="passport_data"  (blur)="MakeChanges('passport_data', _user_cabinet.value.passport_data)"></ion-input>
         </ion-item>
       </ion-list>

@@ -1,6 +1,9 @@
 <ion-header>
 
   <ion-navbar color="primary">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Добавить заявку</ion-title>
     </ion-navbar>
 </ion-header>
@@ -17,7 +20,7 @@
         <ion-textarea formControlName="description"></ion-textarea>
       </ion-item>
       <ion-item no-padding>
-        <ion-label no-padding>Выберите категорию</ion-label>
+        <ion-label  no-padding *ngIf="!form.value.category">Выберите категорию</ion-label>
         <ion-select formControlName="category">
           <ion-option value="1">Несанкционированная свалка</ion-option>
           <ion-option value="2">Дефекты дорожного покрытия</ion-option>

@@ -44,7 +44,7 @@ export class OmsBookFormPage {
 
     try {
       userdata.rawobject = this.auth.Get().user;
-      console.info(userdata.rawobject,11111111111)
+
       !_.isEmpty(userdata.rawobject) ? (
           userdata.first_name = userdata.rawobject.first_name,
             userdata.second_name = userdata.rawobject.second_name,
@@ -87,9 +87,10 @@ export class OmsBookFormPage {
       content: 'Запись...'
     });
     loader.present();
+    console.info(this.navParams.get('data'),1111111111111111);
     this.oms.Book(this.navParams.get('data'), this.book_form.value).then(res => {
       let sid = this.navParams.get('data');
-      res ? this.oms.GetDocuments(sid.serviceId).then(result => {
+      _.has(res[0],'search_code') ? this.oms.GetDocuments(sid.serviceId).then(result => {
           loader.dismiss();
           let popover = this.popoverCtrl.create(
             PopoverPage,
@@ -106,7 +107,7 @@ export class OmsBookFormPage {
           this._ToastPresent("Произошла ошибка про записи");
           loader.dismiss();
           console.error(err)
-        }) : false
+        }) : (this._ToastPresent("В сутки можно записаться не более двух раз"), loader.dismiss(), this.navCtrl.popToRoot());
     }).catch(err => {
       this._ToastPresent("Произошла ошибка про записи");
       loader.dismiss();

@@ -1,35 +1,35 @@
 $height: 130px;
 
 page-dashboard {
-  ion-toolbar:first-child {
-    height: $height;
-  }
+  //ion-toolbar:first-child {
+  //  height: $height;
+  //}
 
-  ion-toolbar:first-child .toolbar-background {
-    background-image: url('../assets/img/dashboard_header.png');
-    background-size: cover;
-  }
+  //ion-toolbar:first-child .toolbar-background {
+  //  background-image: url('../assets/img/dashboard_header.png');
+  //  background-size: cover;
+  //}
 
-  ion-toolbar:first-child .toolbar-content {
-    position: absolute;
-    top: 10px;
-    left: 0;
-    padding: 10px;
-    width: 100%;
-    height: $height - 10;
-  }
-
-  ion-toolbar:first-child .header-title {
-    color: white;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.58);
-    padding-left: 15px;
-    font-weight: bold;
-    font-size: 12pt;
-  }
+  //ion-toolbar:first-child .toolbar-content {
+  //  position: absolute;
+  //  top: 10px;
+  //  left: 0;
+  //  padding: 10px;
+  //  width: 100%;
+  //  height: $height - 10;
+  //}
+  //
+  //ion-toolbar:first-child .header-title {
+  //  color: white;
+  //  position: absolute;
+  //  bottom: 0;
+  //  left: 0;
+  //  width: 100%;
+  //  background-color: rgba(0, 0, 0, 0.58);
+  //  padding-left: 15px;
+  //  font-weight: bold;
+  //  font-size: 12pt;
+  //}
 
   $filters_height: 55px;
   .filters {

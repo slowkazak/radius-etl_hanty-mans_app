@@ -116,6 +116,7 @@ console.info(datetime,m,'!!!!!!!!!!!!!!!!!!!!!!!!!')
     this.bookobject.datetitle=this.navParams.get('name')+' '+time;
     // TODO Переход на страницу с формой (oms-book-form), оттуда отправка данных
     this.bookobject.time = time;
+    console.info('111',this.bookobject)
     this.navCtrl.push(OmsBookFormPage, {data: this.bookobject})
   }
 

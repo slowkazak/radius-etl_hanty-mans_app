@@ -6,7 +6,9 @@
 -->
 <ion-header>
   <ion-navbar color="primary">
-
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Выберите дату</ion-title>
   </ion-navbar>
 </ion-header>
@@ -19,7 +21,8 @@
     <ion-item-group *ngFor="let item of _data">
       <ion-item-divider color="light"  class="year">{{ item?.year | getMonthName:item?.month }} {{ item?.year }}</ion-item-divider>
       <template  ngFor let-day [ngForOf]="item?.day">
-        <button ion-item (click)="GetTimeOMS(day?.time, item?.date, item?.visitLength)">
+
+        <button ion-item (click)="GetTimeOMS(day?.time, day?.day+'.'+item?.month+'.'+item?.year, item?.visitLength)">
           <!--<ion-icon color="primary" name="ios-checkmark-circle" item-left></ion-icon>-->
           <!--<ion-icon *ngIf="day.Free" color="primary" name="ios-checkmark-circle" item-left></ion-icon>-->
           <!--<ion-icon *ngIf="!day.Free" color="danger" name="ios-close-circle-outline" item-left></ion-icon>-->
