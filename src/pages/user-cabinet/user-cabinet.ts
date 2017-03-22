@@ -6,6 +6,7 @@ import {settings} from "../../app/settings/settings";
 import _ from "lodash";
 import {UserUpdateProvider} from "../../providers/user-update-provider";
 import {LengProvider} from "../../providers/leng-provider";
+import {CommonToast} from "../../mfc/classes/toast.class";
 /*
  Generated class for the UserCabinet page.
 
@@ -36,10 +37,11 @@ export class UserCabinetPage implements OnChanges {
   }
 
   ngAfterContentInit() {
-    this._InitPage();
+
   }
 
-  ionViewDidLoad() {
+  ionViewWillLoad() {
+    this._InitPage();
     this.leng.GetLeng("user_cabinet").then(res => {
       this._leng = _.assign({}, res);
     }).catch(err => {
@@ -82,8 +84,9 @@ export class UserCabinetPage implements OnChanges {
     })
   }
 
-  private _Change() {
-    this._user_cabinet.valid && this._user_cabinet.value.passport_data.length > 0 ? (
+  private _Change() {console.info(_.merge(this.usr,this.changes));
+    !_.isEmpty(this.changes)?
+   this._user_cabinet.valid ? (
         this.usr.passport_data = this._user_cabinet.value.passport_data,
         // this.usr.passport_data = btoa(this._user_cabinet.value.passport_data),
           this.usr.first_name = this._user_cabinet.value.first_name,
@@ -91,11 +94,14 @@ export class UserCabinetPage implements OnChanges {
           this.auth.UpdateUser(this.usr.access_token, this.usr.user_id, this.changes)
             .then(res => {
               this.changes = {};
+
               this.auth.set("user", this.usr);
-              this.auth.updateStorage()
+              this.auth.updateStorage();
+              CommonToast.ShowToast('Сохранено');
             }).catch(err => {
           })
-      ) : false;
+      ) : false
+      :CommonToast.ShowToast('Вы не изменяли поля, сохранение не будет проведено');
 
 
     /*

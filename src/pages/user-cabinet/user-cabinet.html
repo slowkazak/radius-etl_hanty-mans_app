@@ -30,15 +30,15 @@
       <ion-list no-lines>
         <ion-item class="brd">
           <ion-label floating>{{_leng.form_first_name}}</ion-label>
-          <ion-input type="text" formControlName="first_name" (blur)="MakeChanges('first_name', _user_cabinet.value.first_name)"></ion-input>
+          <ion-input type="text" formControlName="first_name" (keyup)="MakeChanges('first_name', _user_cabinet.value.first_name)"></ion-input>
         </ion-item>
         <ion-item class="brd">
           <ion-label floating>{{_leng.form_second_name}}</ion-label>
-          <ion-input type="text" formControlName="second_name" (blur)="MakeChanges('second_name', _user_cabinet.value.second_name)"></ion-input>
+          <ion-input type="text" formControlName="second_name" (keyup)="MakeChanges('second_name', _user_cabinet.value.second_name)"></ion-input>
         </ion-item>
         <ion-item class="brd">
           <ion-label floating>Отчество</ion-label>
-          <ion-input type="text" formControlName="patronymic" (blur)="MakeChanges('patronymic', _user_cabinet.value.patronymic)"></ion-input>
+          <ion-input type="text" formControlName="patronymic" (keyup)="MakeChanges('patronymic', _user_cabinet.value.patronymic)"></ion-input>
         </ion-item>
         <!--<ion-item class="brd">-->
         <!--<ion-label floating>{{_leng.form_login}}</ion-label>-->
@@ -50,7 +50,7 @@
         <!--</ion-item>-->
         <ion-item class="brd">
           <ion-label stacked>{{_leng.form_passport}}</ion-label>
-          <ion-input type="text" placeholder="В формате 1234 123456" formControlName="passport_data"  (blur)="MakeChanges('passport_data', _user_cabinet.value.passport_data)"></ion-input>
+          <ion-input type="text" placeholder="В формате 1234 123456" formControlName="passport_data"  (keyup)="MakeChanges('passport_data', _user_cabinet.value.passport_data)"></ion-input>
         </ion-item>
       </ion-list>
       <div padding>

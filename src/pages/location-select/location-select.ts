@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, ViewController, NavParams} from 'ionic-angular';
+import {NavController, ViewController, NavParams, LoadingController} from 'ionic-angular';
 import {ObjectsService} from '../../providers/objects-service'
 import {location} from '../../models/location'
 import {GoogleMap, GoogleMapsEvent, GoogleMapsLatLng, CameraPosition} from 'ionic-native'
@@ -19,22 +19,25 @@ export class LocationSelectPage {
   public _marker_placeable: boolean = true;
 
   map: any
+  loader = this.loadCtrl.create({
+    content: 'Инициализация карты...'
+  });
 
   constructor(private locationprov: GeolocationProvider,
               private navParams: NavParams,
-
-              public navCtrl: NavController, private service: ObjectsService, private viewCtrl: ViewController, public location: location) {
+private loadCtrl:LoadingController,
+              public navCtrl: NavController, public location: location) {
   }
 
   ngAfterViewInit() {
+    this.loader.present();
     this.locationprov.GetLocation()
       .then((res: LocationData) => {
       this._InitMap(res.lat, res.lng)})
       .catch((err: LocationData) => {
       this._InitMap(err.lat, err.lng)}
       );
-    // this.loadMap()
-  }
+     }
 
 
   /**
@@ -45,10 +48,13 @@ export class LocationSelectPage {
    */
 
   private _InitMap(lat: number, lng: number) {
+
+
     let init = () => {
+      this.loader.dismissAll();
       this._ymaps = new ymaps.Map("map_", {
         center: [lat, lng],
-        zoom: 13,
+        zoom: 12,
         controls: []
       });
 
@@ -74,7 +80,7 @@ export class LocationSelectPage {
         let myPlacemark = new ymaps.Placemark(
           [lat, lng], {
             balloonContent: '',
-            iconCaption: title
+            iconCaption: ''
           }, {
             preset: 'islands#greenDotIconWithCaption'
           }
@@ -103,51 +109,51 @@ export class LocationSelectPage {
 
 
 
-  //TODO рефакатор, затем удалить
-
-  loadMap() {
-    let element: HTMLElement = document.getElementById('map')
-    this.map = new GoogleMap(element)
-    let map = this.map
-
-    map.one(GoogleMapsEvent.MAP_READY).then(() => {
-      console.log('Map is ready!')
-      let pos: GoogleMapsLatLng
-
-      if (this.location.Get()) {
-        console.log('location found')
-        pos = new GoogleMapsLatLng(this.location.Get()[0], this.location.Get()[1])
-      } else {
-        console.log('location not found')
-        pos = new GoogleMapsLatLng(61.008038, 69.035848)
-      }
-
-      let position: CameraPosition = {
-        target: pos,
-        zoom: 13
-      }
-
-      map.moveCamera(position)
-    })
-
-    map.one(GoogleMapsEvent.CAMERA_CHANGE).then((res) => {
-      map.getCameraPosition().then(camera => {
-        console.log(camera)
-      }, err => {
-        console.log(err)
-      })
-    })
-  }
-
-  selectPoint() {
-    // let map = this.map
-    // map.getCameraPosition().then(camera => {
-    //   this.location.Set(camera.target.lat, camera.target.lng)
-    //   console.log(this.location.Get())
-    //   this.navCtrl.pop()
-    // }, err => {
-    //
-    // })
-  }
+  // //TODO рефакатор, затем удалить
+  //
+  // loadMap() {
+  //   let element: HTMLElement = document.getElementById('map')
+  //   this.map = new GoogleMap(element)
+  //   let map = this.map
+  //
+  //   map.one(GoogleMapsEvent.MAP_READY).then(() => {
+  //     console.log('Map is ready!')
+  //     let pos: GoogleMapsLatLng
+  //
+  //     if (this.location.Get()) {
+  //       console.log('location found')
+  //       pos = new GoogleMapsLatLng(this.location.Get()[0], this.location.Get()[1])
+  //     } else {
+  //       console.log('location not found')
+  //       pos = new GoogleMapsLatLng(61.008038, 69.035848)
+  //     }
+  //
+  //     let position: CameraPosition = {
+  //       target: pos,
+  //       zoom: 13
+  //     }
+  //
+  //     map.moveCamera(position)
+  //   })
+  //
+  //   map.one(GoogleMapsEvent.CAMERA_CHANGE).then((res) => {
+  //     map.getCameraPosition().then(camera => {
+  //       console.log(camera)
+  //     }, err => {
+  //       console.log(err)
+  //     })
+  //   })
+  // }
+  //
+  // selectPoint() {
+  //   // let map = this.map
+  //   // map.getCameraPosition().then(camera => {
+  //   //   this.location.Set(camera.target.lat, camera.target.lng)
+  //   //   console.log(this.location.Get())
+  //   //   this.navCtrl.pop()
+  //   // }, err => {
+  //   //
+  //   // })
+  // }
 
 }
