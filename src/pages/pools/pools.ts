@@ -40,19 +40,19 @@ export class PoolsPage {
     loader.present();
     let date = new Date().getTime();
     this.poolsProvider.GetPollsList().then(res => {
+      console.info(res)
+      !_.isEmpty(res) ? _.forEach(res, ((item: any) => {
+        try {
 
-      !_.isEmpty(res) ? _.map(res, ((item: any) => {
-          try {
+          item.EVENT3 === 'Y' ? item.EVENT3 = true : item.EVENT3 = false;
+          item.LAMP == "green" ? item.LAMP = true : item.LAMP = false;
+          item.LAMP ? item.EVENT3 ? (console.log(item),this._pollslist.push(item)) : false : false;
+        }
+        catch (err) {
+          console.error("Произошла ошибка", err)
+        }
 
-            item.EVENT3 === 'true' ? item.EVENT3 = true : item.EVENT3 = false;
-            item.LAMP == "green" ? item.LAMP = true : item.LAMP = false;
-            item.LAMP && item.EVENT3 ? this._pollslist.push(item) : false;
-          }
-          catch (err) {
-            console.error("Произошла ошибка", err)
-          }
-
-        })) : false;
+      })) : false;
 
       loader.dismiss();
     }).catch(err => {

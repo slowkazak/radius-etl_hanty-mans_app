@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Push} from 'ionic-native';
-import {Platform, Events} from "ionic-angular";
+import {Platform, Events, App, NavController} from "ionic-angular";
 import {CommonToast} from "../helpers/toast.class";
 import {common_msg} from "../app/settings/common.msg";
 import {AuthProvider} from "./auth-provider";
 import {PishStorage} from "../models/push";
-import _ from "lodash";
+import {MenuPage} from "../pages/menu/menu";
 /*
  Generated class for the NotificationProvider provider.
 
@@ -20,7 +20,7 @@ export class NotificationProvider {
    *
    * @param plt - платформа на которой запускается приложение
    */
-  constructor(private plt: Platform, private auth: AuthProvider,private events:Events) {
+  constructor(private plt: Platform,private app:App,private auth: AuthProvider,private events:Events) {
 
     // this._Regiseter();
   }
@@ -73,12 +73,12 @@ export class NotificationProvider {
               this.events.publish('message:new',{msg:res.message,type:null});
               console.info(res);
               res.additionalData.foreground?
-              CommonToast.ShowToast(res.message):false
+              CommonToast.ShowToast(res.message):this.app.getRootNav().setRoot(MenuPage)
 
             });
             push.on('error', (e) => {
               CommonToast.ShowToast(common_msg.push_not_avaiable);
-              console.log(e.message);
+              console.log(e.message,"error push");
             });
 
           }).catch((err) => {

@@ -62,10 +62,10 @@ export class OrderPopoverPage {
     this.mfcserv.TryBook(data).then((res: any) => {
       res.Products.length > 0 ? _.forEach(res.Products, (item) => {
           let d = new Date(item.StartTime);
-          let m: any = d.getMonth();
+          let m: any = d.getMonth()+1;
           let mm: any = d.getMinutes();
           mm < 10 ? mm = mm + '0' : false;
-          item.readable_date = d.getDate() + '.' + parseInt(m) + 1 + '.' + d.getFullYear() + ' (' + d.getUTCHours() + ':' + mm + ')'
+          item.readable_date = d.getDate() + '.' + m + '.' + d.getFullYear() + ' (' + d.getUTCHours() + ':' + mm + ')'
         }) : false;
       _.assign(this.bookresult, res);
       this.steps.steps2 = true;

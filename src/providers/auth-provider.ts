@@ -194,8 +194,9 @@ export class AuthProvider {
    * @constructor
    */
   public SetPoints(points: number) {
-    this.set('points', points);
-    this.user = this.Get();
+    // this.set('points', points);
+    this.user.user['points']=points;
+    // this.user = this.Get();
     this.updateStorage();
   }
 

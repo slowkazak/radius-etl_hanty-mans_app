@@ -38,7 +38,6 @@ export class PointsProvider {
     this.events.subscribe('points:change', () => {
       this._GetPoints().then((res) => {
         _.has(res, "points") && !isNaN(res.points) && res.points >= 0 ? (this.auth.SetPoints(res.points)) : false;
-        console.info(res)
       }).catch(err => {
         console.error(err)
       })
