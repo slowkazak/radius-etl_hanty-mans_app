@@ -40,7 +40,7 @@ export class PoolsPage {
     loader.present();
     let date = new Date().getTime();
     this.poolsProvider.GetPollsList().then(res => {
-      console.info(res)
+
       !_.isEmpty(res) ? _.forEach(res, ((item: any) => {
         try {
 

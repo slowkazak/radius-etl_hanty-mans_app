@@ -40,14 +40,7 @@
           <ion-label floating>Отчество</ion-label>
           <ion-input type="text" formControlName="patronymic" (keyup)="MakeChanges('patronymic', _user_cabinet.value.patronymic)"></ion-input>
         </ion-item>
-        <!--<ion-item class="brd">-->
-        <!--<ion-label floating>{{_leng.form_login}}</ion-label>-->
-        <!--<ion-input type="text" formControlName="login"></ion-input>-->
-        <!--</ion-item>-->
-        <!--<ion-item class="brd">-->
-        <!--<ion-label floating>{{_leng.form_password}}</ion-label>-->
-        <!--<ion-input type="password" formControlName="password"></ion-input>-->
-        <!--</ion-item>-->
+
         <ion-item class="brd">
           <ion-label stacked>{{_leng.form_passport}}</ion-label>
           <ion-input type="text" placeholder="В формате 1234 123456" formControlName="passport_data"  (keyup)="MakeChanges('passport_data', _user_cabinet.value.passport_data)"></ion-input>

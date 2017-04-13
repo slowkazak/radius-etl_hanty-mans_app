@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Push} from 'ionic-native';
-import {Platform, Events, App, NavController} from "ionic-angular";
+import {Platform, Events, App, NavController, ToastController} from "ionic-angular";
 import {CommonToast} from "../helpers/toast.class";
 import {common_msg} from "../app/settings/common.msg";
 import {AuthProvider} from "./auth-provider";
@@ -20,14 +20,10 @@ export class NotificationProvider {
    *
    * @param plt - платформа на которой запускается приложение
    */
-  constructor(private plt: Platform,private app:App,private auth: AuthProvider,private events:Events) {
+  constructor(private plt: Platform, private tstCtrl: ToastController, private app: App, private auth: AuthProvider, private events: Events) {
 
     // this._Regiseter();
   }
-
-
-
-
 
 
   /**
@@ -37,67 +33,81 @@ export class NotificationProvider {
    */
   public _Regiseter(sender_id = 995990249907) {
 
+
+
     //Проверяем есть ли разрешение на push
     //Если устройство на базе ios или android - пробуем получать токен, при ошибке возвращаем null или ошибку, при успехе - информацию о регистрации
 
-      let interval:any=null;
-      this. ChangeToken();
-      if (this.plt.is('ios') || this.plt.is('android')) {
+    let interval: any = null;
+    this.ChangeToken();
+    if (this.plt.is('ios') || this.plt.is('android')) {
 
-        this.plt.is('ios') ? this.platform = 'ios' : this.platform = 'android';
-        try {
-          Push.hasPermission().then(() => { //Если на PUSH права есть
-             clearInterval(interval);
-            let push = Push.init({
-              android: {
-                sound: true,
-                vibrate: true,
-                forceShow: false,
-                senderID: sender_id.toString()
-              },
-              ios: {
-                alert: true,
-                badge: true,
-                sound: true,
-                senderID: sender_id.toString(),
-                gcmSandbox: true
-              }
-            });
+      this.plt.is('ios') ? this.platform = 'ios' : this.platform = 'android';
+      try {
+        Push.hasPermission().then(() => { //Если на PUSH права есть
+          clearInterval(interval);
+          let push = Push.init({
+            android: {
+              sound: true,
+              vibrate: true,
+              forceShow: false,
+              senderID: sender_id.toString()
+            },
+            ios: {
+              alert: true,
+              badge: true,
+              sound: true,
+              senderID: sender_id.toString(),
+              gcmSandbox: true
+            }
+          });
 
-            push.on('registration', (data) => {
-              console.info(data);
-              PishStorage.token.next(data.registrationId);
-            });
-            push.on('notification', (res) => {
-              this.events.publish('points:change');
-              this.events.publish('message:new',{msg:res.message,type:null});
-              console.info(res);
-              res.additionalData.foreground?
-              CommonToast.ShowToast(res.message):this.app.getRootNav().setRoot(MenuPage)
+          push.on('registration', (data) => {
 
-            });
-            push.on('error', (e) => {
-              CommonToast.ShowToast(common_msg.push_not_avaiable);
-              console.log(e.message,"error push");
-            });
+            PishStorage.token.next(data.registrationId);
+          });
+          push.on('notification', (res) => {
+            this.events.publish('points:change');
+            this.events.publish('message:new', {msg: res.message, type: null});
+            let toast = null
+            res.additionalData.foreground ? (
+              toast = this.tstCtrl.create({
+                message: res.message,
+                duration: 6000,
+                position: 'bottom',
+                showCloseButton: true,
+                closeButtonText: 'Закрыть'
+              }),
+                toast.onDidDismiss(() => {
+                }),
+                toast.present()
+            ) : false
 
-          }).catch((err) => {
-            interval = setInterval(this._Regiseter(),5000);
-            console.error(err);
+            // CommonToast.ShowToast(res.message,6000):this.app.getRootNav().setRoot(MenuPage)
+
+          });
+          push.on('error', (e) => {
             CommonToast.ShowToast(common_msg.push_not_avaiable);
+            console.log(e.message, "error push");
+          });
 
-          })
-        }
-        catch (err) {
+        }).catch((err) => {
+          interval = setInterval(this._Regiseter(), 5000);
+          console.error(err);
           CommonToast.ShowToast(common_msg.push_not_avaiable);
-          console.error("Произошла ошибка111", err);
 
-        }
+        })
       }
-      else {
+      catch (err) {
         CommonToast.ShowToast(common_msg.push_not_avaiable);
-        console.error("Произошла ошибка");
+        console.error("Произошла ошибка111", err);
+
       }
+    }
+    else {
+      CommonToast.ShowToast(common_msg.push_not_avaiable);
+      console.error("Произошла ошибка");
+    }
 
 
   }

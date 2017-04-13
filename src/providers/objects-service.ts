@@ -86,31 +86,6 @@ export class ObjectsService {
     }
     return result;
 
-    // try {
-    //   this._params.set('access_token', this.auth.user.access_token);
-    //   this._params.set('category', formdata.category);
-    //   this._params.set('title', formdata.title);
-    //   this._params.set('description', formdata.description);
-    //   coords.length > 0 ? this._params.set('coordinates', JSON.stringify(coords)) : false;
-    //   let ids = `(${media_files.map(item => item.placemarkId).join(',')})`;
-    //   this._params.set('files', ids);
-    //
-    //   console.info(formdata);
-    //   console.info(media_files);
-    //   console.info(coords);
-    //
-    //   result = this.http.post(settings.adm_api_path + '/place/add', this._params.toString(), {headers: this._headers})
-    //     .toPromise()
-    //     .then(res => {
-    //       console.info(res)
-    //     })
-    //     .catch(err => {console.error(err)
-    //     })
-    // }
-    // catch (err) {
-    //   result = Promise.reject(null);
-    //   console.error("Произошла ошибка", err);
-    // }
   }
 
   /**

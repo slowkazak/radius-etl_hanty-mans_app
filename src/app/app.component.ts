@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Platform, Nav, MenuController} from 'ionic-angular';
+import {Platform, Nav, MenuController, ToastController} from 'ionic-angular';
 import {Splashscreen} from 'ionic-native';
 import {HomePage} from '../pages/home/home';
 import {AuthProvider} from '../providers/auth-provider'
@@ -22,7 +22,8 @@ export class MyApp {
   constructor(platform: Platform, private auth: AuthProvider,
               private menu: MenuController,
               public notification: NotificationProvider,
-              private points: PointsProvider) {
+              private points: PointsProvider
+  ) {
 
     this.auth.checkAuth().then((user:any) => {
       if (user) {
@@ -39,7 +40,7 @@ export class MyApp {
       // document.addEventListener("deviceready", ()=>{
 
 
-
+this.presentToast();
 
 
         Splashscreen.hide();
@@ -58,6 +59,10 @@ export class MyApp {
    * Открывает кабинет пользователя
    * @private
    */
+
+  presentToast() {
+
+  }
 
   openPage(page) {
     this.menu.close();

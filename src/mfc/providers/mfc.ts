@@ -16,9 +16,8 @@ export class MfcProvider {
   private _mfcserver: string = 'http://online.mfchmao.ru/enter/';
   token: any = null;
   _cacher: CacherClass = new CacherClass();
-// private headers:any;
   constructor(public http: Http, private callback: CommonCallback) {
-// this.headers =new Headers();
+
   }
 
   public TryLogin(email = null, password = null) {
@@ -52,7 +51,13 @@ export class MfcProvider {
     })
   }
 
-
+  /**
+   * Авторизация на сервисе мфц
+   * @param email
+   * @param password
+   * @returns {any}
+   * @constructor
+   */
   private Login(email = null, password = null) {
     let headers = new Headers();
     headers.set('Content-Type', 'application/x-www-form-urlencoded')
@@ -83,12 +88,12 @@ export class MfcProvider {
     return result;
   }
 
-
-  // Objectdate: "12.04.2017"
-  // id: "32aff797-8559-433f-a190-4e32530dd3a8"
-  // reqid: "a2919e98-b492-4fc7-bbd4-80b0940993e7"
-  // time: "9:00"
-  // __proto__: Object
+  /**
+   * Запись на мфц
+   * @param data
+   * @returns {any}
+   * @constructor
+   */
 
 
   private Book(data) {
@@ -148,6 +153,12 @@ export class MfcProvider {
     return result;
   }
 
+  /**
+   * Запрашивает список дней, доступных для записи
+    * @param productId - айдишник услуги
+   * @returns {Promise} -
+   * @constructor
+   */
   public GetDays(productId: string): Promise<any> {
     let result: any = null;
     try {
@@ -165,6 +176,13 @@ export class MfcProvider {
     return result;
   }
 
+  /**
+   * Запрашивает список часов доступных для записи
+   * @param date
+   * @param productId
+   * @returns {any}
+   * @constructor
+   */
   public GetHours(date: any, productId) {
     let result: any = null;
     try {
